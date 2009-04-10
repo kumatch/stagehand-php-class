@@ -67,7 +67,7 @@ class Stagehand_Class_Visibility
      * @access private
      */
 
-    protected $_declaration;
+    protected $_type;
 
     /**#@-*/
 
@@ -106,7 +106,7 @@ class Stagehand_Class_Visibility
      */
     public function getVisibility()
     {
-        return (string)$this->_declaration;
+        return (string)$this->_type;
     }
 
     // }}}
@@ -117,7 +117,7 @@ class Stagehand_Class_Visibility
      */
     public function setPublic()
     {
-        return $this->_declaration = new Stagehand_Class_Visibility_Public();
+        return $this->_type = new Stagehand_Class_Visibility_Public();
     }
 
     // }}}
@@ -128,7 +128,7 @@ class Stagehand_Class_Visibility
      */
     public function setProtected()
     {
-        return $this->_declaration = new Stagehand_Class_Visibility_Protected();
+        return $this->_type = new Stagehand_Class_Visibility_Protected();
     }
 
     // }}}
@@ -139,7 +139,7 @@ class Stagehand_Class_Visibility
      */
     public function setPrivate()
     {
-        return $this->_declaration = new Stagehand_Class_Visibility_Private();
+        return $this->_type = new Stagehand_Class_Visibility_Private();
     }
 
     // }}}
@@ -147,10 +147,12 @@ class Stagehand_Class_Visibility
 
     /**
      * Returns whether the property is public visibility or not.
+     *
+     * @return boolean
      */
     public function isPublic()
     {
-        return ($this->_declaration instanceof Stagehand_Class_Visibility_Public);
+        return ($this->_type instanceof Stagehand_Class_Visibility_Public);
     }
 
     // }}}
@@ -158,10 +160,12 @@ class Stagehand_Class_Visibility
 
     /**
      * Returns whether the property is protected visibility or not.
+     *
+     * @return boolean
      */
     public function isProtected()
     {
-        return ($this->_declaration instanceof Stagehand_Class_Visibility_Protected);
+        return ($this->_type instanceof Stagehand_Class_Visibility_Protected);
     }
 
     // }}}
@@ -169,10 +173,12 @@ class Stagehand_Class_Visibility
 
     /**
      * Returns whether the property is private visibility or not.
+     *
+     * @return boolean
      */
     public function isPrivate()
     {
-        return ($this->_declaration instanceof Stagehand_Class_Visibility_Private);
+        return ($this->_type instanceof Stagehand_Class_Visibility_Private);
     }
 
     /**#@-*/
