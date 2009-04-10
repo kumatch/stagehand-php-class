@@ -97,15 +97,17 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $className = 'ExampleForProperty';
         $class = new Stagehand_Class($className);
 
-        $propertyA = new Stagehand_Class_Property('a');
+        $propertyA = new Stagehand_Class_Property('a', 100);
         $propertyB = new Stagehand_Class_Property('b');
         $propertyC = new Stagehand_Class_Property('c');
+        $propertyD = new Stagehand_Class_Property('d', array(1, 3, 5));
         $propertyB->setProtected();
         $propertyC->setPrivate();
 
         $class->addProperty($propertyA);
         $class->addProperty($propertyB);
         $class->addProperty($propertyC);
+        $class->addProperty($propertyD);
 
         $class->load();
         $instance = new $className;
@@ -113,6 +115,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('a', $instance);
         $this->assertObjectHasAttribute('b', $instance);
         $this->assertObjectHasAttribute('c', $instance);
+        $this->assertObjectHasAttribute('d', $instance);
 
         $refClass = new ReflectionClass($className);
         $a = $refClass->getProperty('a');
@@ -122,6 +125,9 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($a->isPublic());
         $this->assertTrue($b->isProtected());
         $this->assertTrue($c->isPrivate());
+
+        $this->assertEquals($instance->a , 100);
+        $this->assertEquals($instance->d, array(1, 3, 5));
     }
 
     /**
