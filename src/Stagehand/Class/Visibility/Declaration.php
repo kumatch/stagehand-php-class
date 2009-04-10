@@ -34,10 +34,10 @@
  * @since      File available since Release 0.1.0
  */
 
-// {{{ Stagehand_Class_Property
+// {{{ Stagehand_Class_Visibility_Decalation
 
 /**
- * Stagehand_Class_Property.
+ * Stagehand_Class_Visibility_Delaration
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
@@ -46,7 +46,7 @@
  * @since      Class available since Release 0.1.0
  */
 
-class Stagehand_Class_Property extends Stagehand_Class_Visibility
+abstract class Stagehand_Class_Visibility_Declaration
 {
 
     // {{{ properties
@@ -67,9 +67,6 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      * @access private
      */
 
-    private $_name;
-    private $_value;
-
     /**#@-*/
 
     /**#@+
@@ -77,86 +74,18 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      */
 
     // }}}
-    // {{{ __construct()
+    // {{{ __toString()
 
     /**
-     * Sets this class name.
-     *
-     * @param string $name
-     */
-    public function __construct($name, $value = null)
-    {
-        $this->_name = $name;
-        $this->_value = $value;
-        $this->setPublic();
-    }
-
-    // }}}
-    // {{{ setName()
-
-    /**
-     * sets the property name.
-     *
-     * @param string $name  Propety name
-     */
-    public function setName($name)
-    {
-        $this->_name = $name;
-    }
-
-    // }}}
-    // {{{ getName()
-
-    /**
-     * Gets the property name.
+     * Returns the visibility keyword.
      *
      * @return string
      */
-    public function getName()
+    public function __toString()
     {
-        return $this->_name;
-    }
-
-    // }}}
-    // {{{ setValue()
-
-    /**
-     * sets the property value.
-     *
-     * @param string $value  Propety value
-     */
-    public function setValue($value)
-    {
-        $this->_value = $value;
-    }
-
-    // }}}
-    // {{{ getValue()
-
-    /**
-     * Gets the property value.
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->_value;
-    }
-
-    // }}}
-    // {{{ getPartialCode()
-
-    /**
-     * Gets a partial code for class property.
-     */
-    public function getPartialCode()
-    {
-        $code = "{$this->getVisibility()} \${$this->_name}";
-        if ($this->_value) {
-            $code .= " = '{$this->_value}'";
-        }
-
-        return "$code;";
+        return str_replace('stagehand_class_visibility_', '',
+                           strtolower(get_class($this))
+                           );
     }
 
     /**#@-*/

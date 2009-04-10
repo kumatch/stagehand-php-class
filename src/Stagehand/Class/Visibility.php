@@ -34,10 +34,10 @@
  * @since      File available since Release 0.1.0
  */
 
-// {{{ Stagehand_Class_Property
+// {{{ Stagehand_Class_Visibility
 
 /**
- * Stagehand_Class_Property.
+ * Stagehand_Class_Visibility.
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
@@ -46,7 +46,7 @@
  * @since      Class available since Release 0.1.0
  */
 
-class Stagehand_Class_Property extends Stagehand_Class_Visibility
+class Stagehand_Class_Visibility
 {
 
     // {{{ properties
@@ -67,8 +67,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      * @access private
      */
 
-    private $_name;
-    private $_value;
+    protected $_declaration;
 
     /**#@-*/
 
@@ -77,86 +76,103 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      */
 
     // }}}
-    // {{{ __construct()
+    // {{{ setVisivility()
 
     /**
-     * Sets this class name.
+     * Sets the property visivility.
      *
-     * @param string $name
+     * @param string $keyword  Visivility keyword
      */
-    public function __construct($name, $value = null)
+    public function setVisibility($keyword)
     {
-        $this->_name = $name;
-        $this->_value = $value;
-        $this->setPublic();
-    }
-
-    // }}}
-    // {{{ setName()
-
-    /**
-     * sets the property name.
-     *
-     * @param string $name  Propety name
-     */
-    public function setName($name)
-    {
-        $this->_name = $name;
-    }
-
-    // }}}
-    // {{{ getName()
-
-    /**
-     * Gets the property name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
-
-    // }}}
-    // {{{ setValue()
-
-    /**
-     * sets the property value.
-     *
-     * @param string $value  Propety value
-     */
-    public function setValue($value)
-    {
-        $this->_value = $value;
-    }
-
-    // }}}
-    // {{{ getValue()
-
-    /**
-     * Gets the property value.
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->_value;
-    }
-
-    // }}}
-    // {{{ getPartialCode()
-
-    /**
-     * Gets a partial code for class property.
-     */
-    public function getPartialCode()
-    {
-        $code = "{$this->getVisibility()} \${$this->_name}";
-        if ($this->_value) {
-            $code .= " = '{$this->_value}'";
+        $visibility = strtolower($keyword);
+        if ($visibility !== 'public'
+            && $visibility !== 'protected'
+            && $visibility !== 'private'
+            ) {
+            throw new Stagehand_Class_Exception("Unknown visibility keyword [ $keyword ], should be 'public', 'protected', or 'private'.");
         }
 
-        return "$code;";
+        $this->{ 'set' . ucfirst($visibility) }();
+    }
+
+    // }}}
+    // {{{ getVisivility()
+
+    /**
+     * Gets the property visivility.
+     *
+     * @return string
+     */
+    public function getVisibility()
+    {
+        return (string)$this->_declaration;
+    }
+
+    // }}}
+    // {{{ setPublic()
+
+    /**
+     * Sets the visibility to public.
+     */
+    public function setPublic()
+    {
+        return $this->_declaration = new Stagehand_Class_Visibility_Public();
+    }
+
+    // }}}
+    // {{{ setProtected()
+
+    /**
+     * Sets the visibility to protected.
+     */
+    public function setProtected()
+    {
+        return $this->_declaration = new Stagehand_Class_Visibility_Protected();
+    }
+
+    // }}}
+    // {{{ setPrivate()
+
+    /**
+     * Sets the visibility to private.
+     */
+    public function setPrivate()
+    {
+        return $this->_declaration = new Stagehand_Class_Visibility_Private();
+    }
+
+    // }}}
+    // {{{ isPublic()
+
+    /**
+     * Returns whether the property is public visibility or not.
+     */
+    public function isPublic()
+    {
+        return ($this->_declaration instanceof Stagehand_Class_Visibility_Public);
+    }
+
+    // }}}
+    // {{{ isProtected()
+
+    /**
+     * Returns whether the property is protected visibility or not.
+     */
+    public function isProtected()
+    {
+        return ($this->_declaration instanceof Stagehand_Class_Visibility_Protected);
+    }
+
+    // }}}
+    // {{{ isPrivate()
+
+    /**
+     * Returns whether the property is private visibility or not.
+     */
+    public function isPrivate()
+    {
+        return ($this->_declaration instanceof Stagehand_Class_Visibility_Private);
     }
 
     /**#@-*/
