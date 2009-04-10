@@ -148,31 +148,6 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function createAPropertyWithDefaultValue()
-    {
-        $name = 'foo';
-        $value = 'Foo';
-        $property = new Stagehand_Class_Property($name, $value);
-
-        $this->assertEquals($property->getName(), $name);
-        $this->assertEquals($property->getValue(), $value);
-        $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value),
-                            $property->getPartialCode()
-                            );
-
-        $value = 'Bar';
-        $property->setValue($value);
-
-        $this->assertEquals($property->getName(), $name);
-        $this->assertEquals($property->getValue(), $value);
-        $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value),
-                            $property->getPartialCode()
-                            );
-    }
-
-    /**
-     * @test
-     */
     public function setAVisibilityByKeyword()
     {
         $name = 'example';
@@ -208,6 +183,57 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $name = 'example';
         $property = new Stagehand_Class_Property($name);
         $property->setVisibility('foo');
+    }
+
+    /**
+     * @test
+     */
+    public function createAPropertyWithDefaultValue()
+    {
+        $name = 'foo';
+        $value = 'Foo';
+        $property = new Stagehand_Class_Property($name, $value);
+
+        $this->assertEquals($property->getName(), $name);
+        $this->assertEquals($property->getValue(), $value);
+        $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value),
+                            $property->getPartialCode()
+                            );
+
+        $value = 'Bar';
+        $property->setValue($value);
+
+        $this->assertEquals($property->getName(), $name);
+        $this->assertEquals($property->getValue(), $value);
+        $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value),
+                            $property->getPartialCode()
+                            );
+    }
+
+    /**
+     * @test
+     */
+    public function createAPropertyWithDefaultArrayValue()
+    {
+        $name = 'foo';
+        $value = array(1, 3, 5);
+        $property = new Stagehand_Class_Property($name, $value);
+
+        $this->assertEquals($property->getName(), $name);
+        $this->assertEquals($property->getValue(), $value);
+        $this->assertRegExp(sprintf('/public[ ]+\$%s = array(1, 3, 5);/', $name),
+                            $property->getPartialCode()
+                            );
+
+
+/*         $value = 'Bar'; */
+/*         $property->setValue($value); */
+
+/*         $this->assertEquals($property->getName(), $name); */
+/*         $this->assertEquals($property->getValue(), $value); */
+/*         $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value), */
+/*                             $property->getPartialCode() */
+/*                             ); */
     }
 
     /**#@-*/
