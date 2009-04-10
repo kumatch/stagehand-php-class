@@ -87,7 +87,10 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
     public function __construct($name, $value = null)
     {
         $this->_name = $name;
-        $this->_value = $value;
+        if ($value) {
+            $this->setValue($value);
+        }
+
         $this->setPublic();
     }
 
@@ -127,7 +130,9 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      */
     public function setValue($value)
     {
-        $this->_value = $value;
+        if ($this->_isValidValue($value)) {
+            $this->_value = $value;
+        }
     }
 
     // }}}
@@ -148,17 +153,23 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
 
     /**
      * Gets a partial code for class property.
+     *
+     * @return string
      */
     public function getPartialCode()
     {
+        $format = null;
+        $formatedValue = null;
+
         if ($this->_value) {
-            $format = "%s $%s = '%s';";
+            $format = "%s $%s = %s;";
+            $formatedValue = var_export($this->_value, true);
         } else {
             $format = '%s $%s;';
         }
 
         return sprintf($format,
-                       $this->getVisibility(), $this->_name, $this->_value
+                       $this->getVisibility(), $this->_name, $formatedValue
                        );
     }
 
@@ -173,6 +184,27 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
     /**#@+
      * @access private
      */
+
+    // }}}
+    // {{{ _isValidValue()
+
+    /**
+     * Returns whether the value is valid by property or not.
+     *
+     * @param  mixed  $value
+     * @return boolean
+     */
+    private function _isValidValue($value)
+    {
+        if (!is_string($value)
+            && !is_numeric($value)
+            && !is_array($value)
+            ) {
+            throw new Stagehand_Class_Exception("Invalid value type, should be integer, string, or array.");
+        }
+
+        return true;
+    }
 
     /**#@-*/
 

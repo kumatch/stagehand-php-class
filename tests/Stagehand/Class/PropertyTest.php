@@ -221,19 +221,24 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($property->getName(), $name);
         $this->assertEquals($property->getValue(), $value);
-        $this->assertRegExp(sprintf('/public[ ]+\$%s = array(1, 3, 5);/', $name),
-                            $property->getPartialCode()
+        $this->assertRegExp(sprintf('/public[ ]+\$%s = array \(
+  0 => 1,
+  1 => 3,
+  2 => 5,
+\);/', $name
+                                    ), $property->getPartialCode()
                             );
+    }
 
-
-/*         $value = 'Bar'; */
-/*         $property->setValue($value); */
-
-/*         $this->assertEquals($property->getName(), $name); */
-/*         $this->assertEquals($property->getValue(), $value); */
-/*         $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value), */
-/*                             $property->getPartialCode() */
-/*                             ); */
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfSetsAObjectToPropertyValue()
+    {
+        $name = 'foo';
+        $foo = new stdClass();
+        $property = new Stagehand_Class_Property($name, $foo);
     }
 
     /**#@-*/
