@@ -151,12 +151,15 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      */
     public function getPartialCode()
     {
-        $code = "{$this->getVisibility()} \${$this->_name}";
         if ($this->_value) {
-            $code .= " = '{$this->_value}'";
+            $format = "%s $%s = '%s';";
+        } else {
+            $format = '%s $%s;';
         }
 
-        return "$code;";
+        return sprintf($format,
+                       $this->getVisibility(), $this->_name, $this->_value
+                       );
     }
 
     /**#@-*/
