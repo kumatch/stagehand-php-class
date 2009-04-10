@@ -127,6 +127,49 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $this->assertRegExp(sprintf('/private[ ]+\$%s;/', $name), $property->getPartialCode());
     }
 
+    /**
+     * @test
+     */
+    public function changeTheProperyName()
+    {
+        $name = 'example';
+        $property = new Stagehand_Class_Property($name);
+
+        $this->assertEquals($property->getName(), $name);
+        $this->assertRegExp(sprintf('/public[ ]+\$%s;/', $name), $property->getPartialCode());
+
+        $name = 'otherName';
+        $property->setName($name);
+
+        $this->assertEquals($property->getName(), $name);
+        $this->assertRegExp(sprintf('/public[ ]+\$%s;/', $name), $property->getPartialCode());
+    }
+
+    /**
+     * @test
+     */
+    public function createAPropertyWithDefaultValue()
+    {
+        $name = 'foo';
+        $value = 'Foo';
+        $property = new Stagehand_Class_Property($name, $value);
+
+        $this->assertEquals($property->getName(), $name);
+        $this->assertEquals($property->getValue(), $value);
+        $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value),
+                            $property->getPartialCode()
+                            );
+
+        $value = 'Bar';
+        $property->setValue($value);
+
+        $this->assertEquals($property->getName(), $name);
+        $this->assertEquals($property->getValue(), $value);
+        $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value),
+                            $property->getPartialCode()
+                            );
+    }
+
     /**#@-*/
 
     /**#@+

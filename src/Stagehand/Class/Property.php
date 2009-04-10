@@ -68,6 +68,7 @@ class Stagehand_Class_Property
      */
 
     private $_name;
+    private $_value;
     private $_visibility;
 
     /**#@-*/
@@ -84,10 +85,24 @@ class Stagehand_Class_Property
      *
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct($name, $value = null)
     {
         $this->_name = $name;
+        $this->_value = $value;
         $this->setPublic();
+    }
+
+    // }}}
+    // {{{ setName()
+
+    /**
+     * sets the property name.
+     *
+     * @param string $name  Propety name
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
     }
 
     // }}}
@@ -101,6 +116,32 @@ class Stagehand_Class_Property
     public function getName()
     {
         return $this->_name;
+    }
+
+    // }}}
+    // {{{ setValue()
+
+    /**
+     * sets the property value.
+     *
+     * @param string $value  Propety value
+     */
+    public function setValue($value)
+    {
+        $this->_value = $value;
+    }
+
+    // }}}
+    // {{{ getValue()
+
+    /**
+     * Gets the property value.
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->_value;
     }
 
     // }}}
@@ -190,7 +231,12 @@ class Stagehand_Class_Property
      */
     public function getPartialCode()
     {
-        return "{$this->_visibility} \${$this->_name};";
+        $code = "{$this->_visibility} \${$this->_name}";
+        if ($this->_value) {
+            $code .= " = '{$this->_value}'";
+        }
+
+        return "$code;";
     }
 
     /**#@-*/
