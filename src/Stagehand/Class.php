@@ -99,11 +99,12 @@ class Stagehand_Class
      */
     public function load()
     {
-        $propertyContent = null;
+        $partialProperties = null;
         $methodContent = null;
         foreach ($this->_properties as $property) {
-            $propertyContent .= "    {$property['visibility']} \${$property['name']};\n";
+            $partialProperties .= "    {$property->getPartialCode()}\n";
         }
+
         foreach ($this->_methods as $method) {
             $methodContent .= "    {$method['visibility']} function {$method['name']}()
     {
@@ -115,7 +116,7 @@ class Stagehand_Class
 
         $classContent = "class {$this->_name}
 {
-{$propertyContent}
+{$partialProperties}
 {$methodContent}
 }
 ";
@@ -123,18 +124,16 @@ class Stagehand_Class
     }
 
     // }}}
-    // {{{ setProperty()
+    // {{{ addProperty()
 
     /**
-     * Sets the property.
+     * Adds a property.
      *
-     * @param string $name
-     * @param string $visibility
+     * @param Stagehand_Class_Property $property
      */
-    public function setProperty($name, $visibility = null)
+    public function addProperty($property)
     {
-        $visibility = $this->_normalizeVisibility($visibility);
-        $this->_properties[$name] = array('name' => $name, 'visibility' => $visibility);
+        array_push($this->_properties, $property);
     }
 
     // }}}
