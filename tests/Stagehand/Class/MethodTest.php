@@ -83,13 +83,59 @@ class Stagehand_Class_MethodTest extends PHPUnit_Framework_TestCase
     public function createAPublicMethod()
     {
         $name = 'getFoo';
+
         $method = new Stagehand_Class_Method($name);
+        $method->setCode('$a = 0;
+return 1;');
 
         $this->assertEquals($method->getName(), $name);
         $this->assertEquals($method->getVisibility(), 'public');
         $this->assertTrue($method->isPublic());
         $this->assertFalse($method->isProtected());
         $this->assertFalse($method->isPrivate());
+
+        $this->assertEquals($method->getPartialCode(),
+                            'public function getFoo()
+{
+    $a = 0;
+    return 1;
+}
+');
+    }
+
+    /**
+     * @test
+     */
+    public function createAPropertyWithSomeArguments()
+    {
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+        $method->addArgument('foo');
+        $method->addArgument('bar', false);
+        $method->addArgument('baz', false, 10);
+        $method->addArgument('qux', false, array(1, 3, 'abc'));
+        $method->setCode('$a = 0;
+return 1;');
+
+        $this->assertEquals($method->getName(), $name);
+        $this->assertEquals($method->getVisibility(), 'public');
+        $this->assertTrue($method->isPublic());
+        $this->assertFalse($method->isProtected());
+        $this->assertFalse($method->isPrivate());
+
+        $this->assertEquals($method->getPartialCode(),
+                            'public function getFoo($foo, $bar = NULL, $baz = 10, $qux = array (
+  0 => 1,
+  1 => 3,
+  2 => \'abc\',
+))
+{
+    $a = 0;
+    return 1;
+}
+');
+
     }
 
     /**#@-*/

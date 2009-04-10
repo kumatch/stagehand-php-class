@@ -68,6 +68,8 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
      */
 
     private $_name;
+    private $_arguments = array();
+    private $_code;
 
     /**#@-*/
 
@@ -113,6 +115,76 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
     public function getName()
     {
         return $this->_name;
+    }
+
+    // }}}
+    // {{{ addArgument()
+
+    /**
+     * Adds a method argument.
+     *
+     * @param string  $name      argument name.
+     * @param boolean $required  argument is required.
+     * @param mixed   $value     argument's default value.
+     */
+    public function addArgument($name, $required = true, $value = null)
+    {
+        $argument = array('name' => $name, 'required' => $required, 'value' => $value);
+        array_push($this->_arguments, $argument);
+    }
+
+    // }}}
+    // {{{ setCode()
+
+    /**
+     * Sets a method code.
+     *
+     * @param string  $code  a method code.
+     */
+    public function setCode($code)
+    {
+        $this->_code = $code;
+    }
+
+    // }}}
+    // {{{ getPartialCode()
+
+    /**
+     * Gets a partial code for class method.
+     *
+     * @return string
+     */
+    public function getPartialCode()
+    {
+        $format = "%s function %s(%s)
+{
+%s
+}
+";
+
+        $argumentValue = null;
+        foreach ($this->_arguments as $argument) {
+            if (!is_null($argumentValue)) {
+                $argumentValue .= ', ';
+            }
+
+            $argumentValue .= '$' . $argument['name'];
+            if (!$argument['required']) {
+                $argumentValue .= ' = ' . var_export($argument['value'], true);
+            }
+        }
+
+        $code = null;
+        foreach (explode("\n", str_replace("\r\n", "\n", $this->_code)) as $line) {
+            if (!is_null($code)) {
+                $code .= "\n";
+            }
+            $code .= "    $line";
+        }
+
+        return sprintf($format,
+                       $this->getVisibility(), $this->_name, $argumentValue, $code
+                       );
     }
 
     /**#@-*/
