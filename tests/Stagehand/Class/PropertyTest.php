@@ -170,6 +170,46 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
                             );
     }
 
+    /**
+     * @test
+     */
+    public function setAVisibilityByKeyword()
+    {
+        $name = 'example';
+        $property = new Stagehand_Class_Property($name);
+        $property->setVisibility('protected');
+
+        $this->assertEquals($property->getVisibility(), 'protected');
+        $this->assertFalse($property->isPublic());
+        $this->assertTrue($property->isProtected());
+        $this->assertFalse($property->isPrivate());
+
+        $property->setVisibility('private');
+
+        $this->assertEquals($property->getVisibility(), 'private');
+        $this->assertFalse($property->isPublic());
+        $this->assertFalse($property->isProtected());
+        $this->assertTrue($property->isPrivate());
+
+        $property->setVisibility('public');
+
+        $this->assertEquals($property->getVisibility(), 'public');
+        $this->assertTrue($property->isPublic());
+        $this->assertFalse($property->isProtected());
+        $this->assertFalse($property->isPrivate());
+    }
+
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfVisibilityKeywordIsInvalid()
+    {
+        $name = 'example';
+        $property = new Stagehand_Class_Property($name);
+        $property->setVisibility('foo');
+    }
+
     /**#@-*/
 
     /**#@+

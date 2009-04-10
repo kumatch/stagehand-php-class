@@ -145,6 +145,27 @@ class Stagehand_Class_Property
     }
 
     // }}}
+    // {{{ setVisivility()
+
+    /**
+     * Sets the property visivility.
+     *
+     * @param string $keyword  Visivility keyword
+     */
+    public function setVisibility($keyword)
+    {
+        $visibility = strtolower($keyword);
+        if ($visibility !== 'public'
+            && $visibility !== 'protected'
+            && $visibility !== 'private'
+            ) {
+            throw new Stagehand_Class_Exception("Unknown visibility keyword [ $keyword ], should be 'public', 'protected', or 'private'.");
+        }
+
+        $this->_visibility = $visibility;
+    }
+
+    // }}}
     // {{{ getVisivility()
 
     /**
