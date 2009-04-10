@@ -138,13 +138,27 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $className = 'ExampleForMethod';
         $class = new Stagehand_Class($className);
 
-        $class->setMethod('a', null, "return 'foo';", 'public');
+        $methodFoo = new Stagehand_Class_Method('foo');
+        $methodFoo->setCode('return 10;');
+
+        $methodBar = new Stagehand_Class_Method('bar');
+        $methodBar->addArgument('bar');
+        $methodBar->setCode('return $bar;');
+
+        $methodBaz = new Stagehand_Class_Method('baz');
+        $methodBaz->addArgument('baz', false, array(10, 30, 50));
+        $methodBaz->setCode('return $baz[1];');
+
+        $class->addMethod($methodFoo);
+        $class->addMethod($methodBar);
+        $class->addMethod($methodBaz);
 
         $class->load();
         $instance = new $className;
 
-        $this->assertTrue(method_exists($instance, 'a'));
-        $this->assertEquals($instance->a(), 'foo');
+        $this->assertEquals($instance->foo(), 10);
+        $this->assertEquals($instance->bar(20), 20);
+        $this->assertEquals($instance->baz(), 30);
     }
 
     /**#@-*/

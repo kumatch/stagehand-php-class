@@ -100,24 +100,20 @@ class Stagehand_Class
     public function load()
     {
         $partialProperties = null;
-        $methodContent = null;
+        $partialMethods = null;
+
         foreach ($this->_properties as $property) {
             $partialProperties .= "    {$property->getPartialCode()}\n";
         }
 
         foreach ($this->_methods as $method) {
-            $methodContent .= "    {$method['visibility']} function {$method['name']}()
-    {
-        {$method['code']}
-        ;
-    }
-";
+            $partialMethods .= "    {$method->getPartialCode()}\n";
         }
 
         $classContent = "class {$this->_name}
 {
 {$partialProperties}
-{$methodContent}
+{$partialMethods}
 }
 ";
         eval($classContent);
@@ -137,23 +133,16 @@ class Stagehand_Class
     }
 
     // }}}
-    // {{{ setMethod()
+    // {{{ addMethod()
 
     /**
-     * Sets the method.
+     * Adds a method.
      *
-     * @param string $name
-     * @param string $visibility
-     * @param string $name
+     * @param Stagehand_Class_Method $method
      */
-    public function setMethod($name, $args, $code, $visibility = null)
+    public function addMethod($method)
     {
-        $visibility = $this->_normalizeVisibility($visibility);
-        $this->_methods[$name] = array('name' => $name,
-                                       'args' => $args,
-                                       'code' => $code,
-                                       'visibility' => $visibility,
-                                       );
+        array_push($this->_methods, $method);
     }
 
     /**#@-*/
@@ -167,24 +156,6 @@ class Stagehand_Class
     /**#@+
      * @access private
      */
-
-    // }}}
-    // {{{ _normalizeVisibility()
-
-    /**
-     * Normalizes a visibility value.
-     *
-     * @param string $name
-     */
-    public function _normalizeVisibility($visibility = null)
-    {
-        $visibilityEntries = array('public', 'protected', 'private');
-        if (!in_array($visibility, $visibilityEntries)) {
-            $visibility = 'public';
-        }
-
-        return $visibility;
-    }
 
     /**#@-*/
 
