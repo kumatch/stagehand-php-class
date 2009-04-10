@@ -80,7 +80,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function load()
+    public function loadClass()
     {
         $className = 'ExampleForLoad';
         $class = new Stagehand_Class($className);
@@ -92,7 +92,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function setProperty()
+    public function setPropertyAndAccessProperties()
     {
         $className = 'ExampleForProperty';
         $class = new Stagehand_Class($className);
@@ -133,7 +133,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function setMethod()
+    public function setMethodAndAccessMethods()
     {
         $className = 'ExampleForMethod';
         $class = new Stagehand_Class($className);
@@ -149,12 +149,35 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $methodBaz->addArgument('baz', false, array(10, 30, 50));
         $methodBaz->setCode('return $baz[1];');
 
+        $methodQux = new Stagehand_Class_Method('qux');
+        $methodQux->setProtected();
+        $methodQux->setCode('return true;');
+
+        $methodQuux = new Stagehand_Class_Method('quux');
+        $methodQuux->setPrivate();
+        $methodQuux->setCode('return true;');
+
         $class->addMethod($methodFoo);
         $class->addMethod($methodBar);
         $class->addMethod($methodBaz);
+        $class->addMethod($methodQux);
+        $class->addMethod($methodQuux);
 
         $class->load();
         $instance = new $className;
+
+        $refClass = new ReflectionClass($className);
+        $foo = $refClass->getMethod('foo');
+        $bar = $refClass->getMethod('bar');
+        $baz = $refClass->getMethod('baz');
+        $qux = $refClass->getMethod('qux');
+        $quux = $refClass->getMethod('quux');
+
+        $this->assertTrue($foo->isPublic());
+        $this->assertTrue($bar->isPublic());
+        $this->assertTrue($baz->isPublic());
+        $this->assertTrue($qux->isProtected());
+        $this->assertTrue($quux->isPrivate());
 
         $this->assertEquals($instance->foo(), 10);
         $this->assertEquals($instance->bar(20), 20);

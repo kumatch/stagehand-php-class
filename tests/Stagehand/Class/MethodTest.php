@@ -106,6 +106,60 @@ return 1;');
     /**
      * @test
      */
+    public function createAProtectedMethod()
+    {
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+        $method->setCode('$a = 0;
+return 1;');
+        $method->setProtected();
+
+        $this->assertEquals($method->getName(), $name);
+        $this->assertEquals($method->getVisibility(), 'protected');
+        $this->assertFalse($method->isPublic());
+        $this->assertTrue($method->isProtected());
+        $this->assertFalse($method->isPrivate());
+
+        $this->assertEquals($method->getPartialCode(),
+                            'protected function getFoo()
+{
+    $a = 0;
+    return 1;
+}
+');
+    }
+
+    /**
+     * @test
+     */
+    public function createAPrivateMethod()
+    {
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+        $method->setCode('$a = 0;
+return 1;');
+        $method->setPrivate();
+
+        $this->assertEquals($method->getName(), $name);
+        $this->assertEquals($method->getVisibility(), 'private');
+        $this->assertFalse($method->isPublic());
+        $this->assertFalse($method->isProtected());
+        $this->assertTrue($method->isPrivate());
+
+        $this->assertEquals($method->getPartialCode(),
+                            'private function getFoo()
+{
+    $a = 0;
+    return 1;
+}
+');
+    }
+
+    /**
+     * @test
+     */
     public function createAPropertyWithSomeArguments()
     {
         $name = 'getFoo';
