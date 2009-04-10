@@ -130,6 +130,23 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($f->isPrivate());
     }
 
+    /**
+     * @test
+     */
+    public function setMethod()
+    {
+        $className = 'ExampleForMethod';
+        $class = new Stagehand_Class($className);
+
+        $class->setMethod('a', null, "return 'foo';", 'public');
+
+        $class->load();
+        $instance = new $className;
+
+        $this->assertTrue(method_exists($instance, 'a'));
+        $this->assertEquals($instance->a(), 'foo');
+    }
+
     /**#@-*/
 
     /**#@+

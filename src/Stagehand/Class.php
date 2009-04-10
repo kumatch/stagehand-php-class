@@ -69,6 +69,7 @@ class Stagehand_Class
 
     private $_name;
     private $_properties = array();
+    private $_methods = array();
 
     /**#@-*/
 
@@ -99,13 +100,23 @@ class Stagehand_Class
     public function load()
     {
         $propertyContent = null;
+        $methodContent = null;
         foreach ($this->_properties as $property) {
             $propertyContent .= "    {$property['visibility']} \${$property['name']};\n";
+        }
+        foreach ($this->_methods as $method) {
+            $methodContent .= "    {$method['visibility']} function {$method['name']}()
+    {
+        {$method['code']}
+        ;
+    }
+";
         }
 
         $classContent = "class {$this->_name}
 {
 {$propertyContent}
+{$methodContent}
 }
 ";
         eval($classContent);
@@ -118,11 +129,32 @@ class Stagehand_Class
      * Sets the property.
      *
      * @param string $name
+     * @param string $visibility
      */
     public function setProperty($name, $visibility = null)
     {
         $visibility = $this->_normalizeVisibility($visibility);
         $this->_properties[$name] = array('name' => $name, 'visibility' => $visibility);
+    }
+
+    // }}}
+    // {{{ setMethod()
+
+    /**
+     * Sets the method.
+     *
+     * @param string $name
+     * @param string $visibility
+     * @param string $name
+     */
+    public function setMethod($name, $args, $code, $visibility = null)
+    {
+        $visibility = $this->_normalizeVisibility($visibility);
+        $this->_methods[$name] = array('name' => $name,
+                                       'args' => $args,
+                                       'code' => $code,
+                                       'visibility' => $visibility,
+                                       );
     }
 
     /**#@-*/
