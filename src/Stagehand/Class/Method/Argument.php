@@ -91,7 +91,10 @@ class Stagehand_Class_Method_Argument
     {
         $this->_name = $name;
         $this->_required = $required ? true : false;
-        $this->_value = $value;
+
+        if ($this->_isValidValue($value)) {
+            $this->_value = $value;
+        }
     }
 
     // }}}
@@ -144,6 +147,28 @@ class Stagehand_Class_Method_Argument
     /**#@+
      * @access private
      */
+
+    // }}}
+    // {{{ _isValidValue()
+
+    /**
+     * Returns whether the value is valid for method's default argument or not.
+     *
+     * @param  mixed  $value
+     * @return boolean
+     */
+    private function _isValidValue($value)
+    {
+        if (!is_null($value)
+            && !is_string($value)
+            && !is_numeric($value)
+            && !is_array($value)
+            ) {
+            throw new Stagehand_Class_Exception("Invalid value type, should be integer, string, or array.");
+        }
+
+        return true;
+    }
 
     /**#@-*/
 
