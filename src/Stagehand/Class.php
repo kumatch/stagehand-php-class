@@ -224,16 +224,28 @@ class Stagehand_Class
      * Gets parent class code.
      *
      * @return string
+     * @throws Stagehand_Class_Exception
      */
     public function _getParentClassCode()
     {
-        $parentClassCode = null;
-        if ($this->_parentClass) {
-            $this->_parentClass->load();
-
-            $parentClassCode = ' extends ' . $this->_parentClass->getName();
+        if (!$this->_parentClass) {
+            return;
         }
 
+        $parentClassCode = null;
+        if ($this->_parentClass instanceof Stagehand_Class) {
+            $className = $this->_parentClass->getName();
+            if (!class_exists($className)) {
+                $this->_parentClass->load();
+            }
+        } else {
+            $className = $this->_parentClass;
+            if (!class_exists($className)) {
+                throw new Stagehand_Class_Exception("The class [{$className}] does not exists.");
+            }
+        }
+
+        $parentClassCode = ' extends ' . $className;
         return $parentClassCode;
     }
 

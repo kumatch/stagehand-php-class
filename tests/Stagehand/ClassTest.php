@@ -227,6 +227,51 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($childInstance->baz(), 40);
     }
 
+    /**
+     * @test
+     */
+    public function setParentClassAndOverrideByExistigClass()
+    {
+        $baseName = 'ExistingClass';
+        require_once "./ClassTest/{$baseName}.php";
+        $baseInstance = new $baseName();
+
+        $this->assertEquals($baseInstance->foo, 10);
+        $this->assertEquals($baseInstance->bar(), 20);
+        $this->assertEquals($baseInstance->baz(), 30);
+
+        $childName = 'ExampleForExtendsByExistingClass';
+        $childClass = new Stagehand_Class($childName);
+
+        $method   = new Stagehand_Class_Method('baz');
+        $method->setCode('return 40;');
+
+        $childClass->setParentClass($baseName);
+        $childClass->addMethod($method);
+        $childClass->load();
+
+        $childInstance = new $childName;
+        $childRefClass = new ReflectionClass($childName);
+
+        $this->assertEquals($childRefClass->getParentClass()->getName(), $baseName);
+        $this->assertEquals($childInstance->foo,   10);
+        $this->assertEquals($childInstance->bar(), 20);
+        $this->assertEquals($childInstance->baz(), 40);
+    }
+
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfClassDoesNotExists()
+    {
+        $childName = 'ExampleForEClassDoesNotExistsTest';
+        $childClass = new Stagehand_Class($childName);
+
+        $childClass->setParentClass('DummyClassName');
+        $childClass->load();
+    }
+
     /**#@-*/
 
     /**#@+
