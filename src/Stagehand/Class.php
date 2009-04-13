@@ -120,24 +120,11 @@ class Stagehand_Class
 }
 ";
 
-        $partialProperties = null;
-        foreach ($this->_properties as $property) {
-            $partialProperties .= "    {$property->getPartialCode()}\n";
-        }
-
-        $partialMethods = null;
-        foreach ($this->_methods as $method) {
-            $partialMethods .= "    {$method->getPartialCode()}\n";
-        }
-
-        $parentClass = null;
-        if ($this->_parentClass) {
-            $this->_parentClass->load();
-            $parentClass = ' extends ' . $this->_parentClass->getName();
-        }
-
         $classContent = sprintf($format,
-                                $this->_name, $parentClass, $partialProperties, $partialMethods
+                                $this->_name,
+                                $this->_getParentClassCode(),
+                                $this->_getAllPropertiesCode(),
+                                $this->_getAllMethodsCode()
                                 );
 
         eval($classContent);
@@ -193,6 +180,62 @@ class Stagehand_Class
     /**#@+
      * @access private
      */
+
+    // }}}
+    // {{{ _getAllPropertiesCode()
+
+    /**
+     * Gets all propertie's code.
+     *
+     * @return string
+     */
+    public function _getAllPropertiesCode()
+    {
+        $allPropertiesCode = null;
+        foreach ($this->_properties as $property) {
+            $allPropertiesCode .= "    " . $property->getPartialCode() . "\n";
+        }
+
+        return $allPropertiesCode;
+    }
+
+    // }}}
+    // {{{ _getAllMethodsCode()
+
+    /**
+     * Gets all method's code.
+     *
+     * @return string
+     */
+    public function _getAllMethodsCode()
+    {
+        $allMethodsCode = null;
+        foreach ($this->_methods as $method) {
+            $allMethodsCode .= "    " . $method->getPartialCode() . "\n";
+        }
+
+        return $allMethodsCode;;
+    }
+
+    // }}}
+    // {{{ _getParentClassCode()
+
+    /**
+     * Gets parent class code.
+     *
+     * @return string
+     */
+    public function _getParentClassCode()
+    {
+        $parentClassCode = null;
+        if ($this->_parentClass) {
+            $this->_parentClass->load();
+
+            $parentClassCode = ' extends ' . $this->_parentClass->getName();
+        }
+
+        return $parentClassCode;
+    }
 
     /**#@-*/
 
