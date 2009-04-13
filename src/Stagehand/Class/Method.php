@@ -81,7 +81,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
     // {{{ __construct()
 
     /**
-     * Sets this class name.
+     * Sets this method name.
      *
      * @param string $name
      */
@@ -95,7 +95,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
     // {{{ setName()
 
     /**
-     * sets the property name.
+     * Sets the method name.
      *
      * @param string $name  Propety name
      */
@@ -108,7 +108,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
     // {{{ getName()
 
     /**
-     * Gets the property name.
+     * Gets the method name.
      *
      * @return string
      */
