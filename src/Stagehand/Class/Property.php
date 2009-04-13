@@ -87,10 +87,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
     public function __construct($name, $value = null)
     {
         $this->_name = $name;
-        if ($value) {
-            $this->setValue($value);
-        }
-
+        $this->setValue($value);
         $this->setPublic();
     }
 
@@ -189,14 +186,15 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
     // {{{ _isValidValue()
 
     /**
-     * Returns whether the value is valid by property or not.
+     * Returns whether the value is valid for property's default or not.
      *
      * @param  mixed  $value
      * @return boolean
      */
     private function _isValidValue($value)
     {
-        if (!is_string($value)
+        if (!is_null($value)
+            && !is_string($value)
             && !is_numeric($value)
             && !is_array($value)
             ) {
