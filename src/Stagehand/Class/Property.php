@@ -80,7 +80,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
     // {{{ __construct()
 
     /**
-     * Sets this class name.
+     * Sets this property name.
      *
      * @param string $name
      */
