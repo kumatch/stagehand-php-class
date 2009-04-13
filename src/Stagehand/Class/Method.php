@@ -162,28 +162,10 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
 }
 ";
 
-        $argumentValue = null;
-        foreach ($this->_arguments as $argument) {
-            if (!is_null($argumentValue)) {
-                $argumentValue .= ', ';
-            }
-
-            $argumentValue .= '$' . $argument->getName();
-            if (!$argument->isRequired()) {
-                $argumentValue .= ' = ' . var_export($argument->getValue(), true);
-            }
-        }
-
-        $code = null;
-        foreach (explode("\n", str_replace("\r\n", "\n", $this->_code)) as $line) {
-            if (!is_null($code)) {
-                $code .= "\n";
-            }
-            $code .= "    $line";
-        }
-
         return sprintf($format,
-                       $this->getVisibility(), $this->_name, $argumentValue, $code
+                       $this->getVisibility(), $this->_name,
+                       $this->_formatArguments($this->_arguments),
+                       $this->_indentCode($this->_code)
                        );
     }
 
@@ -198,6 +180,56 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
     /**#@+
      * @access private
      */
+
+    // }}}
+    // {{{ _formatArguments()
+
+    /**
+     * Formats arguments available to class method.
+     *
+     * @param string  $code
+     * @return string
+     */
+    public function _formatArguments($arguments)
+    {
+        $formatedArguments = null;
+
+        foreach ($arguments as $argument) {
+            if (!is_null($formatedArguments)) {
+                $formatedArguments .= ', ';
+            }
+
+            $formatedArguments .= '$' . $argument->getName();
+            if (!$argument->isRequired()) {
+                $formatedArguments .= ' = ' . $argument->getValue();
+            }
+        }
+
+        return $formatedArguments;
+    }
+
+    // }}}
+    // {{{ _indentCode()
+
+    /**
+     * Indents code lines.
+     *
+     * @param string  $code
+     * @return string
+     */
+    public function _indentCode($code)
+    {
+        $indentedCode = null;
+
+        foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
+            if (!is_null($indentedCode)) {
+                $indentedCode .= "\n";
+            }
+            $indentedCode .= "    $line";
+        }
+
+        return $indentedCode;
+    }
 
     /**#@-*/
 

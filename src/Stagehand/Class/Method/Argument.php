@@ -130,7 +130,7 @@ class Stagehand_Class_Method_Argument
      */
     public function getValue()
     {
-        return $this->_value;
+        return var_export($this->_value, true);
     }
 
     /**#@-*/
