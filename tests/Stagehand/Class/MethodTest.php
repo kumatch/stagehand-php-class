@@ -192,6 +192,21 @@ return 1;');
 
     }
 
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfSetsAObjectToMethodArgumentsValue()
+    {
+        $name = 'foo';
+        $foo = new stdClass();
+
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+        $method->addArgument('foo', false, $foo);
+    }
+
     /**#@-*/
 
     /**#@+

@@ -34,10 +34,10 @@
  * @since      File available since Release 0.1.0
  */
 
-// {{{ Stagehand_Class_Method
+// {{{ Stagehand_Class_Method_Argument
 
 /**
- * Stagehand_Class_Method.
+ * Stagehand_Class_Method_Argument.
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
@@ -46,7 +46,7 @@
  * @since      Class available since Release 0.1.0
  */
 
-class Stagehand_Class_Method extends Stagehand_Class_Visibility
+class Stagehand_Class_Method_Argument
 {
 
     // {{{ properties
@@ -68,8 +68,8 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
      */
 
     private $_name;
-    private $_arguments = array();
-    private $_code;
+    private $_value;
+    private $_required;
 
     /**#@-*/
 
@@ -81,34 +81,27 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
     // {{{ __construct()
 
     /**
-     * Sets this method name.
+     * Sets this argument name and default value if argument is not required.
      *
-     * @param string $name
+     * @param string  $name      argument name.
+     * @param boolean $required  is required this argument
+     * @param mixed   $value     default value if argument is not required.
      */
-    public function __construct($name)
+    public function __construct($name, $required = true, $value = null)
     {
         $this->_name = $name;
-        $this->setPublic();
-    }
+        $this->_required = $required ? true : false;
 
-    // }}}
-    // {{{ setName()
-
-    /**
-     * Sets the method name.
-     *
-     * @param string $name  method name
-     */
-    public function setName($name)
-    {
-        $this->_name = $name;
+        if ($this->_isValidValue($value)) {
+            $this->_value = $value;
+        }
     }
 
     // }}}
     // {{{ getName()
 
     /**
-     * Gets the method name.
+     * Gets the argument name.
      *
      * @return string
      */
@@ -118,55 +111,29 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
     }
 
     // }}}
-    // {{{ addArgument()
+    // {{{ isRequired()
 
     /**
-     * Adds a method argument.
+     * Returns whether the argument is required or not.
      *
-     * @param string  $name      argument name.
-     * @param boolean $required  argument is required.
-     * @param mixed   $value     argument's default value.
+     * @return boolean
      */
-    public function addArgument($name, $required = true, $value = null)
+    public function isRequired()
     {
-        $argument = new Stagehand_Class_Method_Argument($name, $required, $value);
-        array_push($this->_arguments, $argument);
+        return $this->_required;
     }
 
     // }}}
-    // {{{ setCode()
+    // {{{ getValue()
 
     /**
-     * Sets a method code.
+     * Gets the argument default value.
      *
-     * @param string  $code  a method code.
+     * @return mixed
      */
-    public function setCode($code)
+    public function getValue()
     {
-        $this->_code = $code;
-    }
-
-    // }}}
-    // {{{ getPartialCode()
-
-    /**
-     * Gets a partial code for class method.
-     *
-     * @return string
-     */
-    public function getPartialCode()
-    {
-        $format = "%s function %s(%s)
-{
-%s
-}
-";
-
-        return sprintf($format,
-                       $this->getVisibility(), $this->_name,
-                       $this->_formatArguments($this->_arguments),
-                       $this->_indentCode($this->_code)
-                       );
+        return var_export($this->_value, true);
     }
 
     /**#@-*/
@@ -182,53 +149,25 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
      */
 
     // }}}
-    // {{{ _formatArguments()
+    // {{{ _isValidValue()
 
     /**
-     * Formats arguments available to class method.
+     * Returns whether the value is valid for method's default argument or not.
      *
-     * @param string  $code
-     * @return string
+     * @param  mixed  $value
+     * @return boolean
      */
-    public function _formatArguments($arguments)
+    private function _isValidValue($value)
     {
-        $formatedArguments = null;
-
-        foreach ($arguments as $argument) {
-            if (!is_null($formatedArguments)) {
-                $formatedArguments .= ', ';
-            }
-
-            $formatedArguments .= '$' . $argument->getName();
-            if (!$argument->isRequired()) {
-                $formatedArguments .= ' = ' . $argument->getValue();
-            }
+        if (!is_null($value)
+            && !is_string($value)
+            && !is_numeric($value)
+            && !is_array($value)
+            ) {
+            throw new Stagehand_Class_Exception("Invalid value type, should be integer, string, or array.");
         }
 
-        return $formatedArguments;
-    }
-
-    // }}}
-    // {{{ _indentCode()
-
-    /**
-     * Indents code lines.
-     *
-     * @param string  $code
-     * @return string
-     */
-    public function _indentCode($code)
-    {
-        $indentedCode = null;
-
-        foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
-            if (!is_null($indentedCode)) {
-                $indentedCode .= "\n";
-            }
-            $indentedCode .= "    $line";
-        }
-
-        return $indentedCode;
+        return true;
     }
 
     /**#@-*/
