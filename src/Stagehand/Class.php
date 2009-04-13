@@ -68,6 +68,7 @@ class Stagehand_Class
      */
 
     private $_name;
+    private $_parentClass;
     private $_properties = array();
     private $_methods = array();
 
@@ -91,6 +92,19 @@ class Stagehand_Class
     }
 
     // }}}
+    // {{{ getName()
+
+    /**
+     * Gets the class name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    // }}}
     // {{{ load()
 
     /**
@@ -99,23 +113,33 @@ class Stagehand_Class
      */
     public function load()
     {
-        $partialProperties = null;
-        $partialMethods = null;
+        $format = "class %s%s
+{
+%s
+%s
+}
+";
 
+        $partialProperties = null;
         foreach ($this->_properties as $property) {
             $partialProperties .= "    {$property->getPartialCode()}\n";
         }
 
+        $partialMethods = null;
         foreach ($this->_methods as $method) {
             $partialMethods .= "    {$method->getPartialCode()}\n";
         }
 
-        $classContent = "class {$this->_name}
-{
-{$partialProperties}
-{$partialMethods}
-}
-";
+        $parentClass = null;
+        if ($this->_parentClass) {
+            $this->_parentClass->load();
+            $parentClass = ' extends ' . $this->_parentClass->getName();
+        }
+
+        $classContent = sprintf($format,
+                                $this->_name, $parentClass, $partialProperties, $partialMethods
+                                );
+
         eval($classContent);
     }
 
@@ -143,6 +167,19 @@ class Stagehand_Class
     public function addMethod($method)
     {
         array_push($this->_methods, $method);
+    }
+
+    // }}}
+    // {{{ setParentClass()
+
+    /**
+     * Sets parent class.
+     *
+     * @param Stagehand_Class $class
+     */
+    public function setParentClass($class)
+    {
+        $this->_parentClass = $class;
     }
 
     /**#@-*/

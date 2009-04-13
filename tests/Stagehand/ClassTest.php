@@ -184,6 +184,49 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($instance->baz(), 30);
     }
 
+    /**
+     * @test
+     */
+    public function setParentClassAndOverride()
+    {
+        $baseName = 'ExampleForExtendBase';
+        $childName = 'ExampleForExtendChild';
+
+        $baseClass = new Stagehand_Class($baseName);
+        $childClass = new Stagehand_Class($childName);
+
+        $property = new Stagehand_Class_Property('foo', 10);
+        $methodA   = new Stagehand_Class_Method('bar');
+        $methodA->setCode('return 20;');
+        $methodB   = new Stagehand_Class_Method('baz');
+        $methodB->setCode('return 30;');
+        $methodC   = new Stagehand_Class_Method('baz');
+        $methodC->setCode('return 40;');
+
+        $baseClass->addProperty($property);
+        $baseClass->addMethod($methodA);
+        $baseClass->addMethod($methodB);
+
+        $childClass->setParentClass($baseClass);
+        $childClass->addMethod($methodC);
+        $childClass->load();
+
+        $baseInstance = new $baseName;
+        $childInstance = new $childName;
+
+        $baseRefClass = new ReflectionClass($baseName);
+        $childRefClass = new ReflectionClass($childName);
+
+        $this->assertEquals($childRefClass->getParentClass()->getName(), $baseName);
+
+        $this->assertEquals($baseInstance->foo,    10);
+        $this->assertEquals($childInstance->foo,   10);
+        $this->assertEquals($baseInstance->bar(),  20);
+        $this->assertEquals($childInstance->bar(), 20);
+        $this->assertEquals($baseInstance->baz(),  30);
+        $this->assertEquals($childInstance->baz(), 40);
+    }
+
     /**#@-*/
 
     /**#@+
