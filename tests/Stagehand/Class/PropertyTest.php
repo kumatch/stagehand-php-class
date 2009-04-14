@@ -243,6 +243,19 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfDeclaringNestedTrapToPropertyValue()
+    {
+        $name = 'foo';
+        $foo = new stdClass();
+        $trap = array(1, array(2, array(3, $foo)));
+
+        $property = new Stagehand_Class_Property($name, $trap);
+    }
+
+    /**
+     * @test
      */
     public function createAStaticProperty()
     {

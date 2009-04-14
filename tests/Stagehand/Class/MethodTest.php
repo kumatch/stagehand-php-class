@@ -209,6 +209,22 @@ return 1;');
 
     /**
      * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfDeclaringNestedTrapToMethodArgumentsValue()
+    {
+        $name = 'foo';
+        $foo = new stdClass();
+        $trap = array(1, array(2, array(3, $foo)));
+
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+        $method->addArgument('foo', false, $trap);
+    }
+
+    /**
+     * @test
      */
     public function createAStaticMethod()
     {

@@ -198,12 +198,17 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
      */
     private function _isValidValue($value)
     {
-        if (!is_null($value)
-            && !is_string($value)
-            && !is_numeric($value)
-            && !is_array($value)
-            ) {
-            throw new Stagehand_Class_Exception("Invalid value type, should be integer, string, or array.");
+        if (is_array($value)) {
+            foreach ($value as $v) {
+                $this->_isValidValue($v);
+            }
+        } else {
+            if (!is_null($value)
+                && !is_string($value)
+                && !is_numeric($value)
+                ) {
+                throw new Stagehand_Class_Exception("Invalid value type, should be integer, string, or array.");
+            }
         }
 
         return true;
