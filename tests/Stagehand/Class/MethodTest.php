@@ -196,7 +196,7 @@ return 1;');
      * @test
      * @expectedException Stagehand_Class_Exception
      */
-    public function catchTheExceptionIfSetsAObjectToMethodArgumentsValue()
+    public function catchTheExceptionIfDeclaringObjectToMethodArgumentsValue()
     {
         $name = 'foo';
         $foo = new stdClass();

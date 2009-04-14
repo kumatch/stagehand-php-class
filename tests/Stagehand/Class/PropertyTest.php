@@ -234,7 +234,7 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
      * @test
      * @expectedException Stagehand_Class_Exception
      */
-    public function catchTheExceptionIfSetsAObjectToPropertyValue()
+    public function catchTheExceptionIfDeclaringObjectToPropertyValue()
     {
         $name = 'foo';
         $foo = new stdClass();
