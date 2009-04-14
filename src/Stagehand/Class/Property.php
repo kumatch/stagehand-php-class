@@ -83,6 +83,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      * Sets this property name.
      *
      * @param string $name
+     * @throws Stagehand_Class_Exception
      */
     public function __construct($name, $value = null)
     {
@@ -124,6 +125,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      * sets the property value.
      *
      * @param string $value  Propety value
+     * @throws Stagehand_Class_Exception
      */
     public function setValue($value)
     {
@@ -190,6 +192,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Visibility
      *
      * @param  mixed  $value
      * @return boolean
+     * @throws Stagehand_Class_Exception
      */
     private function _isValidValue($value)
     {

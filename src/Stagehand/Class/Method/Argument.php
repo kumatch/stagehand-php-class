@@ -86,6 +86,7 @@ class Stagehand_Class_Method_Argument
      * @param string  $name      argument name.
      * @param boolean $required  is required this argument
      * @param mixed   $value     default value if argument is not required.
+     * @throws Stagehand_Class_Exception
      */
     public function __construct($name, $required = true, $value = null)
     {
@@ -156,6 +157,7 @@ class Stagehand_Class_Method_Argument
      *
      * @param  mixed  $value
      * @return boolean
+     * @throws Stagehand_Class_Exception
      */
     private function _isValidValue($value)
     {
