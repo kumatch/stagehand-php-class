@@ -70,6 +70,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     private $_name;
     private $_arguments = array();
     private $_code;
+    private $_isAbstract;
 
     /**#@-*/
 
@@ -156,11 +157,15 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
      */
     public function getPartialCode()
     {
-        $format = "%s%s function %s(%s)
+        if ($this->isAbstract()) {
+            $format = "abstract %s%s function %s(%s);";
+        } else {
+            $format = "%s%s function %s(%s)
 {
 %s
 }
 ";
+        }
 
         return sprintf($format,
                        $this->getVisibility(),
@@ -169,6 +174,31 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
                        $this->_formatArguments($this->_arguments),
                        $this->_indentCode($this->_code)
                        );
+    }
+
+    // }}}
+    // {{{ setAbstract()
+
+    /**
+     * Sets the abstract method.
+     *
+     */
+    public function setAbstract($isAbstract = true)
+    {
+        $this->_isAbstract = $isAbstract ? true : false;
+    }
+
+    // }}}
+    // {{{ isAbstract()
+
+    /**
+     * Returns whether the abstract method or not.
+     *
+     * @return boolean
+     */
+    public function isAbstract()
+    {
+        return $this->_isAbstract ? true : false;
     }
 
     /**#@-*/

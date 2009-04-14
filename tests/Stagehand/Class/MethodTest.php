@@ -242,6 +242,33 @@ return 1;');
         $this->assertRegExp('/public static function/', $method->getPartialCode());
     }
 
+    /**
+     * @test
+     */
+    public function createAnAbstractMethod()
+    {
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+        $method->setCode('return 1;');
+
+        $this->assertEquals($method->getName(), $name);
+        $this->assertFalse($method->isAbstract());
+        $this->assertEquals($method->getPartialCode(),
+                            'public function getFoo()
+{
+    return 1;
+}
+');
+
+        $method->setAbstract();
+
+        $this->assertTrue($method->isAbstract());
+        $this->assertEquals($method->getPartialCode(),
+                            'abstract public function getFoo();'
+                            );
+    }
+
     /**#@-*/
 
     /**#@+
