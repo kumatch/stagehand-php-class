@@ -124,8 +124,8 @@ class Stagehand_Class
 ";
 
         $classContent = sprintf($format,
-                                $this->_isAbstract ? 'abstract ' : null,
-                                $this->_name,
+                                $this->isAbstract() ? 'abstract ' : null,
+                                $this->getName(),
                                 $this->_getParentClassCode(),
                                 $this->_getAllConstantsCode(),
                                 $this->_getAllPropertiesCode(),
