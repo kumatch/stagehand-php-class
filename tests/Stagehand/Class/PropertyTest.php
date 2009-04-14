@@ -241,6 +241,24 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $property = new Stagehand_Class_Property($name, $foo);
     }
 
+    /**
+     * @test
+     */
+    public function createAStaticProperty()
+    {
+        $name = 'foo';
+        $property = new Stagehand_Class_Property($name);
+
+        $this->assertEquals($property->getName(), $name);
+        $this->assertFalse($property->isStatic());
+        $this->assertNotRegExp('/public static/', $property->getPartialCode());
+
+        $property->setStatic();
+
+        $this->assertTrue($property->isStatic());
+        $this->assertRegExp('/public static/', $property->getPartialCode());
+    }
+
     /**#@-*/
 
     /**#@+

@@ -34,10 +34,10 @@
  * @since      File available since Release 0.1.0
  */
 
-// {{{ Stagehand_Class_Property
+// {{{ Stagehand_Class_Declaration
 
 /**
- * Stagehand_Class_Property.
+ * Stagehand_Class_Declaration.
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
@@ -46,7 +46,7 @@
  * @since      Class available since Release 0.1.0
  */
 
-class Stagehand_Class_Property extends Stagehand_Class_Declaration
+abstract class Stagehand_Class_Declaration extends Stagehand_Class_Visibility
 {
 
     // {{{ properties
@@ -67,8 +67,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
      * @access private
      */
 
-    private $_name;
-    private $_value;
+    private $_isStatic = false;
 
     /**#@-*/
 
@@ -77,101 +76,27 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
      */
 
     // }}}
-    // {{{ __construct()
+    // {{{ setStatic()
 
     /**
-     * Sets this property name.
-     *
-     * @param string $name
-     * @throws Stagehand_Class_Exception
+     * Sets to static.
      */
-    public function __construct($name, $value = null)
+    public function setStatic()
     {
-        $this->_name = $name;
-        $this->setValue($value);
-        $this->setPublic();
+        $this->_isStatic = true;
     }
 
     // }}}
-    // {{{ setName()
+    // {{{ isStatic()
 
     /**
-     * sets the property name.
+     * Returns whether this is static or not.
      *
-     * @param string $name  Propety name
+     * @return boolean
      */
-    public function setName($name)
+    public function isStatic()
     {
-        $this->_name = $name;
-    }
-
-    // }}}
-    // {{{ getName()
-
-    /**
-     * Gets the property name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
-
-    // }}}
-    // {{{ setValue()
-
-    /**
-     * sets the property value.
-     *
-     * @param string $value  Propety value
-     * @throws Stagehand_Class_Exception
-     */
-    public function setValue($value)
-    {
-        if ($this->_isValidValue($value)) {
-            $this->_value = $value;
-        }
-    }
-
-    // }}}
-    // {{{ getValue()
-
-    /**
-     * Gets the property value.
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->_value;
-    }
-
-    // }}}
-    // {{{ getPartialCode()
-
-    /**
-     * Gets a partial code for class property.
-     *
-     * @return string
-     */
-    public function getPartialCode()
-    {
-        $format = null;
-        $formatedValue = null;
-
-        if ($this->_value) {
-            $format = "%s%s $%s = %s;";
-            $formatedValue = var_export($this->_value, true);
-        } else {
-            $format = '%s%s $%s;';
-        }
-
-        return sprintf($format,
-                       $this->getVisibility(),
-                       $this->isStatic() ? ' static' : null,
-                       $this->_name, $formatedValue
-                       );
+        return $this->_isStatic ? true : false;
     }
 
     /**#@-*/
@@ -185,29 +110,6 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     /**#@+
      * @access private
      */
-
-    // }}}
-    // {{{ _isValidValue()
-
-    /**
-     * Returns whether the value is valid for property's default or not.
-     *
-     * @param  mixed  $value
-     * @return boolean
-     * @throws Stagehand_Class_Exception
-     */
-    private function _isValidValue($value)
-    {
-        if (!is_null($value)
-            && !is_string($value)
-            && !is_numeric($value)
-            && !is_array($value)
-            ) {
-            throw new Stagehand_Class_Exception("Invalid value type, should be integer, string, or array.");
-        }
-
-        return true;
-    }
 
     /**#@-*/
 

@@ -207,6 +207,25 @@ return 1;');
         $method->addArgument('foo', false, $foo);
     }
 
+    /**
+     * @test
+     */
+    public function createAStaticMethod()
+    {
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+
+        $this->assertEquals($method->getName(), $name);
+        $this->assertFalse($method->isStatic());
+        $this->assertNotRegExp('/public static function/', $method->getPartialCode());
+
+        $method->setStatic();
+
+        $this->assertTrue($method->isStatic());
+        $this->assertRegExp('/public static function/', $method->getPartialCode());
+    }
+
     /**#@-*/
 
     /**#@+

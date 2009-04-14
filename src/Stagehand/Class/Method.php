@@ -46,7 +46,7 @@
  * @since      Class available since Release 0.1.0
  */
 
-class Stagehand_Class_Method extends Stagehand_Class_Visibility
+class Stagehand_Class_Method extends Stagehand_Class_Declaration
 {
 
     // {{{ properties
@@ -156,14 +156,16 @@ class Stagehand_Class_Method extends Stagehand_Class_Visibility
      */
     public function getPartialCode()
     {
-        $format = "%s function %s(%s)
+        $format = "%s%s function %s(%s)
 {
 %s
 }
 ";
 
         return sprintf($format,
-                       $this->getVisibility(), $this->_name,
+                       $this->getVisibility(),
+                       $this->isStatic() ? ' static' : null,
+                       $this->_name,
                        $this->_formatArguments($this->_arguments),
                        $this->_indentCode($this->_code)
                        );

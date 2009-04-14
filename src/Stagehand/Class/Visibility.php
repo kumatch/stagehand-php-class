@@ -46,7 +46,7 @@
  * @since      Class available since Release 0.1.0
  */
 
-class Stagehand_Class_Visibility
+abstract class Stagehand_Class_Visibility
 {
 
     // {{{ properties
@@ -79,7 +79,7 @@ class Stagehand_Class_Visibility
     // {{{ setVisivility()
 
     /**
-     * Sets the property visivility.
+     * Sets the visivility.
      *
      * @param string $keyword  Visivility keyword
      */
@@ -100,7 +100,7 @@ class Stagehand_Class_Visibility
     // {{{ getVisivility()
 
     /**
-     * Gets the property visivility.
+     * Gets the visivility.
      *
      * @return string
      */
@@ -146,7 +146,7 @@ class Stagehand_Class_Visibility
     // {{{ isPublic()
 
     /**
-     * Returns whether the property is public visibility or not.
+     * Returns whether this is public visibility or not.
      *
      * @return boolean
      */
@@ -159,7 +159,7 @@ class Stagehand_Class_Visibility
     // {{{ isProtected()
 
     /**
-     * Returns whether the property is protected visibility or not.
+     * Returns whether this is protected visibility or not.
      *
      * @return boolean
      */
@@ -172,7 +172,7 @@ class Stagehand_Class_Visibility
     // {{{ isPrivate()
 
     /**
-     * Returns whether the property is private visibility or not.
+     * Returns whether this is private visibility or not.
      *
      * @return boolean
      */
