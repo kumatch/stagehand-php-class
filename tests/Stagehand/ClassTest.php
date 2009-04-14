@@ -101,13 +101,16 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $propertyB = new Stagehand_Class_Property('b');
         $propertyC = new Stagehand_Class_Property('c');
         $propertyD = new Stagehand_Class_Property('d', array(1, 3, 5));
+        $propertyE = new Stagehand_Class_Property('e', 200);
         $propertyB->setProtected();
         $propertyC->setPrivate();
+        $propertyE->setStatic();
 
         $class->addProperty($propertyA);
         $class->addProperty($propertyB);
         $class->addProperty($propertyC);
         $class->addProperty($propertyD);
+        $class->addProperty($propertyE);
 
         $class->load();
         $instance = new $className;
@@ -116,6 +119,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('b', $instance);
         $this->assertObjectHasAttribute('c', $instance);
         $this->assertObjectHasAttribute('d', $instance);
+        $this->assertObjectHasAttribute('e', $instance);
 
         $refClass = new ReflectionClass($className);
         $a = $refClass->getProperty('a');
@@ -128,6 +132,8 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($instance->a , 100);
         $this->assertEquals($instance->d, array(1, 3, 5));
+
+        $this->assertEquals(ExampleForProperty::$e, 200);
     }
 
     /**
@@ -270,6 +276,29 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
 
         $childClass->setParentClass('DummyClassName');
         $childClass->load();
+    }
+
+    /**
+     * @test
+     */
+    public function setConstantAndAccessConstants()
+    {
+        $className = 'ExampleForConstant';
+        $class = new Stagehand_Class($className);
+
+        $constantA = new Stagehand_Class_Constant('a');
+        $constantB = new Stagehand_Class_Constant('b', 10);
+        $constantC = new Stagehand_Class_Constant('c', 'TextConstant');
+
+        $class->addConstant($constantA);
+        $class->addConstant($constantB);
+        $class->addConstant($constantC);
+
+        $class->load();
+
+        $this->assertNull(ExampleForConstant::a);
+        $this->assertEquals(ExampleForConstant::b, 10);
+        $this->assertEquals(ExampleForConstant::c, 'TextConstant');
     }
 
     /**#@-*/
