@@ -72,6 +72,7 @@ class Stagehand_Class
     private $_properties = array();
     private $_methods = array();
     private $_constants = array();
+    private $_isAbstract = false;
 
     /**#@-*/
 
@@ -114,7 +115,7 @@ class Stagehand_Class
      */
     public function load()
     {
-        $format = "class %s%s
+        $format = "%sclass %s%s
 {
 %s
 %s
@@ -123,6 +124,7 @@ class Stagehand_Class
 ";
 
         $classContent = sprintf($format,
+                                $this->_isAbstract ? 'abstract ' : null,
                                 $this->_name,
                                 $this->_getParentClassCode(),
                                 $this->_getAllConstantsCode(),
@@ -183,6 +185,31 @@ class Stagehand_Class
     public function setParentClass($class)
     {
         $this->_parentClass = $class;
+    }
+
+    // }}}
+    // {{{ setAbstract()
+
+    /**
+     * Sets the abstract class.
+     *
+     */
+    public function setAbstract($isAbstract = true)
+    {
+        $this->_isAbstract = $isAbstract ? true : false;
+    }
+
+    // }}}
+    // {{{ isAbstract()
+
+    /**
+     * Returns whether the abstract class or not.
+     *
+     * @return boolean
+     */
+    public function isAbstract()
+    {
+        return $this->_isAbstract ? true : false;
     }
 
     /**#@-*/

@@ -301,6 +301,35 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(ExampleForConstant::c, 'TextConstant');
     }
 
+    /**
+     * @test
+     */
+    public function setAbstractAndUse()
+    {
+        $className = 'ExampleForAbsctuction';
+        $class = new Stagehand_Class($className);
+        $property = new Stagehand_Class_Property('a', 10);
+        $method = new Stagehand_Class_Method('b');
+        $method->setCode("return 'foo';");
+
+        $class->addProperty($property);
+        $class->addMethod($method);
+
+        $class->setAbstract();
+        $class->load();
+        $refClass = new ReflectionClass($className);
+
+        $this->assertTrue($class->isAbstract());
+        $this->assertTrue($refClass->isAbstract());
+
+        require_once "./ClassTest/ConcreteClass.php";
+
+        $instance = new ConcreteClass();
+
+        $this->assertEquals($instance->a, 10);
+        $this->assertEquals($instance->b(), 'foo');
+    }
+
     /**#@-*/
 
     /**#@+
