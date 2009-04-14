@@ -71,6 +71,7 @@ class Stagehand_Class
     private $_parentClass;
     private $_properties = array();
     private $_methods = array();
+    private $_constants = array();
 
     /**#@-*/
 
@@ -117,12 +118,14 @@ class Stagehand_Class
 {
 %s
 %s
+%s
 }
 ";
 
         $classContent = sprintf($format,
                                 $this->_name,
                                 $this->_getParentClassCode(),
+                                $this->_getAllConstantsCode(),
                                 $this->_getAllPropertiesCode(),
                                 $this->_getAllMethodsCode()
                                 );
@@ -134,11 +137,11 @@ class Stagehand_Class
     // {{{ addProperty()
 
     /**
-     * Adds a property.
+     * Addes a property.
      *
      * @param Stagehand_Class_Property $property
      */
-    public function addProperty($property)
+    public function addProperty(Stagehand_Class_Property $property)
     {
         array_push($this->_properties, $property);
     }
@@ -147,13 +150,26 @@ class Stagehand_Class
     // {{{ addMethod()
 
     /**
-     * Adds a method.
+     * Addes a method.
      *
      * @param Stagehand_Class_Method $method
      */
-    public function addMethod($method)
+    public function addMethod(Stagehand_Class_Method $method)
     {
         array_push($this->_methods, $method);
+    }
+
+    // }}}
+    // {{{ addConstant()
+
+    /**
+     * Addes a constant.
+     *
+     * @param Stagehand_Class_Constant $constant
+     */
+    public function addConstant(Stagehand_Class_Constant $constant)
+    {
+        array_push($this->_constants, $constant);
     }
 
     // }}}
@@ -162,7 +178,7 @@ class Stagehand_Class
     /**
      * Sets parent class.
      *
-     * @param Stagehand_Class $class
+     * @param mixed $class  Stagehand_Class or class name.
      */
     public function setParentClass($class)
     {
@@ -215,6 +231,24 @@ class Stagehand_Class
         }
 
         return $allMethodsCode;;
+    }
+
+    // }}}
+    // {{{ _getAllConstantsCode()
+
+    /**
+     * Gets all constant's code.
+     *
+     * @return string
+     */
+    public function _getAllConstantsCode()
+    {
+        $allConstantsCode = null;
+        foreach ($this->_constants as $constant) {
+            $allConstantsCode .= "    " . $constant->getPartialCode() . "\n";
+        }
+
+        return $allConstantsCode;;
     }
 
     // }}}
