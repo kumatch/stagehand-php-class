@@ -177,7 +177,7 @@ class Stagehand_Class_CodeGenerator_Class
     {
         $allConstantsCode = null;
         foreach ($this->_class->getConstants() as $constant) {
-            $allConstantsCode .= "    " . $constant->getPartialCode() . "\n";
+            $allConstantsCode .= "    " . $this->_createConstantCode($constant) . "\n";
         }
 
         return $allConstantsCode;;
@@ -239,6 +239,21 @@ class Stagehand_Class_CodeGenerator_Class
     }
 
     // }}}
+    // {{{ getPartialCode()
+
+    /**
+     * Gets a partial code for class constant.
+     *
+     * @return string
+     */
+    public function getPartialCode()
+    {
+        return sprintf('const %s = %s;',
+                       $this->_name, var_export($this->_value, true)
+                       );
+    }
+
+    // }}}
     // {{{ _formatArguments()
 
     /**
@@ -281,6 +296,21 @@ class Stagehand_Class_CodeGenerator_Class
         }
 
         return $indentedCode;
+    }
+
+    // }}}
+    // {{{ _createConstantCode()
+
+    /**
+     * Creates a partial code for class constant.
+     *
+     * @return string
+     */
+    private function _createConstantCode($constant)
+    {
+        return sprintf('const %s = %s;',
+                       $constant->getName(), var_export($constant->getValue(), true)
+                       );
     }
 
     /**#@-*/

@@ -147,21 +147,6 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
         return $this->_value;
     }
 
-    // }}}
-    // {{{ getPartialCode()
-
-    /**
-     * Gets a partial code for class constant.
-     *
-     * @return string
-     */
-    public function getPartialCode()
-    {
-        return sprintf('const %s = %s;',
-                       $this->_name, var_export($this->_value, true)
-                       );
-    }
-
     /**#@-*/
 
     /**#@+
