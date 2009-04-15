@@ -379,6 +379,41 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(ImplementedClass::c(), 'bar');
     }
 
+    /**
+     * @test
+     */
+    public function implementInterfaceAndOverride()
+    {
+        $baseName = 'ExampleForImplementInterface';
+        $childName = 'ExampleForImplementedClass';
+
+        $baseClass = new Stagehand_Class($baseName);
+        $childClass = new Stagehand_Class($childName);
+
+        $method = new Stagehand_Class_Method('foo');
+        $baseClass->addMethod($method);
+        $childClass->addMethod($method);
+
+        $baseClass->defineInterface();
+        $childClass->addInterface($baseClass);
+        $childClass->load();
+
+        $baseRefClass = new ReflectionClass($baseName);
+        $childRefClass = new ReflectionClass($childName);
+        $interfaces = $childRefClass->getInterfaces();
+
+        $this->assertEquals($baseRefClass->getName(), $baseName);
+        $this->assertTrue($baseRefClass->isInterface());
+        $this->assertTrue($baseRefClass->hasMethod('foo'));
+
+        $this->assertEquals($childRefClass->getName(), $childName);
+        $this->assertFalse($childRefClass->isInterface());
+        $this->assertTrue($childRefClass->hasMethod('foo'));
+
+        $this->assertEquals(count($interfaces), 1);
+        $this->assertEquals($interfaces[$baseName]->getName(), $baseName);
+    }
+
     /**#@-*/
 
     /**#@+

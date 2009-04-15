@@ -129,7 +129,7 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function generateClassCodeWidhParentClass()
+    public function generateClassCodeWithParentClass()
     {
         $baseName = 'ExampleForExtendBaseClassGeneration';
         $childName = 'ExampleForExtendChildClassGeneration';
@@ -153,6 +153,90 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
         $code = $generator->generate();
         
         $this->assertEquals($code, "class {$childName} extends {$baseName}
+{
+
+
+}
+");
+    }
+
+    /**
+     * @test
+     */
+    public function generateClassCodeWithSomeInterface()
+    {
+        $interfaceA = 'ExampleForClassGenerationInterfaceA';
+        $interfaceB = 'ExampleForClassGenerationInterfaceB';
+        $className = 'ExampleForClassGenerationWithSomeInterface';
+
+        $class = new Stagehand_Class($className);
+        $classInterfaceA = new Stagehand_Class($interfaceA);
+        $classInterfaceB = new Stagehand_Class($interfaceB);
+        $class->addInterface($classInterfaceA);
+        $class->addInterface($classInterfaceB);
+
+        $generator = new Stagehand_Class_CodeGenerator_Class($class);
+        $code = $generator->generate();
+
+        $this->assertEquals($code, "class {$className} implements {$interfaceA}, {$interfaceB}
+{
+
+
+}
+");
+
+        $class = new Stagehand_Class($className);
+        $class->addInterface($interfaceA);
+        $class->addInterface($interfaceB);
+
+        $generator = new Stagehand_Class_CodeGenerator_Class($class);
+        $code = $generator->generate();
+
+        $this->assertEquals($code, "class {$className} implements {$interfaceA}, {$interfaceB}
+{
+
+
+}
+");
+    }
+
+    /**
+     * @test
+     */
+    public function generateClassCodeWithParentClassAndSomeInterface()
+    {
+        $parentClassName = 'ExampleForClassGenerationParentClass';
+        $interfaceA = 'ExampleForClassGenerationInterfaceA';
+        $interfaceB = 'ExampleForClassGenerationInterfaceB';
+        $className = 'ExampleForClassGenerationWithParentClassAndSomeInterface';
+
+        $class = new Stagehand_Class($className);
+        $parentClass = new Stagehand_Class($parentClassName);
+        $classInterfaceA = new Stagehand_Class($interfaceA);
+        $classInterfaceB = new Stagehand_Class($interfaceB);
+        $class->setParentClass($parentClass);
+        $class->addInterface($classInterfaceA);
+        $class->addInterface($classInterfaceB);
+
+        $generator = new Stagehand_Class_CodeGenerator_Class($class);
+        $code = $generator->generate();
+
+        $this->assertEquals($code, "class {$className} extends {$parentClassName} implements {$interfaceA}, {$interfaceB}
+{
+
+
+}
+");
+
+        $class = new Stagehand_Class($className);
+        $class->setParentClass($parentClassName);
+        $class->addInterface($interfaceA);
+        $class->addInterface($interfaceB);
+
+        $generator = new Stagehand_Class_CodeGenerator_Class($class);
+        $code = $generator->generate();
+
+        $this->assertEquals($code, "class {$className} extends {$parentClassName} implements {$interfaceA}, {$interfaceB}
 {
 
 

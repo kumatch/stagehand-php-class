@@ -68,11 +68,14 @@ class Stagehand_Class
      */
 
     private $_name;
+
     private $_parentClass;
+    private $_interfaces = array();
+    private $_constants  = array();
     private $_properties = array();
-    private $_methods = array();
-    private $_constants = array();
-    private $_isAbstract = false;
+    private $_methods    = array();
+
+    private $_isAbstract  = false;
     private $_isInterface = false;
 
     /**#@-*/
@@ -117,6 +120,7 @@ class Stagehand_Class
     public function load()
     {
         $this->_initializeParentClass();
+        $this->_initializeInterface();
 
         $generator = Stagehand_Class_CodeGenerator::create($this);
         eval($generator->generate());
@@ -240,6 +244,45 @@ class Stagehand_Class
     }
 
     // }}}
+    // {{{ addInterface()
+
+    /**
+     * Addes a interface.
+     *
+     * @param mixed $interface
+     */
+    public function addInterface($interface)
+    {
+        array_push($this->_interfaces, $interface);
+    }
+
+    // }}}
+    // {{{ getInterfaces()
+
+    /**
+     * Gets all interfaces.
+     *
+     * @return array
+     */
+    public function getInterfaces()
+    {
+        return $this->_interfaces;
+    }
+
+    // }}}
+    // {{{ hasInterface()
+
+    /**
+     * Returns whether a class has the parent class.
+     *
+     * @param boolean
+     */
+    public function hasInterface()
+    {
+        return count($this->_interfaces) ? true : false;
+    }
+
+    // }}}
     // {{{ defineAbstract()
 
     /**
@@ -312,8 +355,6 @@ class Stagehand_Class
 
     /**
      * Initializes parent class.
-     *
-     * @throws Stagehand_Class_Exception
      */
     private function _initializeParentClass()
     {
@@ -321,11 +362,40 @@ class Stagehand_Class
             return;
         }
 
-        $parentClass = $this->getParentClass();
-        if ($parentClass instanceof Stagehand_Class) {
-            if (!class_exists($parentClass->getName())) {
-                $parentClass->load();
-            }
+        $this->_loadClass($this->getParentClass());
+    }
+
+    // }}}
+    // {{{ _initializeInterface()
+
+    /**
+     * Initializes parent class.
+     */
+    private function _initializeInterface()
+    {
+        if (!$this->hasInterface()) {
+            return;
+        }
+
+        foreach ($this->getInterfaces() as $interface) {
+            $this->_loadClass($interface);
+        }
+    }
+
+    // }}}
+    // {{{ _loadClass()
+
+    /**
+     * Loads class if Stagehand_Class instance does not loaded.
+     *
+     * @param mixed $class  Stagehand_Class instance or class name.
+     */
+    private function _loadClass($class)
+    {
+        if ($class instanceof Stagehand_Class
+            && !class_exists($class->getName())
+            ) {
+            $class->load();
         }
     }
 

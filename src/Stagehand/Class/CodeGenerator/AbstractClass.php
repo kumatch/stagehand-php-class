@@ -89,7 +89,7 @@ class Stagehand_Class_CodeGenerator_AbstractClass extends Stagehand_Class_CodeGe
      */
     protected function _getClassFormat()
     {
-        return "abstract class %s%s
+        return "abstract class %s%s%s
 {
 %s
 %s

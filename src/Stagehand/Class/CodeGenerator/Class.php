@@ -101,6 +101,7 @@ class Stagehand_Class_CodeGenerator_Class
         return sprintf($this->_getClassFormat(),
                        $this->_class->getName(),
                        $this->_getParentClassCode(),
+                       $this->_getInterfacesCode(),
                        $this->_getAllConstantsCode(),
                        $this->_getAllPropertiesCode(),
                        $this->_getAllMethodsCode()
@@ -123,7 +124,7 @@ class Stagehand_Class_CodeGenerator_Class
      */
     protected function _getClassFormat()
     {
-        return "class %s%s
+        return "class %s%s%s
 {
 %s
 %s
@@ -274,7 +275,6 @@ class Stagehand_Class_CodeGenerator_Class
      * Gets parent class code.
      *
      * @return string
-     * @throws Stagehand_Class_Exception
      */
     protected function _getParentClassCode()
     {
@@ -290,6 +290,32 @@ class Stagehand_Class_CodeGenerator_Class
         }
 
         return $code;
+    }
+
+    // }}}
+    // {{{ _getInterfacesCode()
+
+    /**
+     * Gets interfaces code.
+     *
+     * @return string
+     */
+    protected function _getInterfacesCode()
+    {
+        if (!$this->_class->hasInterface()) {
+            return;
+        }
+
+        $interfaceNames = array();
+        foreach ($this->_class->getInterfaces() as $interface) {
+            if ($interface instanceof Stagehand_Class) {
+                array_push($interfaceNames, $interface->getName());
+            } else {
+                array_push($interfaceNames, $interface);
+            }
+        }
+
+        return ' implements ' . implode(', ', $interfaceNames);
     }
 
     // }}}
