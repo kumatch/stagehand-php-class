@@ -94,7 +94,7 @@ class Stagehand_Class_CodeGeneratorTest extends PHPUnit_Framework_TestCase
     public function createAbstractClassGenerator()
     {
         $class = new Stagehand_Class('Example');
-        $class->setAbstract();
+        $class->defineAbstract();
         $generator = Stagehand_Class_CodeGenerator::create($class);
 
         $this->assertType('Stagehand_Class_CodeGenerator_AbstractClass', $generator);

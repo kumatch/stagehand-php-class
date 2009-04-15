@@ -89,7 +89,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     public function __construct($name)
     {
         $this->_name = $name;
-        $this->setPublic();
+        $this->definePublic();
     }
 
     // }}}
@@ -174,13 +174,13 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     }
 
     // }}}
-    // {{{ setAbstract()
+    // {{{ defineAbstract()
 
     /**
-     * Sets the abstract method.
+     * Defines the abstract method.
      *
      */
-    public function setAbstract($isAbstract = true)
+    public function defineAbstract($isAbstract = true)
     {
         $this->_isAbstract = $isAbstract ? true : false;
     }

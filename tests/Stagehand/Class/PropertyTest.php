@@ -99,7 +99,7 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
     {
         $name = 'example';
         $property = new Stagehand_Class_Property($name);
-        $property->setProtected();
+        $property->defineProtected();
 
         $this->assertEquals($property->getName(), $name);
         $this->assertEquals($property->getVisibility(), 'protected');
@@ -115,7 +115,7 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
     {
         $name = 'example';
         $property = new Stagehand_Class_Property($name);
-        $property->setPrivate();
+        $property->definePrivate();
 
         $this->assertEquals($property->getName(), $name);
         $this->assertEquals($property->getVisibility(), 'private');
@@ -247,7 +247,7 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($property->getName(), $name);
         $this->assertFalse($property->isStatic());
 
-        $property->setStatic();
+        $property->defineStatic();
 
         $this->assertTrue($property->isStatic());
     }

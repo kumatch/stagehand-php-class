@@ -89,7 +89,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     {
         $this->_name = $name;
         $this->setValue($value);
-        $this->setPublic();
+        $this->definePublic();
     }
 
     // }}}

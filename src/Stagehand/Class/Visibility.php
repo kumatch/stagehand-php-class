@@ -93,7 +93,7 @@ abstract class Stagehand_Class_Visibility
             throw new Stagehand_Class_Exception("Unknown visibility keyword [ $keyword ], should be 'public', 'protected', or 'private'.");
         }
 
-        $this->{ 'set' . ucfirst($visibility) }();
+        $this->{ 'define' . ucfirst($visibility) }();
     }
 
     // }}}
@@ -110,34 +110,34 @@ abstract class Stagehand_Class_Visibility
     }
 
     // }}}
-    // {{{ setPublic()
+    // {{{ definePublic()
 
     /**
-     * Sets the visibility to public.
+     * Defines the visibility to public.
      */
-    public function setPublic()
+    public function definePublic()
     {
         return $this->_type = new Stagehand_Class_Visibility_Public();
     }
 
     // }}}
-    // {{{ setProtected()
+    // {{{ defineProtected()
 
     /**
-     * Sets the visibility to protected.
+     * Defines the visibility to protected.
      */
-    public function setProtected()
+    public function defineProtected()
     {
         return $this->_type = new Stagehand_Class_Visibility_Protected();
     }
 
     // }}}
-    // {{{ setPrivate()
+    // {{{ definePrivate()
 
     /**
-     * Sets the visibility to private.
+     * Defines the visibility to private.
      */
-    public function setPrivate()
+    public function definePrivate()
     {
         return $this->_type = new Stagehand_Class_Visibility_Private();
     }

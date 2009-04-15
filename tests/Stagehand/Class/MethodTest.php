@@ -105,7 +105,7 @@ return 1;');
         $method = new Stagehand_Class_Method($name);
         $method->setCode('$a = 0;
 return 1;');
-        $method->setProtected();
+        $method->defineProtected();
 
         $this->assertEquals($method->getName(), $name);
         $this->assertEquals($method->getVisibility(), 'protected');
@@ -124,7 +124,7 @@ return 1;');
         $method = new Stagehand_Class_Method($name);
         $method->setCode('$a = 0;
 return 1;');
-        $method->setPrivate();
+        $method->definePrivate();
 
         $this->assertEquals($method->getName(), $name);
         $this->assertEquals($method->getVisibility(), 'private');
@@ -198,7 +198,7 @@ return 1;');
         $this->assertEquals($method->getName(), $name);
         $this->assertFalse($method->isStatic());
 
-        $method->setStatic();
+        $method->defineStatic();
 
         $this->assertTrue($method->isStatic());
     }
@@ -216,7 +216,7 @@ return 1;');
         $this->assertEquals($method->getName(), $name);
         $this->assertFalse($method->isAbstract());
 
-        $method->setAbstract();
+        $method->defineAbstract();
 
         $this->assertTrue($method->isAbstract());
     }

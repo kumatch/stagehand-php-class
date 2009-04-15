@@ -76,12 +76,12 @@ abstract class Stagehand_Class_Declaration extends Stagehand_Class_Visibility
      */
 
     // }}}
-    // {{{ setStatic()
+    // {{{ defineStatic()
 
     /**
-     * Sets to static.
+     * Defines to static.
      */
-    public function setStatic()
+    public function defineStatic()
     {
         $this->_isStatic = true;
     }

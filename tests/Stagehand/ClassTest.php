@@ -102,9 +102,9 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $propertyC = new Stagehand_Class_Property('c');
         $propertyD = new Stagehand_Class_Property('d', array(1, 3, 5));
         $propertyE = new Stagehand_Class_Property('e', 200);
-        $propertyB->setProtected();
-        $propertyC->setPrivate();
-        $propertyE->setStatic();
+        $propertyB->defineProtected();
+        $propertyC->definePrivate();
+        $propertyE->defineStatic();
 
         $class->addProperty($propertyA);
         $class->addProperty($propertyB);
@@ -156,11 +156,11 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $methodBaz->setCode('return $baz[1];');
 
         $methodQux = new Stagehand_Class_Method('qux');
-        $methodQux->setProtected();
+        $methodQux->defineProtected();
         $methodQux->setCode('return true;');
 
         $methodQuux = new Stagehand_Class_Method('quux');
-        $methodQuux->setPrivate();
+        $methodQuux->definePrivate();
         $methodQuux->setCode('return true;');
 
         $class->addMethod($methodFoo);
@@ -291,17 +291,17 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function setAbstractAndUse()
+    public function defineAbstractAndUse()
     {
         $className = 'ExampleForAbsctuction';
         $class = new Stagehand_Class($className);
-        $class->setAbstract();
+        $class->defineAbstract();
 
         $propertyA = new Stagehand_Class_Property('a', 10);
         $methodB = new Stagehand_Class_Method('b');
         $methodB->setCode("return 'foo';");
         $methodC = new Stagehand_Class_Method('c');
-        $methodC->setAbstract();
+        $methodC->defineAbstract();
 
         $class->addProperty($propertyA);
         $class->addMethod($methodB);
@@ -329,21 +329,21 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function setInterfaceAndUse()
+    public function defineInterfaceAndUse()
     {
         $className = 'ExampleForInterface';
         $class = new Stagehand_Class($className);
-        $class->setInterface();
+        $class->defineInterface();
 
         $propertyA = new Stagehand_Class_Property('a');
         $methodB = new Stagehand_Class_Method('b');
         $methodC = new Stagehand_Class_Method('c');
-        $methodC->setAbstract();
-        $methodC->setStatic();
+        $methodC->defineAbstract();
+        $methodC->defineStatic();
         $methodD = new Stagehand_Class_Method('d');
-        $methodD->setProtected();
+        $methodD->defineProtected();
         $methodE = new Stagehand_Class_Method('e');
-        $methodE->setPrivate();
+        $methodE->definePrivate();
 
         $class->addProperty($propertyA);
         $class->addMethod($methodB);

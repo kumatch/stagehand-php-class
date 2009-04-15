@@ -240,13 +240,13 @@ class Stagehand_Class
     }
 
     // }}}
-    // {{{ setAbstract()
+    // {{{ defineAbstract()
 
     /**
-     * Sets the abstract class.
+     * Defines the abstract class.
      *
      */
-    public function setAbstract($isAbstract = true)
+    public function defineAbstract($isAbstract = true)
     {
         $this->_isAbstract = $isAbstract ? true : false;
         if ($this->_isAbstract) {
@@ -268,13 +268,13 @@ class Stagehand_Class
     }
 
     // }}}
-    // {{{ setInterface()
+    // {{{ defineInterface()
 
     /**
-     * Sets the interface class.
+     * Defines the interface class.
      *
      */
-    public function setInterface($isInterface = true)
+    public function defineInterface($isInterface = true)
     {
         $this->_isInterface = $isInterface ? true : false;
         if ($this->_isInterface) {
@@ -315,7 +315,7 @@ class Stagehand_Class
      *
      * @throws Stagehand_Class_Exception
      */
-    public function _initializeParentClass()
+    private function _initializeParentClass()
     {
         if (!$this->hasParentClass()) {
             return;

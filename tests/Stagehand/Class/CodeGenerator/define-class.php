@@ -45,9 +45,9 @@ function define_class_for_code_genration_test()
     $protectedProperty = new Stagehand_Class_Property('b', 100);
     $privateProperty   = new Stagehand_Class_Property('c', array(1, 3, 5));
     $staticProperty    = new Stagehand_Class_Property('d', 'static');
-    $protectedProperty->setProtected();
-    $privateProperty->setPrivate();
-    $staticProperty->setStatic();
+    $protectedProperty->defineProtected();
+    $privateProperty->definePrivate();
+    $staticProperty->defineStatic();
 
     $publicMethod    = new Stagehand_Class_Method('foo');
     $protectedMethod = new Stagehand_Class_Method('bar');
@@ -55,20 +55,20 @@ function define_class_for_code_genration_test()
     $staticMethod    = new Stagehand_Class_Method('qux');
     $abstractMethod  = new Stagehand_Class_Method('quux');
     $abstractStaticMethod = new Stagehand_Class_Method('corge');
-    $protectedMethod->setProtected();
+    $protectedMethod->defineProtected();
     $protectedMethod->addArgument('a');
     $protectedMethod->addArgument('b');
     $protectedMethod->setCode('return true;');
-    $privateMethod->setPrivate();
+    $privateMethod->definePrivate();
     $privateMethod->addArgument('c', false);
     $privateMethod->addArgument('d', false, 'd');
     $privateMethod->setCode('$c += 1;
 return $d;');
-    $staticMethod->setStatic();
+    $staticMethod->defineStatic();
     $staticMethod->addArgument('e', false, array(2, 4, 6));
-    $abstractMethod->setAbstract();
-    $abstractStaticMethod->setAbstract();
-    $abstractStaticMethod->setStatic();
+    $abstractMethod->defineAbstract();
+    $abstractStaticMethod->defineAbstract();
+    $abstractStaticMethod->defineStatic();
 
     $constant1 = new Stagehand_Class_Constant('A');
     $constant2 = new Stagehand_Class_Constant('B', 10);
