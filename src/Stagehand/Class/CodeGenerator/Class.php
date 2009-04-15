@@ -102,8 +102,7 @@ class Stagehand_Class_CodeGenerator_Class
 {
 %s
 %s
-%s
-}
+%s}
 ";
 
         return sprintf($format,
@@ -138,10 +137,10 @@ class Stagehand_Class_CodeGenerator_Class
     {
         $allPropertiesCode = null;
         foreach ($this->_class->getProperties() as $property) {
-            $allPropertiesCode .= "    " . $this->_createPropertyCode($property) . "\n";
+            $allPropertiesCode .= $this->_createPropertyCode($property) . "\n";
         }
 
-        return $allPropertiesCode;
+        return $this->_indentCode($allPropertiesCode);
     }
 
     // }}}
@@ -156,13 +155,10 @@ class Stagehand_Class_CodeGenerator_Class
     {
         $allMethodsCode = null;
         foreach ($this->_class->getMethods() as $method) {
-            foreach (explode("\n", $this->_createMethodCode($method)) as $line) {
-                $allMethodsCode .= "    " . $line . "\n";
-            }
-            $allMethodsCode .= "\n";
+            $allMethodsCode .= $this->_createMethodCode($method) . "\n";
         }
 
-        return $allMethodsCode;;
+        return $this->_indentCode($allMethodsCode);
     }
 
     // }}}
@@ -177,10 +173,10 @@ class Stagehand_Class_CodeGenerator_Class
     {
         $allConstantsCode = null;
         foreach ($this->_class->getConstants() as $constant) {
-            $allConstantsCode .= "    " . $this->_createConstantCode($constant) . "\n";
+            $allConstantsCode .= $this->_createConstantCode($constant) . "\n";
         }
 
-        return $allConstantsCode;;
+        return $this->_indentCode($allConstantsCode);
     }
 
     // }}}
@@ -227,7 +223,8 @@ class Stagehand_Class_CodeGenerator_Class
         }
 
         $format = "%s%s function %s(%s)
-{%s}";
+{
+%s}";
 
         return sprintf($format,
                        $method->getVisibility(),
@@ -287,10 +284,13 @@ class Stagehand_Class_CodeGenerator_Class
      */
     private function _indentCode($code)
     {
-        $indentedCode = "\n";
+        if (!$code) {
+            return;
+        }
 
-        if ($code) {
-            foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
+        $indentedCode = null;
+        foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
+            if ($line) {
                 $indentedCode .= "    {$line}\n";
             }
         }

@@ -137,27 +137,24 @@ return $d;');
     public \$a;
     protected \$b = 100;
     private \$c = array (
-  0 => 1,
-  1 => 3,
-  2 => 5,
-);
+      0 => 1,
+      1 => 3,
+      2 => 5,
+    );
     public static \$d = 'static';
 
     public function foo()
     {
     }
-
     protected function bar(\$a, \$b)
     {
         return true;
     }
-
     private function baz(\$c = NULL, \$d = 'd')
     {
         \$c += 1;
         return \$d;
     }
-
     public static function qux(\$e = array (
       0 => 2,
       1 => 4,
@@ -165,11 +162,8 @@ return $d;');
     ))
     {
     }
-
-
 }
 ");
-
     }
 
     /**
