@@ -277,7 +277,7 @@ class Stagehand_Class
     public function setInterface($isInterface = true)
     {
         $this->_isInterface = $isInterface ? true : false;
-        if ($this->_isIntarface) {
+        if ($this->_isInterface) {
             $this->_isAbstract = false;
         }
     }
