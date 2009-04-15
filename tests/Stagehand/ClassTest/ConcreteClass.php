@@ -61,6 +61,11 @@ class ConcreteClass extends ExampleForAbsctuction
      * @access protected
      */
 
+    public function c()
+    {
+        return 'bar';
+    }
+
     /**#@-*/
 
     /**#@+
