@@ -98,7 +98,7 @@ class Stagehand_Class_CodeGenerator_Class
      */
     public function generate()
     {
-        $format = "class %s
+        $format = "class %s%s
 {
 %s
 %s
@@ -107,6 +107,7 @@ class Stagehand_Class_CodeGenerator_Class
 
         return sprintf($format,
                        $this->_class->getName(),
+                       $this->_getParentClassCode(),
                        $this->_getAllConstantsCode(),
                        $this->_getAllPropertiesCode(),
                        $this->_getAllMethodsCode()
@@ -311,6 +312,31 @@ class Stagehand_Class_CodeGenerator_Class
         return sprintf('const %s = %s;',
                        $constant->getName(), var_export($constant->getValue(), true)
                        );
+    }
+
+    // }}}
+    // {{{ _getParentClassCode()
+
+    /**
+     * Gets parent class code.
+     *
+     * @return string
+     * @throws Stagehand_Class_Exception
+     */
+    public function _getParentClassCode()
+    {
+        if (!$this->_class->hasParentClass()) {
+            return;
+        }
+
+        $parentClass = $this->_class->getParentClass();
+        if ($parentClass instanceof Stagehand_Class) {
+            $code = ' extends ' . $parentClass->getName();
+        } else {
+            $code = ' extends ' . $parentClass;
+        }
+
+        return $code;
     }
 
     /**#@-*/

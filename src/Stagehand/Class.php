@@ -227,6 +227,32 @@ class Stagehand_Class
     }
 
     // }}}
+    // {{{ getParentClass()
+
+    /**
+     * Gets parent class.
+     *
+     * @return mixed
+     */
+    public function getParentClass()
+    {
+        return $this->_parentClass;
+    }
+
+    // }}}
+    // {{{ hasParentClass()
+
+    /**
+     * Returns whether a class has the parent class.
+     *
+     * @param boolean
+     */
+    public function hasParentClass()
+    {
+        return $this->_parentClass ? true : false;
+    }
+
+    // }}}
     // {{{ setAbstract()
 
     /**

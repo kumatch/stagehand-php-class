@@ -167,57 +167,37 @@ return $d;');
     }
 
     /**
-     * @foo
+     * @test
      */
-    public function setMethodAndAccessMethods()
+    public function generateClassCodeWidhParentClass()
     {
-        $className = 'ExampleForMethod';
-        $class = new Stagehand_Class($className);
+        $baseName = 'ExampleForExtendBaseClassGeneration';
+        $childName = 'ExampleForExtendChildClassGeneration';
 
-        $methodFoo = new Stagehand_Class_Method('foo');
-        $methodFoo->setCode('return 10;');
+        $baseClass = new Stagehand_Class($baseName);
+        $childClass = new Stagehand_Class($childName);
+        $childClass->setParentClass($baseClass);
 
-        $methodBar = new Stagehand_Class_Method('bar');
-        $methodBar->addArgument('bar');
-        $methodBar->setCode('return $bar;');
+        $generator = new Stagehand_Class_CodeGenerator_Class($childClass);
+        $code = $generator->generate();
+        
+        $this->assertEquals($code, "class {$childName} extends {$baseName}
+{
 
-        $methodBaz = new Stagehand_Class_Method('baz');
-        $methodBaz->addArgument('baz', false, array(10, 30, 50));
-        $methodBaz->setCode('return $baz[1];');
 
-        $methodQux = new Stagehand_Class_Method('qux');
-        $methodQux->setProtected();
-        $methodQux->setCode('return true;');
+}
+");
 
-        $methodQuux = new Stagehand_Class_Method('quux');
-        $methodQuux->setPrivate();
-        $methodQuux->setCode('return true;');
+        $childClass->setParentClass($baseName);
+        $generator = new Stagehand_Class_CodeGenerator_Class($childClass);
+        $code = $generator->generate();
+        
+        $this->assertEquals($code, "class {$childName} extends {$baseName}
+{
 
-        $class->addMethod($methodFoo);
-        $class->addMethod($methodBar);
-        $class->addMethod($methodBaz);
-        $class->addMethod($methodQux);
-        $class->addMethod($methodQuux);
 
-        $class->load();
-        $instance = new $className;
-
-        $refClass = new ReflectionClass($className);
-        $foo = $refClass->getMethod('foo');
-        $bar = $refClass->getMethod('bar');
-        $baz = $refClass->getMethod('baz');
-        $qux = $refClass->getMethod('qux');
-        $quux = $refClass->getMethod('quux');
-
-        $this->assertTrue($foo->isPublic());
-        $this->assertTrue($bar->isPublic());
-        $this->assertTrue($baz->isPublic());
-        $this->assertTrue($qux->isProtected());
-        $this->assertTrue($quux->isPrivate());
-
-        $this->assertEquals($instance->foo(), 10);
-        $this->assertEquals($instance->bar(20), 20);
-        $this->assertEquals($instance->baz(), 30);
+}
+");
     }
 
     /**#@-*/
