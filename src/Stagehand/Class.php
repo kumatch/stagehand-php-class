@@ -115,24 +115,10 @@ class Stagehand_Class
      */
     public function load()
     {
-        $format = "%sclass %s%s
-{
-%s
-%s
-%s
-}
-";
+        $this->_initializeParentClass();
 
-        $classContent = sprintf($format,
-                                $this->isAbstract() ? 'abstract ' : null,
-                                $this->getName(),
-                                $this->_getParentClassCode(),
-                                $this->_getAllConstantsCode(),
-                                $this->_getAllPropertiesCode(),
-                                $this->_getAllMethodsCode()
-                                );
-
-        eval($classContent);
+        $generator = Stagehand_Class_CodeGenerator::create($this);
+        eval($generator->generate());
     }
 
     // }}}
@@ -290,35 +276,25 @@ class Stagehand_Class
      */
 
     // }}}
-    // {{{ _getParentClassCode()
+    // {{{ _initializeParentClass()
 
     /**
-     * Gets parent class code.
+     * Initializes parent class.
      *
-     * @return string
      * @throws Stagehand_Class_Exception
      */
-    public function _getParentClassCode()
+    public function _initializeParentClass()
     {
-        if (!$this->_parentClass) {
+        if (!$this->hasParentClass()) {
             return;
         }
 
-        $parentClassCode = null;
-        if ($this->_parentClass instanceof Stagehand_Class) {
-            $className = $this->_parentClass->getName();
-            if (!class_exists($className)) {
-                $this->_parentClass->load();
-            }
-        } else {
-            $className = $this->_parentClass;
-            if (!class_exists($className)) {
-                throw new Stagehand_Class_Exception("The class [{$className}] does not exists.");
+        $parentClass = $this->getParentClass();
+        if ($parentClass instanceof Stagehand_Class) {
+            if (!class_exists($parentClass->getName())) {
+                $parentClass->load();
             }
         }
-
-        $parentClassCode = ' extends ' . $className;
-        return $parentClassCode;
     }
 
     /**#@-*/
