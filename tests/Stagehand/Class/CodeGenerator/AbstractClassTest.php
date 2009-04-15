@@ -80,62 +80,15 @@ class Stagehand_Class_CodeGenerator_AbstractClassTest extends PHPUnit_Framework_
     /**
      * @test
      */
-    public function generateClassCode()
+    public function generateAbstractClassCode()
     {
-        $className = 'ExampleForAbstractClassCodeGeneration';
-        $class = new Stagehand_Class($className);
-
-        $publicProperty    = new Stagehand_Class_Property('a');
-        $protectedProperty = new Stagehand_Class_Property('b', 100);
-        $privateProperty   = new Stagehand_Class_Property('c', array(1, 3, 5));
-        $staticProperty    = new Stagehand_Class_Property('d', 'static');
-        $protectedProperty->setProtected();
-        $privateProperty->setPrivate();
-        $staticProperty->setStatic();
-
-        $publicMethod    = new Stagehand_Class_Method('foo');
-        $protectedMethod = new Stagehand_Class_Method('bar');
-        $privateMethod   = new Stagehand_Class_Method('baz');
-        $staticMethod    = new Stagehand_Class_Method('qux');
-        $abstractMethod  = new Stagehand_Class_Method('quux');
-        $abstractStaticMethod = new Stagehand_Class_Method('corge');
-        $protectedMethod->setProtected();
-        $protectedMethod->addArgument('a');
-        $protectedMethod->addArgument('b');
-        $protectedMethod->setCode('return true;');
-        $privateMethod->setPrivate();
-        $privateMethod->addArgument('c', false);
-        $privateMethod->addArgument('d', false, 'd');
-        $privateMethod->setCode('$c += 1;
-return $d;');
-        $staticMethod->setStatic();
-        $staticMethod->addArgument('e', false, array(2, 4, 6));
-        $abstractMethod->setAbstract();
-        $abstractStaticMethod->setAbstract();
-        $abstractStaticMethod->setStatic();
-
-        $constant1 = new Stagehand_Class_Constant('A');
-        $constant2 = new Stagehand_Class_Constant('B', 10);
-        $constant3 = new Stagehand_Class_Constant('C', 'text constant');
-
-        $class->addProperty($publicProperty);
-        $class->addProperty($protectedProperty);
-        $class->addProperty($privateProperty);
-        $class->addProperty($staticProperty);
-        $class->addMethod($publicMethod);
-        $class->addMethod($protectedMethod);
-        $class->addMethod($privateMethod);
-        $class->addMethod($staticMethod);
-        $class->addMethod($abstractMethod);
-        $class->addMethod($abstractStaticMethod);
-        $class->addConstant($constant1);
-        $class->addConstant($constant2);
-        $class->addConstant($constant3);
+        require_once dirname(__FILE__) . '/define-class.php';
+        $class = define_class_for_code_genration_test();
 
         $generator = new Stagehand_Class_CodeGenerator_AbstractClass($class);
         $code = $generator->generate();
 
-        $this->assertEquals($code, "abstract class {$className}
+        $this->assertEquals($code, "abstract class ExampleForCodeGenerationTest
 {
     const A = NULL;
     const B = 10;
