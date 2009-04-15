@@ -145,7 +145,6 @@ return $d;');
 
     public function foo()
     {
-        
     }
 
     protected function bar(\$a, \$b)
@@ -165,7 +164,6 @@ return $d;');
       2 => 6,
     ))
     {
-        
     }
 
 

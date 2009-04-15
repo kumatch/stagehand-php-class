@@ -135,6 +135,19 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     }
 
     // }}}
+    // {{{ getArguments()
+
+    /**
+     * Gets all method arguments.
+     *
+     * @return array
+     */
+    public function getArguments()
+    {
+        return $this->_arguments;
+    }
+
+    // }}}
     // {{{ setCode()
 
     /**
@@ -148,31 +161,16 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     }
 
     // }}}
-    // {{{ getPartialCode()
+    // {{{ getCode()
 
     /**
-     * Gets a partial code for class method.
+     * Gets a method code.
      *
      * @return string
      */
-    public function getPartialCode()
+    public function getCode()
     {
-        if ($this->isAbstract()) {
-            $format = "abstract %s%s function %s(%s);";
-        } else {
-            $format = "%s%s function %s(%s)
-{
-%s
-}";
-        }
-
-        return sprintf($format,
-                       $this->getVisibility(),
-                       $this->isStatic() ? ' static' : null,
-                       $this->_name,
-                       $this->_formatArguments($this->_arguments),
-                       $this->_indentCode($this->_code)
-                       );
+        return $this->_code;
     }
 
     // }}}
@@ -211,56 +209,6 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     /**#@+
      * @access private
      */
-
-    // }}}
-    // {{{ _formatArguments()
-
-    /**
-     * Formats arguments available to class method.
-     *
-     * @param string  $code
-     * @return string
-     */
-    public function _formatArguments($arguments)
-    {
-        $formatedArguments = null;
-
-        foreach ($arguments as $argument) {
-            if (!is_null($formatedArguments)) {
-                $formatedArguments .= ', ';
-            }
-
-            $formatedArguments .= '$' . $argument->getName();
-            if (!$argument->isRequired()) {
-                $formatedArguments .= ' = ' . $argument->getValue();
-            }
-        }
-
-        return $formatedArguments;
-    }
-
-    // }}}
-    // {{{ _indentCode()
-
-    /**
-     * Indents code lines.
-     *
-     * @param string  $code
-     * @return string
-     */
-    public function _indentCode($code)
-    {
-        $indentedCode = null;
-
-        foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
-            if (!is_null($indentedCode)) {
-                $indentedCode .= "\n";
-            }
-            $indentedCode .= "    $line";
-        }
-
-        return $indentedCode;
-    }
 
     /**#@-*/
 

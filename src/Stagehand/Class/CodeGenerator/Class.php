@@ -152,11 +152,11 @@ class Stagehand_Class_CodeGenerator_Class
      *
      * @return string
      */
-    public function _getAllMethodsCode()
+    private function _getAllMethodsCode()
     {
         $allMethodsCode = null;
         foreach ($this->_class->getMethods() as $method) {
-            foreach (explode("\n", $method->getPartialCode()) as $line) {
+            foreach (explode("\n", $this->_createMethodCode($method)) as $line) {
                 $allMethodsCode .= "    " . $line . "\n";
             }
             $allMethodsCode .= "\n";
@@ -173,7 +173,7 @@ class Stagehand_Class_CodeGenerator_Class
      *
      * @return string
      */
-    public function _getAllConstantsCode()
+    private function _getAllConstantsCode()
     {
         $allConstantsCode = null;
         foreach ($this->_class->getConstants() as $constant) {
@@ -189,6 +189,7 @@ class Stagehand_Class_CodeGenerator_Class
     /**
      * Creates a partial code for class property.
      *
+     ` @param  Stagehand_Class_Property $property
      * @return string
      */
     private function _createPropertyCode($property)
@@ -208,6 +209,78 @@ class Stagehand_Class_CodeGenerator_Class
                        $property->isStatic() ? ' static' : null,
                        $property->getName(), $formatedValue
                        );
+    }
+
+    // }}}
+    // {{{ _createMethodCode()
+
+    /**
+     * Creates a partial code for class method.
+     *
+     ` @param  Stagehand_Class_Method $method
+     * @return string
+     */
+    private function _createMethodCode($method)
+    {
+        if ($method->isAbstract()) {
+            return;
+        }
+
+        $format = "%s%s function %s(%s)
+{%s}";
+
+        return sprintf($format,
+                       $method->getVisibility(),
+                       $method->isStatic() ? ' static' : null,
+                       $method->getName(),
+                       $this->_formatArguments($method->getArguments()),
+                       $this->_indentCode($method->getCode())
+                       );
+    }
+
+    // }}}
+    // {{{ _formatArguments()
+
+    /**
+     * Formats arguments available to class method.
+     *
+     * @param string  $code
+     * @return string
+     */
+    private function _formatArguments($arguments)
+    {
+        $formatedArguments = array();
+        foreach ($arguments as $argument) {
+            $oneArg = '$' . $argument->getName();
+            if (!$argument->isRequired()) {
+                $oneArg .= ' = ' . $argument->getValue();
+            }
+            array_push($formatedArguments, $oneArg);
+        }
+
+        return implode(', ', $formatedArguments);
+    }
+
+    // }}}
+    // {{{ _indentCode()
+
+    /**
+     * Indents code lines.
+     *
+     * @param string  $code
+     * @return string
+     */
+    private function _indentCode($code)
+    {
+        $indentedCode = "\n";
+
+        if ($code) {
+            foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
+                $indentedCode .= "    {$line}\n";
+            }
+        }
+
+        return $indentedCode;
     }
 
     /**#@-*/
