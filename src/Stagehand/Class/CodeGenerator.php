@@ -86,6 +86,8 @@ class Stagehand_Class_CodeGenerator extends Stagehand_Class_Declaration
     {
         if ($class->isAbstract()) {
             return new Stagehand_Class_CodeGenerator_AbstractClass($class);
+        } elseif ($class->isInterface()) {
+            return new Stagehand_Class_CodeGenerator_Interface($class);
         } else {
             return new Stagehand_Class_CodeGenerator_Class($class);
         }
