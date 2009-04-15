@@ -90,7 +90,6 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($property->isPublic());
         $this->assertFalse($property->isProtected());
         $this->assertFalse($property->isPrivate());
-        $this->assertRegExp(sprintf('/public[ ]+\$%s;/', $name), $property->getPartialCode());
     }
 
     /**
@@ -107,7 +106,6 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($property->isPublic());
         $this->assertTrue($property->isProtected());
         $this->assertFalse($property->isPrivate());
-        $this->assertRegExp(sprintf('/protected[ ]+\$%s;/', $name), $property->getPartialCode());
     }
 
     /**
@@ -124,7 +122,6 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($property->isPublic());
         $this->assertFalse($property->isProtected());
         $this->assertTrue($property->isPrivate());
-        $this->assertRegExp(sprintf('/private[ ]+\$%s;/', $name), $property->getPartialCode());
     }
 
     /**
@@ -136,13 +133,11 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $property = new Stagehand_Class_Property($name);
 
         $this->assertEquals($property->getName(), $name);
-        $this->assertRegExp(sprintf('/public[ ]+\$%s;/', $name), $property->getPartialCode());
 
         $name = 'otherName';
         $property->setName($name);
 
         $this->assertEquals($property->getName(), $name);
-        $this->assertRegExp(sprintf('/public[ ]+\$%s;/', $name), $property->getPartialCode());
     }
 
     /**
@@ -196,18 +191,12 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($property->getName(), $name);
         $this->assertEquals($property->getValue(), $value);
-        $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value),
-                            $property->getPartialCode()
-                            );
 
         $value = 'Bar';
         $property->setValue($value);
 
         $this->assertEquals($property->getName(), $name);
         $this->assertEquals($property->getValue(), $value);
-        $this->assertRegExp(sprintf('/public[ ]+\$%s = \'%s\';/', $name, $value),
-                            $property->getPartialCode()
-                            );
     }
 
     /**
@@ -221,13 +210,6 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($property->getName(), $name);
         $this->assertEquals($property->getValue(), $value);
-        $this->assertRegExp(sprintf('/public[ ]+\$%s = array \(
-  0 => 1,
-  1 => 3,
-  2 => 5,
-\);/', $name
-                                    ), $property->getPartialCode()
-                            );
     }
 
     /**
@@ -264,12 +246,10 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($property->getName(), $name);
         $this->assertFalse($property->isStatic());
-        $this->assertNotRegExp('/public static/', $property->getPartialCode());
 
         $property->setStatic();
 
         $this->assertTrue($property->isStatic());
-        $this->assertRegExp('/public static/', $property->getPartialCode());
     }
 
     /**#@-*/

@@ -93,10 +93,6 @@ class Stagehand_Class_ConstantTest extends PHPUnit_Framework_TestCase
         $this->assertNull($foo->getValue());
         $this->assertEquals($bar->getValue(), 10);
         $this->assertEquals($baz->getValue(), 'baz');
-
-        $this->assertRegExp('/^const foo = NULL;$/',    $foo->getPartialCode());
-        $this->assertRegExp('/^const bar = 10;$/',      $bar->getPartialCode());
-        $this->assertRegExp('/^const baz = \'baz\';$/', $baz->getPartialCode());
     }
 
     /**

@@ -267,19 +267,6 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Stagehand_Class_Exception
-     */
-    public function catchTheExceptionIfExtendingClassDoesNotExists()
-    {
-        $childName = 'ExampleForEClassDoesNotExistsTest';
-        $childClass = new Stagehand_Class($childName);
-
-        $childClass->setParentClass('DummyClassName');
-        $childClass->load();
-    }
-
-    /**
-     * @test
      */
     public function setConstantAndAccessConstants()
     {

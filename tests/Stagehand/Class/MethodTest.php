@@ -93,14 +93,6 @@ return 1;');
         $this->assertTrue($method->isPublic());
         $this->assertFalse($method->isProtected());
         $this->assertFalse($method->isPrivate());
-
-        $this->assertEquals($method->getPartialCode(),
-                            'public function getFoo()
-{
-    $a = 0;
-    return 1;
-}
-');
     }
 
     /**
@@ -120,14 +112,6 @@ return 1;');
         $this->assertFalse($method->isPublic());
         $this->assertTrue($method->isProtected());
         $this->assertFalse($method->isPrivate());
-
-        $this->assertEquals($method->getPartialCode(),
-                            'protected function getFoo()
-{
-    $a = 0;
-    return 1;
-}
-');
     }
 
     /**
@@ -147,14 +131,6 @@ return 1;');
         $this->assertFalse($method->isPublic());
         $this->assertFalse($method->isProtected());
         $this->assertTrue($method->isPrivate());
-
-        $this->assertEquals($method->getPartialCode(),
-                            'private function getFoo()
-{
-    $a = 0;
-    return 1;
-}
-');
     }
 
     /**
@@ -177,19 +153,6 @@ return 1;');
         $this->assertTrue($method->isPublic());
         $this->assertFalse($method->isProtected());
         $this->assertFalse($method->isPrivate());
-
-        $this->assertEquals($method->getPartialCode(),
-                            'public function getFoo($foo, $bar = NULL, $baz = 10, $qux = array (
-  0 => 1,
-  1 => 3,
-  2 => \'abc\',
-))
-{
-    $a = 0;
-    return 1;
-}
-');
-
     }
 
     /**
@@ -234,12 +197,10 @@ return 1;');
 
         $this->assertEquals($method->getName(), $name);
         $this->assertFalse($method->isStatic());
-        $this->assertNotRegExp('/public static function/', $method->getPartialCode());
 
         $method->setStatic();
 
         $this->assertTrue($method->isStatic());
-        $this->assertRegExp('/public static function/', $method->getPartialCode());
     }
 
     /**
@@ -254,19 +215,10 @@ return 1;');
 
         $this->assertEquals($method->getName(), $name);
         $this->assertFalse($method->isAbstract());
-        $this->assertEquals($method->getPartialCode(),
-                            'public function getFoo()
-{
-    return 1;
-}
-');
 
         $method->setAbstract();
 
         $this->assertTrue($method->isAbstract());
-        $this->assertEquals($method->getPartialCode(),
-                            'abstract public function getFoo();'
-                            );
     }
 
     /**#@-*/
