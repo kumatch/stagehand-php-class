@@ -37,7 +37,7 @@
 // {{{ Stagehand_ClassTest_ConcreteClass
 
 /**
- * Example class for Stagehand_ClassTest
+ * Concrete class for Stagehand_ClassTest
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
