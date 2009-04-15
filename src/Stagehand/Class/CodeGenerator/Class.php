@@ -34,10 +34,10 @@
  * @since      File available since Release 0.1.0
  */
 
-// {{{ Stagehand_Class_Property
+// {{{ Stagehand_Class_CodeGenerator_Class
 
 /**
- * Stagehand_Class_Property.
+ * Stagehand_Class_CodeGenerator_Class.
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
@@ -46,7 +46,7 @@
  * @since      Class available since Release 0.1.0
  */
 
-class Stagehand_Class_Property extends Stagehand_Class_Declaration
+class Stagehand_Class_CodeGenerator_Class
 {
 
     // {{{ properties
@@ -67,8 +67,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
      * @access private
      */
 
-    private $_name;
-    private $_value;
+    private $_class;
 
     /**#@-*/
 
@@ -80,71 +79,36 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     // {{{ __construct()
 
     /**
-     * Sets this property name.
+     * Sets the Stagehand_Class instance.
      *
-     * @param string $name
-     * @throws Stagehand_Class_Exception
+     * @param Stagehand_Class  $class
      */
-    public function __construct($name, $value = null)
+    public function __construct(Stagehand_Class $class)
     {
-        $this->_name = $name;
-        $this->setValue($value);
-        $this->setPublic();
+        $this->_class = $class;
     }
 
     // }}}
-    // {{{ setName()
+    // {{{ generate()
 
     /**
-     * sets the property name.
-     *
-     * @param string $name  Propety name
-     */
-    public function setName($name)
-    {
-        $this->_name = $name;
-    }
-
-    // }}}
-    // {{{ getName()
-
-    /**
-     * Gets the property name.
+     * Generates the code.
      *
      * @return string
      */
-    public function getName()
+    public function generate()
     {
-        return $this->_name;
-    }
+        $format = "class %s
+{
+%s
+}
+";
 
-    // }}}
-    // {{{ setValue()
+        return sprintf($format,
+                       $this->_class->getName(),
+                       $this->_getAllPropertiesCode()
+                       );
 
-    /**
-     * sets the property value.
-     *
-     * @param string $value  Propety value
-     * @throws Stagehand_Class_Exception
-     */
-    public function setValue($value)
-    {
-        if ($this->_isValidValue($value)) {
-            $this->_value = $value;
-        }
-    }
-
-    // }}}
-    // {{{ getValue()
-
-    /**
-     * Gets the property value.
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->_value;
     }
 
     /**#@-*/
@@ -160,31 +124,48 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
      */
 
     // }}}
-    // {{{ _isValidValue()
+    // {{{ _getAllPropertiesCode()
 
     /**
-     * Returns whether the value is valid for property's default or not.
+     * Gets all propertie's code.
      *
-     * @param  mixed  $value
-     * @return boolean
-     * @throws Stagehand_Class_Exception
+     * @return string
      */
-    private function _isValidValue($value)
+    private function _getAllPropertiesCode()
     {
-        if (is_array($value)) {
-            foreach ($value as $v) {
-                $this->_isValidValue($v);
-            }
-        } else {
-            if (!is_null($value)
-                && !is_string($value)
-                && !is_numeric($value)
-                ) {
-                throw new Stagehand_Class_Exception("Invalid value type, should be integer, string, or array.");
-            }
+        $allPropertiesCode = null;
+        foreach ($this->_class->getProperties() as $property) {
+            $allPropertiesCode .= "    " . $this->_createPropertyCode($property) . "\n";
         }
 
-        return true;
+        return $allPropertiesCode;
+    }
+
+    // }}}
+    // {{{ _createPropertyCode()
+
+    /**
+     * Creates a partial code for class property.
+     *
+     * @return string
+     */
+    private function _createPropertyCode($property)
+    {
+        $format = null;
+        $formatedValue = null;
+
+        if ($property->getValue()) {
+            $format = "%s%s $%s = %s;";
+            $formatedValue = var_export($property->getValue(), true);
+        } else {
+            $format = '%s%s $%s;';
+        }
+
+        return sprintf($format,
+                       $property->getVisibility(),
+                       $property->isStatic() ? ' static' : null,
+                       $property->getName(), $formatedValue
+                       );
     }
 
     /**#@-*/

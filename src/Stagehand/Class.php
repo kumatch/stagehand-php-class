@@ -149,6 +149,19 @@ class Stagehand_Class
     }
 
     // }}}
+    // {{{ getProperties()
+
+    /**
+     * Gets all properties.
+     *
+     * @return array
+     */
+    public function getProperties()
+    {
+        return $this->_properties;
+    }
+
+    // }}}
     // {{{ addMethod()
 
     /**
@@ -223,24 +236,6 @@ class Stagehand_Class
     /**#@+
      * @access private
      */
-
-    // }}}
-    // {{{ _getAllPropertiesCode()
-
-    /**
-     * Gets all propertie's code.
-     *
-     * @return string
-     */
-    public function _getAllPropertiesCode()
-    {
-        $allPropertiesCode = null;
-        foreach ($this->_properties as $property) {
-            $allPropertiesCode .= "    " . $property->getPartialCode() . "\n";
-        }
-
-        return $allPropertiesCode;
-    }
 
     // }}}
     // {{{ _getAllMethodsCode()
