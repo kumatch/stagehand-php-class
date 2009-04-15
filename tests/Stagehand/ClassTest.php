@@ -239,7 +239,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     public function setParentClassAndOverrideByExistigClass()
     {
         $baseName = 'ExistingClass';
-        require_once "./ClassTest/{$baseName}.php";
+        require_once dirname(__FILE__) . "/ClassTest/{$baseName}.php";
         $baseInstance = new $baseName();
 
         $this->assertEquals($baseInstance->foo, 10);
@@ -317,7 +317,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($refMethodB->isAbstract());
         $this->assertTrue($refMethodC->isAbstract());
 
-        require_once "./ClassTest/ConcreteClass.php";
+        require_once dirname(__FILE__) . "/ClassTest/ConcreteClass.php";
 
         $instance = new ConcreteClass();
 
@@ -339,15 +339,44 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $methodB = new Stagehand_Class_Method('b');
         $methodC = new Stagehand_Class_Method('c');
         $methodC->setAbstract();
+        $methodC->setStatic();
+        $methodD = new Stagehand_Class_Method('d');
+        $methodD->setProtected();
+        $methodE = new Stagehand_Class_Method('e');
+        $methodE->setPrivate();
 
         $class->addProperty($propertyA);
         $class->addMethod($methodB);
         $class->addMethod($methodC);
+        $class->addMethod($methodD);
+        $class->addMethod($methodE);
 
         $class->load();
         $refClass = new ReflectionClass($className);
+
+        $this->assertEquals($refClass->getName(), $className);
+        $this->assertTrue($refClass->isInterface());
+        $this->assertFalse($refClass->hasProperty('a'));
+        $this->assertTrue($refClass->hasMethod('b'));
+        $this->assertTrue($refClass->hasMethod('c'));
+        $this->assertFalse($refClass->hasMethod('d'));
+        $this->assertFalse($refClass->hasMethod('e'));
+
         $refMethodB = $refClass->getMethod('b');
         $refMethodC = $refClass->getMethod('c');
+
+        $this->assertTrue($refMethodB->isPublic());
+        $this->assertTrue($refMethodB->isAbstract());
+        $this->assertFalse($refMethodB->isStatic());
+        $this->assertTrue($refMethodC->isPublic());
+        $this->assertTrue($refMethodC->isAbstract());
+        $this->assertTrue($refMethodC->isStatic());
+
+        require_once dirname(__FILE__) . "/ClassTest/ImplementedClass.php";
+        $instance = new ImplementedClass();
+
+        $this->assertEquals($instance->b(), 'foo');
+        $this->assertEquals(ImplementedClass::c(), 'bar');
     }
 
     /**#@-*/
