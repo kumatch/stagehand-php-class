@@ -326,6 +326,30 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($instance->c(), 'bar');
     }
 
+    /**
+     * @test
+     */
+    public function setInterfaceAndUse()
+    {
+        $className = 'ExampleForInterface';
+        $class = new Stagehand_Class($className);
+        $class->setInterface();
+
+        $propertyA = new Stagehand_Class_Property('a');
+        $methodB = new Stagehand_Class_Method('b');
+        $methodC = new Stagehand_Class_Method('c');
+        $methodC->setAbstract();
+
+        $class->addProperty($propertyA);
+        $class->addMethod($methodB);
+        $class->addMethod($methodC);
+
+        $class->load();
+        $refClass = new ReflectionClass($className);
+        $refMethodB = $refClass->getMethod('b');
+        $refMethodC = $refClass->getMethod('c');
+    }
+
     /**#@-*/
 
     /**#@+

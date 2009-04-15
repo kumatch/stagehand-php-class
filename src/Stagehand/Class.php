@@ -73,6 +73,7 @@ class Stagehand_Class
     private $_methods = array();
     private $_constants = array();
     private $_isAbstract = false;
+    private $_isInterface = false;
 
     /**#@-*/
 
@@ -248,6 +249,7 @@ class Stagehand_Class
     public function setAbstract($isAbstract = true)
     {
         $this->_isAbstract = $isAbstract ? true : false;
+        $this->_isInterface = false;
     }
 
     // }}}
@@ -261,6 +263,32 @@ class Stagehand_Class
     public function isAbstract()
     {
         return $this->_isAbstract ? true : false;
+    }
+
+    // }}}
+    // {{{ setInterface()
+
+    /**
+     * Sets the interface class.
+     *
+     */
+    public function setInterface($isInterface = true)
+    {
+        $this->_isInterface = $isInterface ? true : false;
+        $this->_isAbstract = false;
+    }
+
+    // }}}
+    // {{{ isInterface()
+
+    /**
+     * Returns whether the interface class or not.
+     *
+     * @return boolean
+     */
+    public function isInterface()
+    {
+        return $this->_isInterface ? true : false;
     }
 
     /**#@-*/
