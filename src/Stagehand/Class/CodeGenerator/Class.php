@@ -67,7 +67,7 @@ class Stagehand_Class_CodeGenerator_Class
      * @access private
      */
 
-    private $_class;
+    protected $_class;
 
     /**#@-*/
 
@@ -98,14 +98,7 @@ class Stagehand_Class_CodeGenerator_Class
      */
     public function generate()
     {
-        $format = "class %s%s
-{
-%s
-%s
-%s}
-";
-
-        return sprintf($format,
+        return sprintf($this->_getClassFormat(),
                        $this->_class->getName(),
                        $this->_getParentClassCode(),
                        $this->_getAllConstantsCode(),
@@ -119,6 +112,43 @@ class Stagehand_Class_CodeGenerator_Class
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ _getClassFormat
+
+    /**
+     * Gets a class code Format
+     *
+     * @return string
+     */
+    protected function _getClassFormat()
+    {
+        return "class %s%s
+{
+%s
+%s
+%s}
+";
+    }
+
+    // }}}
+    // {{{ _getMethodFormat
+
+    /**
+     * Gets a method code Format
+     *
+     * @return string
+     */
+    protected function _getMethodFormat($method)
+    {
+        if ($method->isAbstract()) {
+            return;
+        }
+
+        return "%s%s function %s(%s)
+{
+%s}";
+    }
 
     /**#@-*/
 
@@ -219,15 +249,7 @@ class Stagehand_Class_CodeGenerator_Class
      */
     private function _createMethodCode($method)
     {
-        if ($method->isAbstract()) {
-            return;
-        }
-
-        $format = "%s%s function %s(%s)
-{
-%s}";
-
-        return sprintf($format,
+        return sprintf($this->_getMethodFormat($method),
                        $method->getVisibility(),
                        $method->isStatic() ? ' static' : null,
                        $method->getName(),
@@ -237,18 +259,43 @@ class Stagehand_Class_CodeGenerator_Class
     }
 
     // }}}
-    // {{{ getPartialCode()
+    // {{{ _createConstantCode()
 
     /**
-     * Gets a partial code for class constant.
+     * Creates a partial code for class constant.
      *
      * @return string
      */
-    public function getPartialCode()
+    private function _createConstantCode($constant)
     {
         return sprintf('const %s = %s;',
-                       $this->_name, var_export($this->_value, true)
+                       $constant->getName(), var_export($constant->getValue(), true)
                        );
+    }
+
+    // }}}
+    // {{{ _getParentClassCode()
+
+    /**
+     * Gets parent class code.
+     *
+     * @return string
+     * @throws Stagehand_Class_Exception
+     */
+    private function _getParentClassCode()
+    {
+        if (!$this->_class->hasParentClass()) {
+            return;
+        }
+
+        $parentClass = $this->_class->getParentClass();
+        if ($parentClass instanceof Stagehand_Class) {
+            $code = ' extends ' . $parentClass->getName();
+        } else {
+            $code = ' extends ' . $parentClass;
+        }
+
+        return $code;
     }
 
     // }}}
@@ -297,46 +344,6 @@ class Stagehand_Class_CodeGenerator_Class
         }
 
         return $indentedCode;
-    }
-
-    // }}}
-    // {{{ _createConstantCode()
-
-    /**
-     * Creates a partial code for class constant.
-     *
-     * @return string
-     */
-    private function _createConstantCode($constant)
-    {
-        return sprintf('const %s = %s;',
-                       $constant->getName(), var_export($constant->getValue(), true)
-                       );
-    }
-
-    // }}}
-    // {{{ _getParentClassCode()
-
-    /**
-     * Gets parent class code.
-     *
-     * @return string
-     * @throws Stagehand_Class_Exception
-     */
-    public function _getParentClassCode()
-    {
-        if (!$this->_class->hasParentClass()) {
-            return;
-        }
-
-        $parentClass = $this->_class->getParentClass();
-        if ($parentClass instanceof Stagehand_Class) {
-            $code = ' extends ' . $parentClass->getName();
-        } else {
-            $code = ' extends ' . $parentClass;
-        }
-
-        return $code;
     }
 
     /**#@-*/
