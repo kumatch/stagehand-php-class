@@ -175,6 +175,19 @@ class Stagehand_Class
     }
 
     // }}}
+    // {{{ getMethods()
+
+    /**
+     * Gets all methods.
+     *
+     * @return array
+     */
+    public function getMethods()
+    {
+        return $this->_methods;
+    }
+
+    // }}}
     // {{{ addConstant()
 
     /**
@@ -185,6 +198,19 @@ class Stagehand_Class
     public function addConstant(Stagehand_Class_Constant $constant)
     {
         array_push($this->_constants, $constant);
+    }
+
+    // }}}
+    // {{{ getConstants()
+
+    /**
+     * Gets all constants.
+     *
+     * @return array
+     */
+    public function getConstants()
+    {
+        return $this->_constants;
     }
 
     // }}}
@@ -236,42 +262,6 @@ class Stagehand_Class
     /**#@+
      * @access private
      */
-
-    // }}}
-    // {{{ _getAllMethodsCode()
-
-    /**
-     * Gets all method's code.
-     *
-     * @return string
-     */
-    public function _getAllMethodsCode()
-    {
-        $allMethodsCode = null;
-        foreach ($this->_methods as $method) {
-            $allMethodsCode .= "    " . $method->getPartialCode() . "\n";
-        }
-
-        return $allMethodsCode;;
-    }
-
-    // }}}
-    // {{{ _getAllConstantsCode()
-
-    /**
-     * Gets all constant's code.
-     *
-     * @return string
-     */
-    public function _getAllConstantsCode()
-    {
-        $allConstantsCode = null;
-        foreach ($this->_constants as $constant) {
-            $allConstantsCode .= "    " . $constant->getPartialCode() . "\n";
-        }
-
-        return $allConstantsCode;;
-    }
 
     // }}}
     // {{{ _getParentClassCode()

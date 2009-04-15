@@ -101,14 +101,17 @@ class Stagehand_Class_CodeGenerator_Class
         $format = "class %s
 {
 %s
+%s
+%s
 }
 ";
 
         return sprintf($format,
                        $this->_class->getName(),
-                       $this->_getAllPropertiesCode()
+                       $this->_getAllConstantsCode(),
+                       $this->_getAllPropertiesCode(),
+                       $this->_getAllMethodsCode()
                        );
-
     }
 
     /**#@-*/
@@ -139,6 +142,45 @@ class Stagehand_Class_CodeGenerator_Class
         }
 
         return $allPropertiesCode;
+    }
+
+    // }}}
+    // {{{ _getAllMethodsCode()
+
+    /**
+     * Gets all method's code.
+     *
+     * @return string
+     */
+    public function _getAllMethodsCode()
+    {
+        $allMethodsCode = null;
+        foreach ($this->_class->getMethods() as $method) {
+            foreach (explode("\n", $method->getPartialCode()) as $line) {
+                $allMethodsCode .= "    " . $line . "\n";
+            }
+            $allMethodsCode .= "\n";
+        }
+
+        return $allMethodsCode;;
+    }
+
+    // }}}
+    // {{{ _getAllConstantsCode()
+
+    /**
+     * Gets all constant's code.
+     *
+     * @return string
+     */
+    public function _getAllConstantsCode()
+    {
+        $allConstantsCode = null;
+        foreach ($this->_class->getConstants() as $constant) {
+            $allConstantsCode .= "    " . $constant->getPartialCode() . "\n";
+        }
+
+        return $allConstantsCode;;
     }
 
     // }}}

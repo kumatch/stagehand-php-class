@@ -163,8 +163,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
             $format = "%s%s function %s(%s)
 {
 %s
-}
-";
+}";
         }
 
         return sprintf($format,
