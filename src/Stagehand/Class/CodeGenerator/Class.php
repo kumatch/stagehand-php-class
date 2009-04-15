@@ -150,12 +150,6 @@ class Stagehand_Class_CodeGenerator_Class
 %s}";
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
     // }}}
     // {{{ _getAllPropertiesCode()
 
@@ -164,7 +158,7 @@ class Stagehand_Class_CodeGenerator_Class
      *
      * @return string
      */
-    private function _getAllPropertiesCode()
+    protected function _getAllPropertiesCode()
     {
         $allPropertiesCode = null;
         foreach ($this->_class->getProperties() as $property) {
@@ -182,7 +176,7 @@ class Stagehand_Class_CodeGenerator_Class
      *
      * @return string
      */
-    private function _getAllMethodsCode()
+    protected function _getAllMethodsCode()
     {
         $allMethodsCode = null;
         foreach ($this->_class->getMethods() as $method) {
@@ -200,7 +194,7 @@ class Stagehand_Class_CodeGenerator_Class
      *
      * @return string
      */
-    private function _getAllConstantsCode()
+    protected function _getAllConstantsCode()
     {
         $allConstantsCode = null;
         foreach ($this->_class->getConstants() as $constant) {
@@ -219,7 +213,7 @@ class Stagehand_Class_CodeGenerator_Class
      ` @param  Stagehand_Class_Property $property
      * @return string
      */
-    private function _createPropertyCode($property)
+    protected function _createPropertyCode($property)
     {
         $format = null;
         $formatedValue = null;
@@ -247,7 +241,7 @@ class Stagehand_Class_CodeGenerator_Class
      ` @param  Stagehand_Class_Method $method
      * @return string
      */
-    private function _createMethodCode($method)
+    protected function _createMethodCode($method)
     {
         return sprintf($this->_getMethodFormat($method),
                        $method->getVisibility(),
@@ -266,7 +260,7 @@ class Stagehand_Class_CodeGenerator_Class
      *
      * @return string
      */
-    private function _createConstantCode($constant)
+    protected function _createConstantCode($constant)
     {
         return sprintf('const %s = %s;',
                        $constant->getName(), var_export($constant->getValue(), true)
@@ -282,7 +276,7 @@ class Stagehand_Class_CodeGenerator_Class
      * @return string
      * @throws Stagehand_Class_Exception
      */
-    private function _getParentClassCode()
+    protected function _getParentClassCode()
     {
         if (!$this->_class->hasParentClass()) {
             return;
@@ -307,7 +301,7 @@ class Stagehand_Class_CodeGenerator_Class
      * @param string  $code
      * @return string
      */
-    private function _formatArguments($arguments)
+    protected function _formatArguments($arguments)
     {
         $formatedArguments = array();
         foreach ($arguments as $argument) {
@@ -330,7 +324,7 @@ class Stagehand_Class_CodeGenerator_Class
      * @param string  $code
      * @return string
      */
-    private function _indentCode($code)
+    protected function _indentCode($code)
     {
         if (!$code) {
             return;
@@ -345,6 +339,12 @@ class Stagehand_Class_CodeGenerator_Class
 
         return $indentedCode;
     }
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 
