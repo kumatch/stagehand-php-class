@@ -77,6 +77,7 @@ class Stagehand_Class
 
     private $_isAbstract  = false;
     private $_isInterface = false;
+    private $_isFinal     = false;
 
     /**#@-*/
 
@@ -105,6 +106,10 @@ class Stagehand_Class
      */
     public function load()
     {
+        if (class_exists($this->getName())) {
+            throw new Stagehand_Class_Exception("The class [{$this->getName()}] is declared already.");
+        }
+
         $this->_initializeParentClass();
         $this->_initializeInterface();
 
@@ -521,7 +526,7 @@ class Stagehand_Class
     // {{{ defineAbstract()
 
     /**
-     * Defines the abstract class.
+     * Defines abstract class.
      *
      * @param boolean $isAbstract  is abstract
      */
@@ -530,6 +535,7 @@ class Stagehand_Class
         $this->_isAbstract = $isAbstract ? true : false;
         if ($this->_isAbstract) {
             $this->_isInterface = false;
+            $this->_isFinal = false;
         }
     }
 
@@ -550,7 +556,7 @@ class Stagehand_Class
     // {{{ defineInterface()
 
     /**
-     * Defines the interface class.
+     * Defines interface class.
      *
      * @param boolean $isInterface  is interface
      */
@@ -559,6 +565,7 @@ class Stagehand_Class
         $this->_isInterface = $isInterface ? true : false;
         if ($this->_isInterface) {
             $this->_isAbstract = false;
+            $this->_isFinal = false;
         }
     }
 
@@ -573,6 +580,36 @@ class Stagehand_Class
     public function isInterface()
     {
         return $this->_isInterface ? true : false;
+    }
+
+    // }}}
+    // {{{ defineFinal()
+
+    /**
+     * Defines final class.
+     *
+     * @param boolean $isFinal  is final
+     */
+    public function defineFinal($isFinal = true)
+    {
+        $this->_isFinal = $isFinal ? true : false;
+        if ($this->_isFinal) {
+            $this->_isAbstract = false;
+            $this->_isInterface = false;
+        }
+    }
+
+    // }}}
+    // {{{ isFinal()
+
+    /**
+     * Returns whether the final class or not.
+     *
+     * @return boolean
+     */
+    public function isFinal()
+    {
+        return $this->_isFinal ? true : false;
     }
 
     /**#@-*/

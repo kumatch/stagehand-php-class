@@ -91,6 +91,18 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfLoadsClassTwice()
+    {
+        $className = 'ExampleForLoadTwice';
+        $class = new Stagehand_Class($className);
+        $class->load();
+        $class->load();
+    }
+
+    /**
+     * @test
      */
     public function outputClass()
     {
@@ -586,6 +598,31 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $interface2 = new Stagehand_Class('ExampleForInterfaceUpdateInterface1');
         $class->addInterface($interface1);
         $class->addInterface($interface2);
+    }
+
+    /**
+     * @test
+     */
+    public function defineFinal()
+    {
+        $className = 'ExampleForNonFinalClass';
+        $finalClassName = 'ExampleForFinalClass';
+
+        $class      = new Stagehand_Class($className);
+        $finalClass = new Stagehand_Class($finalClassName);
+        $finalClass->defineFinal();
+
+        $this->assertFalse($class->isFinal());
+        $this->assertTrue($finalClass->isFinal());
+
+        $class->load();
+        $finalClass->load();
+
+        $refClass      = new ReflectionClass($className);
+        $refFinalClass = new ReflectionClass($finalClassName);
+
+        $this->assertFalse($refClass->isFinal());
+        $this->assertTrue($refFinalClass->isFinal());
     }
 
     /**#@-*/

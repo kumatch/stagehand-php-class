@@ -98,14 +98,19 @@ class Stagehand_Class_CodeGenerator_Class
      */
     public function generate()
     {
-        return sprintf($this->_getClassFormat(),
-                       $this->_class->getName(),
-                       $this->_getParentClassCode(),
-                       $this->_getInterfacesCode(),
-                       $this->_getAllConstantsCode(),
-                       $this->_getAllPropertiesCode(),
-                       $this->_getAllMethodsCode()
-                       );
+        $code = sprintf($this->_getClassFormat(),
+                        $this->_class->getName(),
+                        $this->_getParentClassCode(),
+                        $this->_getInterfacesCode(),
+                        $this->_getAllConstantsCode(),
+                        $this->_getAllPropertiesCode(),
+                        $this->_getAllMethodsCode()
+                        );
+        if ($this->_class->isFinal()) {
+            return "final {$code}";
+        } else {
+            return $code;
+        }
     }
 
     /**#@-*/

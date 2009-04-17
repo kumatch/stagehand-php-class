@@ -217,6 +217,22 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertRegExp("/^class {$className} extends {$parentClassName} implements {$interfaceA}, {$interfaceB}/", $code);
     }
 
+    /**
+     * @test
+     */
+    public function generateFinalClassCode()
+    {
+        $className = 'ExampleForFinalClassGeneration';
+
+        $class = new Stagehand_Class($className);
+        $class->defineFinal();
+
+        $generator = new Stagehand_Class_CodeGenerator_Class($class);
+        $code = $generator->generate();
+
+        $this->assertRegExp("/^final class {$className}/", $code);
+    }
+
     /**#@-*/
 
     /**#@+
