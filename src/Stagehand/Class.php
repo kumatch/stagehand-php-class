@@ -175,7 +175,7 @@ class Stagehand_Class
     /**
      * Gets a target property.
      *
-     * @param string $name  propery name
+     * @param string $name  property name
      * @return mixed
      */
     public function getProperty($name)
@@ -227,7 +227,11 @@ class Stagehand_Class
      */
     public function addMethod(Stagehand_Class_Method $method)
     {
-        array_push($this->_methods, $method);
+        if ($this->hasMethod($method->getName())) {
+            throw new Stagehand_Class_Exception("The method [{$method->getName()}] is duplicated.");
+        }
+
+        $this->setMethod($method);
     }
 
     // }}}
@@ -244,6 +248,54 @@ class Stagehand_Class
     }
 
     // }}}
+    // {{{ getMethod()
+
+    /**
+     * Gets a target method.
+     *
+     * @param string $name  method name
+     * @return mixed
+     */
+    public function getMethod($name)
+    {
+        if (!$this->hasMethod($name)) {
+            return;
+        }
+
+        return $this->_methods[$name];
+    }
+
+    // }}}
+    // {{{ setMethod()
+
+    /**
+     * Sets a method.
+     *
+     * @param Stagehand_Class_Method $method
+     */
+    public function setMethod(Stagehand_Class_Method $method)
+    {
+        $this->_methods[ $method->getName() ] = $method;
+    }
+
+    // }}}
+    // {{{ hasMethod()
+
+    /**
+     * Returns whether a class has target name's method.
+     *
+     * @param string $name  method name.
+     */
+    public function hasMethod($name)
+    {
+        if (!array_key_exists($name, $this->_methods)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // }}}
     // {{{ addConstant()
 
     /**
@@ -253,7 +305,11 @@ class Stagehand_Class
      */
     public function addConstant(Stagehand_Class_Constant $constant)
     {
-        array_push($this->_constants, $constant);
+        if ($this->hasConstant($constant->getName())) {
+            throw new Stagehand_Class_Exception("The constant [{$constant->getName()}] is duplicated.");
+        }
+
+        $this->setConstant($constant);
     }
 
     // }}}
@@ -267,6 +323,54 @@ class Stagehand_Class
     public function getConstants()
     {
         return $this->_constants;
+    }
+
+    // }}}
+    // {{{ getConstant()
+
+    /**
+     * Gets a target constant.
+     *
+     * @param string $name  constant name
+     * @return mixed
+     */
+    public function getConstant($name)
+    {
+        if (!$this->hasConstant($name)) {
+            return;
+        }
+
+        return $this->_constants[$name];
+    }
+
+    // }}}
+    // {{{ setConstant()
+
+    /**
+     * Sets a constant.
+     *
+     * @param Stagehand_Class_Constant $constant
+     */
+    public function setConstant(Stagehand_Class_Constant $constant)
+    {
+        $this->_constants[ $constant->getName() ] = $constant;
+    }
+
+    // }}}
+    // {{{ hasConstant()
+
+    /**
+     * Returns whether a class has target name's constant.
+     *
+     * @param string $name  constant name.
+     */
+    public function hasConstant($name)
+    {
+        if (!array_key_exists($name, $this->_constants)) {
+            return false;
+        }
+
+        return true;
     }
 
     // }}}
@@ -318,7 +422,12 @@ class Stagehand_Class
      */
     public function addInterface($interface)
     {
-        array_push($this->_interfaces, $interface);
+        $name = $this->_getInterfaceName($interface);
+        if ($this->hasInterface($name)) {
+            throw new Stagehand_Class_Exception("The interface [{$name}] is duplicated.");
+        }
+
+        $this->setInterface($interface);
     }
 
     // }}}
@@ -335,16 +444,65 @@ class Stagehand_Class
     }
 
     // }}}
+    // {{{ getInterface()
+
+    /**
+     * Gets a target interface.
+     *
+     * @param string $name  interface name
+     * @return mixed
+     */
+    public function getInterface($name)
+    {
+        if (!$this->hasInterface($name)) {
+            return;
+        }
+
+        return $this->_interfaces[$name];
+    }
+
+    // }}}
+    // {{{ setInterface()
+
+    /**
+     * Sets a interface.
+     *
+     * @param mixed $interface
+     */
+    public function setInterface($interface)
+    {
+        $name = $this->_getInterfaceName($interface);
+        $this->_interfaces[ $name ] = $interface;
+    }
+
+    // }}}
     // {{{ hasInterface()
 
     /**
-     * Returns whether a class has the parent class.
+     * Returns whether a class has target name's interface.
      *
-     * @param boolean
+     * @param string $name  interface name.
      */
-    public function hasInterface()
+    public function hasInterface($name)
     {
-        return count($this->_interfaces) ? true : false;
+        if (!array_key_exists($name, $this->_interfaces)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // }}}
+    // {{{ countInterfaces()
+
+    /**
+     * Counts a class has interfaces.
+     *
+     * @param integer
+     */
+    public function countInterfaces()
+    {
+        return count($this->_interfaces);
     }
 
     // }}}
@@ -438,7 +596,7 @@ class Stagehand_Class
      */
     private function _initializeInterface()
     {
-        if (!$this->hasInterface()) {
+        if (!$this->countInterfaces()) {
             return;
         }
 
@@ -461,6 +619,24 @@ class Stagehand_Class
             && !class_exists($class->getName())
             ) {
             $class->load();
+        }
+    }
+
+    // }}}
+    // {{{ _getInterfaceName()
+
+    /**
+     * Gets a interface name.
+     *
+     * @param mixed $interface
+     * @return string
+     */
+    private function _getInterfaceName($interface)
+    {
+        if ($interface instanceof Stagehand_Class) {
+            return $interface->getName();
+        } else {
+            return $interface;
         }
     }
 

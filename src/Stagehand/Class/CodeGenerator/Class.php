@@ -302,7 +302,7 @@ class Stagehand_Class_CodeGenerator_Class
      */
     protected function _getInterfacesCode()
     {
-        if (!$this->_class->hasInterface()) {
+        if (!$this->_class->countInterfaces()) {
             return;
         }
 

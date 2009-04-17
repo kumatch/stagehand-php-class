@@ -166,7 +166,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
      */
     public function catchTheExceptionIfAddsProperyIsDuplicated()
     {
-        $className = 'ExampleForPropertyDuplicated';
+        $className = 'ExampleForPropertyDuplicate';
         $class = new Stagehand_Class($className);
 
         $property1 = new Stagehand_Class_Property('a', 100);
@@ -231,6 +231,109 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($instance->foo(), 10);
         $this->assertEquals($instance->bar(20), 20);
         $this->assertEquals($instance->baz(), 30);
+    }
+
+    /**
+     * @test
+     */
+    public function accessMethodAndUpdate()
+    {
+        $className = 'ExampleForMethodUpdate';
+        $class = new Stagehand_Class($className);
+
+        $method1 = new Stagehand_Class_Method('foo');
+        $method1->setCode('return 100;');
+        $class->addMethod($method1);
+
+        $this->assertSame($class->getMethod('foo'), $method1);
+
+        $method2 = new Stagehand_Class_Method('foo');
+        $method2->setCode('return 200;');
+        $class->setMethod($method2);
+
+        $this->assertSame($class->getMethod('foo'), $method2);
+
+        $class->load();
+        $instance = new $className;
+
+        $this->assertEquals($instance->foo(), 200);
+    }
+
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfAddsMethodIsDuplicated()
+    {
+        $className = 'ExampleForMethodDuplicate';
+        $class = new Stagehand_Class($className);
+
+        $method1 = new Stagehand_Class_Method('a');
+        $method2 = new Stagehand_Class_Method('a');
+        $class->addMethod($method1);
+        $class->addMethod($method2);
+    }
+
+    /**
+     * @test
+     */
+    public function setConstantAndUse()
+    {
+        $className = 'ExampleForConstant';
+        $class = new Stagehand_Class($className);
+
+        $constantA = new Stagehand_Class_Constant('a');
+        $constantB = new Stagehand_Class_Constant('b', 10);
+        $constantC = new Stagehand_Class_Constant('c', 'TextConstant');
+
+        $class->addConstant($constantA);
+        $class->addConstant($constantB);
+        $class->addConstant($constantC);
+
+        $class->load();
+
+        $this->assertNull(ExampleForConstant::a);
+        $this->assertEquals(ExampleForConstant::b, 10);
+        $this->assertEquals(ExampleForConstant::c, 'TextConstant');
+    }
+
+    /**
+     * @test
+     */
+    public function accessConstantAndUpdate()
+    {
+        $className = 'ExampleForConstantUpdate';
+        $class = new Stagehand_Class($className);
+
+        $constant1 = new Stagehand_Class_Constant('a', 100);
+        $class->addConstant($constant1);
+
+        $this->assertSame($class->getConstant('a'), $constant1);
+
+        $constant2 = new Stagehand_Class_Constant('a', 200);
+        $class->setConstant($constant2);
+
+        $this->assertSame($class->getConstant('a'), $constant2);
+
+        $class->load();
+        $instance = new $className;
+
+        $this->assertEquals(ExampleForConstantUpdate::a, 200);
+    }
+
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfAddsConstantIsDuplicated()
+    {
+        $className = 'ExampleForConstantDuplicate';
+        $class = new Stagehand_Class($className);
+
+        $constant1 = new Stagehand_Class_Constant('a', 100);
+        $constant2 = new Stagehand_Class_Constant('a', 200);
+        $class->addConstant($constant1);
+        $class->addConstant($constant2);
     }
 
     /**
@@ -306,29 +409,6 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($childInstance->foo,   10);
         $this->assertEquals($childInstance->bar(), 20);
         $this->assertEquals($childInstance->baz(), 40);
-    }
-
-    /**
-     * @test
-     */
-    public function setConstantAndUse()
-    {
-        $className = 'ExampleForConstant';
-        $class = new Stagehand_Class($className);
-
-        $constantA = new Stagehand_Class_Constant('a');
-        $constantB = new Stagehand_Class_Constant('b', 10);
-        $constantC = new Stagehand_Class_Constant('c', 'TextConstant');
-
-        $class->addConstant($constantA);
-        $class->addConstant($constantB);
-        $class->addConstant($constantC);
-
-        $class->load();
-
-        $this->assertNull(ExampleForConstant::a);
-        $this->assertEquals(ExampleForConstant::b, 10);
-        $this->assertEquals(ExampleForConstant::c, 'TextConstant');
     }
 
     /**
@@ -455,6 +535,42 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(count($interfaces), 1);
         $this->assertEquals($interfaces[$baseName]->getName(), $baseName);
+    }
+
+    /**
+     * @test
+     */
+    public function accessInterfaceAndUpdate()
+    {
+        $className = 'ExampleForInterfaceUpdate';
+        $class = new Stagehand_Class($className);
+
+        $interface1 = new Stagehand_Class('ExampleForInterfaceUpdateInterface1');
+        $interface1->defineInterface();
+        $class->addInterface($interface1);
+
+        $this->assertSame($class->getInterface('ExampleForInterfaceUpdateInterface1'), $interface1);
+
+        $interface2 = new Stagehand_Class('ExampleForInterfaceUpdateInterface1');
+        $interface2->defineInterface();
+        $class->setInterface($interface2);
+
+        $this->assertSame($class->getInterface('ExampleForInterfaceUpdateInterface1'), $interface2);
+    }
+
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfAddsInterfaceIsDuplicated()
+    {
+        $className = 'ExampleForInterfaceDuplicate';
+        $class = new Stagehand_Class($className);
+
+        $interface1 = new Stagehand_Class('ExampleForInterfaceUpdateInterface1');
+        $interface2 = new Stagehand_Class('ExampleForInterfaceUpdateInterface1');
+        $class->addInterface($interface1);
+        $class->addInterface($interface2);
     }
 
     /**#@-*/
