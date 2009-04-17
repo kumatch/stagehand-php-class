@@ -107,11 +107,12 @@ class Stagehand_Class_CodeGenerator_Interface extends Stagehand_Class_CodeGenera
      */
     protected function _getClassFormat()
     {
-        return "interface %s%s
+        return <<<CLASS_FORMAT
+interface %s%s
 {
-%s
-%s}
-";
+%s%s}
+
+CLASS_FORMAT;
     }
 
     // }}}

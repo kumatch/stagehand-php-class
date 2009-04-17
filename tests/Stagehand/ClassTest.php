@@ -100,8 +100,6 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($class->output(),
                             "class {$className}
 {
-
-
 }
 ");
     }

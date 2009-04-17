@@ -95,12 +95,15 @@ class Stagehand_Class_CodeGenerator_InterfaceTest extends PHPUnit_Framework_Test
     const C = 'text constant';
 
     public function foo();
+
     public static function qux(\$e = array (
       0 => 2,
       1 => 4,
       2 => 6,
     ));
+
     public function quux();
+
     public static function corge();
 }
 ");

@@ -106,15 +106,18 @@ class Stagehand_Class_CodeGenerator_AbstractClassTest extends PHPUnit_Framework_
     public function foo()
     {
     }
+
     protected function bar(\$a, \$b)
     {
         return true;
     }
+
     private function baz(\$c = NULL, \$d = 'd')
     {
         \$c += 1;
         return \$d;
     }
+
     public static function qux(\$e = array (
       0 => 2,
       1 => 4,
@@ -122,7 +125,9 @@ class Stagehand_Class_CodeGenerator_AbstractClassTest extends PHPUnit_Framework_
     ))
     {
     }
+
     abstract public function quux();
+
     abstract public static function corge();
 }
 ");

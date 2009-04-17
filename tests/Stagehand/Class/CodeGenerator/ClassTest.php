@@ -106,15 +106,18 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
     public function foo()
     {
     }
+
     protected function bar(\$a, \$b)
     {
         return true;
     }
+
     private function baz(\$c = NULL, \$d = 'd')
     {
         \$c += 1;
         return \$d;
     }
+
     public static function qux(\$e = array (
       0 => 2,
       1 => 4,
@@ -141,23 +144,13 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
         $generator = new Stagehand_Class_CodeGenerator_Class($childClass);
         $code = $generator->generate();
         
-        $this->assertEquals($code, "class {$childName} extends {$baseName}
-{
-
-
-}
-");
+        $this->assertRegExp("/^class {$childName} extends {$baseName}/", $code);
 
         $childClass->setParentClass($baseName);
         $generator = new Stagehand_Class_CodeGenerator_Class($childClass);
         $code = $generator->generate();
         
-        $this->assertEquals($code, "class {$childName} extends {$baseName}
-{
-
-
-}
-");
+        $this->assertRegExp("/^class {$childName} extends {$baseName}/", $code);
     }
 
     /**
@@ -178,12 +171,7 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
         $generator = new Stagehand_Class_CodeGenerator_Class($class);
         $code = $generator->generate();
 
-        $this->assertEquals($code, "class {$className} implements {$interfaceA}, {$interfaceB}
-{
-
-
-}
-");
+        $this->assertRegExp("/^class {$className} implements {$interfaceA}, {$interfaceB}/", $code);
 
         $class = new Stagehand_Class($className);
         $class->addInterface($interfaceA);
@@ -192,12 +180,7 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
         $generator = new Stagehand_Class_CodeGenerator_Class($class);
         $code = $generator->generate();
 
-        $this->assertEquals($code, "class {$className} implements {$interfaceA}, {$interfaceB}
-{
-
-
-}
-");
+        $this->assertRegExp("/^class {$className} implements {$interfaceA}, {$interfaceB}/", $code);
     }
 
     /**
@@ -221,12 +204,7 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
         $generator = new Stagehand_Class_CodeGenerator_Class($class);
         $code = $generator->generate();
 
-        $this->assertEquals($code, "class {$className} extends {$parentClassName} implements {$interfaceA}, {$interfaceB}
-{
-
-
-}
-");
+        $this->assertRegExp("/^class {$className} extends {$parentClassName} implements {$interfaceA}, {$interfaceB}/", $code);
 
         $class = new Stagehand_Class($className);
         $class->setParentClass($parentClassName);
@@ -236,12 +214,7 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
         $generator = new Stagehand_Class_CodeGenerator_Class($class);
         $code = $generator->generate();
 
-        $this->assertEquals($code, "class {$className} extends {$parentClassName} implements {$interfaceA}, {$interfaceB}
-{
-
-
-}
-");
+        $this->assertRegExp("/^class {$className} extends {$parentClassName} implements {$interfaceA}, {$interfaceB}/", $code);
     }
 
     /**#@-*/

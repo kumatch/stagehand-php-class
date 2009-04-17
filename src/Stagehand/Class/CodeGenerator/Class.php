@@ -124,12 +124,12 @@ class Stagehand_Class_CodeGenerator_Class
      */
     protected function _getClassFormat()
     {
-        return "class %s%s%s
+        return <<<CLASS_FORMAT
+class %s%s%s
 {
-%s
-%s
-%s}
-";
+%s%s%s}
+
+CLASS_FORMAT;
     }
 
     // }}}
@@ -146,9 +146,11 @@ class Stagehand_Class_CodeGenerator_Class
             return;
         }
 
-        return "%s%s function %s(%s)
+        return <<<METHOD_FORMAT
+%s%s function %s(%s)
 {
-%s}";
+%s}
+METHOD_FORMAT;
     }
 
     // }}}
@@ -161,12 +163,19 @@ class Stagehand_Class_CodeGenerator_Class
      */
     protected function _getAllPropertiesCode()
     {
-        $allPropertiesCode = null;
-        foreach ($this->_class->getProperties() as $property) {
-            $allPropertiesCode .= $this->_createPropertyCode($property) . "\n";
+        $properties = $this->_class->getProperties();
+        if (!count($properties)) {
+            return;
         }
 
-        return $this->_indentCode($allPropertiesCode);
+        $allPropertyCodes = array();
+        foreach ($properties as $property) {
+            if ($code = $this->_createPropertyCode($property)) {
+                array_push($allPropertyCodes, $code);
+            }
+        }
+
+        return $this->_indentCode(implode("\n", $allPropertyCodes)) . "\n";
     }
 
     // }}}
@@ -179,12 +188,19 @@ class Stagehand_Class_CodeGenerator_Class
      */
     protected function _getAllMethodsCode()
     {
-        $allMethodsCode = null;
-        foreach ($this->_class->getMethods() as $method) {
-            $allMethodsCode .= $this->_createMethodCode($method) . "\n";
+        $methods = $this->_class->getMethods();
+        if (!count($methods)) {
+            return;
         }
 
-        return $this->_indentCode($allMethodsCode);
+        $allMethodCodes = array();
+        foreach ($methods as $method) {
+            if ($code = $this->_createMethodCode($method)) {
+                array_push($allMethodCodes, $code);
+            }
+        }
+
+        return $this->_indentCode(implode("\n\n", $allMethodCodes));
     }
 
     // }}}
@@ -197,12 +213,19 @@ class Stagehand_Class_CodeGenerator_Class
      */
     protected function _getAllConstantsCode()
     {
-        $allConstantsCode = null;
-        foreach ($this->_class->getConstants() as $constant) {
-            $allConstantsCode .= $this->_createConstantCode($constant) . "\n";
+        $constants = $this->_class->getConstants();
+        if (!count($constants)) {
+            return;
         }
 
-        return $this->_indentCode($allConstantsCode);
+        $allConstantCodes = array();
+        foreach ($constants as $constant) {
+            if ($code = $this->_createConstantCode($constant)) {
+                array_push($allConstantCodes, $code);
+            }
+        }
+
+        return $this->_indentCode(implode("\n", $allConstantCodes)) . "\n";
     }
 
     // }}}
@@ -360,6 +383,8 @@ class Stagehand_Class_CodeGenerator_Class
         foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
             if ($line) {
                 $indentedCode .= "    {$line}\n";
+            } else {
+                $indentedCode .= "\n";
             }
         }
 
