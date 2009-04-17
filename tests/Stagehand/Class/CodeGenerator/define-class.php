@@ -54,6 +54,7 @@ function define_class_for_code_genration_test()
     $argumentC = new Stagehand_Class_Method_Argument('c');
     $argumentD = new Stagehand_Class_Method_Argument('d');
     $argumentE = new Stagehand_Class_Method_Argument('e');
+    $argumentB->setTypeHinting('array');
     $argumentC->setRequirement(false);
     $argumentD->setRequirement(false);
     $argumentD->setValue('d');

@@ -138,6 +138,25 @@ class Stagehand_Class_Method_ArgumentTest extends PHPUnit_Framework_TestCase
         $argument->setValue($trap);
     }
 
+    /**
+     * @test
+     */
+    public function createAnArgumentWithTypeHinting()
+    {
+        $argument1 = new Stagehand_Class_Method_Argument('foo');
+        $argument2 = new Stagehand_Class_Method_Argument('bar');
+        $argument3 = new Stagehand_Class_Method_Argument('baz');
+        $argument4 = new Stagehand_Class_Method_Argument('qux');
+        $argument1->setTypeHinting('array');
+        $argument2->setTypeHinting('Array');
+        $argument3->setTypeHinting('stdClass');
+
+        $this->assertEquals($argument1->getTypeHinting(), 'array');
+        $this->assertEquals($argument2->getTypeHinting(), 'array');
+        $this->assertEquals($argument3->getTypeHinting(), 'stdclass');
+        $this->assertNull($argument4->getTypeHinting());
+    }
+
     /**#@-*/
 
     /**#@+

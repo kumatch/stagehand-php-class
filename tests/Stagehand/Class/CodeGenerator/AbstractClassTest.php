@@ -107,7 +107,7 @@ class Stagehand_Class_CodeGenerator_AbstractClassTest extends PHPUnit_Framework_
     {
     }
 
-    protected function bar(\$a, \$b)
+    protected function bar(\$a, array \$b)
     {
         return true;
     }

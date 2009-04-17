@@ -365,10 +365,12 @@ METHOD_FORMAT;
     {
         $formatedArguments = array();
         foreach ($arguments as $argument) {
-            $oneArg = '$' . $argument->getName();
-            if (!$argument->isRequired()) {
-                $oneArg .= ' = ' . var_export($argument->getValue(), true);
-            }
+            $oneArg = sprintf('%s$%s%s',
+                              $argument->getTypeHinting() ? "{$argument->getTypeHinting()} " : null,
+                              $argument->getName(),
+                              $argument->isRequired() ?
+                                  null : ' = ' . var_export($argument->getValue(), true)
+                              );
             array_push($formatedArguments, $oneArg);
         }
 

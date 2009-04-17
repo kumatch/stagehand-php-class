@@ -70,6 +70,7 @@ class Stagehand_Class_Method_Argument
     private $_name;
     private $_value;
     private $_required;
+    private $_typeHinting;
 
     /**#@-*/
 
@@ -170,6 +171,32 @@ class Stagehand_Class_Method_Argument
     public function getValue()
     {
         return $this->_value;
+    }
+
+    // }}}
+    // {{{ setTypeHinting()
+
+    /**
+     * Sets an argument type hinting.
+     *
+     * @param string $typeHinting  A type hinting
+     */
+    public function setTypeHinting($typeHinting)
+    {
+        $this->_typeHinting = strtolower($typeHinting);
+    }
+
+    // }}}
+    // {{{ getTypeHinting()
+
+    /**
+     * Gets an argument type hinting.
+     *
+     * @return mixed
+     */
+    public function getTypeHinting()
+    {
+        return $this->_typeHinting;
     }
 
     /**#@-*/
