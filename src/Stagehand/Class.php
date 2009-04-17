@@ -94,6 +94,19 @@ class Stagehand_Class
      */
     public function __construct($name)
     {
+        $this->setName($name);
+    }
+
+    // }}}
+    // {{{ setName()
+
+    /**
+     * Sets a class name.
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
         $this->_name = $name;
     }
 
@@ -101,7 +114,7 @@ class Stagehand_Class
     // {{{ getName()
 
     /**
-     * Gets the class name.
+     * Gets a class name.
      *
      * @return string
      */
@@ -136,7 +149,11 @@ class Stagehand_Class
      */
     public function addProperty(Stagehand_Class_Property $property)
     {
-        array_push($this->_properties, $property);
+        if ($this->hasProperty($property->getName())) {
+            throw new Stagehand_Class_Exception("The property [{$property->getName()}] is duplicated.");
+        }
+
+        $this->setProperty($property);
     }
 
     // }}}
@@ -150,6 +167,54 @@ class Stagehand_Class
     public function getProperties()
     {
         return $this->_properties;
+    }
+
+    // }}}
+    // {{{ getProperty()
+
+    /**
+     * Gets a target property.
+     *
+     * @param string $name  propery name
+     * @return mixed
+     */
+    public function getProperty($name)
+    {
+        if (!$this->hasProperty($name)) {
+            return;
+        }
+
+        return $this->_properties[$name];
+    }
+
+    // }}}
+    // {{{ setProperty()
+
+    /**
+     * Sets a property.
+     *
+     * @param Stagehand_Class_Property $property
+     */
+    public function setProperty(Stagehand_Class_Property $property)
+    {
+        $this->_properties[ $property->getName() ] = $property;
+    }
+
+    // }}}
+    // {{{ hasProperty()
+
+    /**
+     * Returns whether a class has target name's property.
+     *
+     * @param string $name  property name.
+     */
+    public function hasProperty($name)
+    {
+        if (!array_key_exists($name, $this->_properties)) {
+            return false;
+        }
+
+        return true;
     }
 
     // }}}

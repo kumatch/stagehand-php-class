@@ -92,7 +92,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function setPropertyAndAccessProperties()
+    public function setPropertyAndUse()
     {
         $className = 'ExampleForProperty';
         $class = new Stagehand_Class($className);
@@ -139,7 +139,46 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function setMethodAndAccessMethods()
+    public function accessPropertyAndUpdate()
+    {
+        $className = 'ExampleForPropertyUpdate';
+        $class = new Stagehand_Class($className);
+
+        $property1 = new Stagehand_Class_Property('a', 100);
+        $class->addProperty($property1);
+
+        $this->assertSame($class->getProperty('a'), $property1);
+
+        $property2 = new Stagehand_Class_Property('a', 200);
+        $class->setProperty($property2);
+
+        $this->assertSame($class->getProperty('a'), $property2);
+
+        $class->load();
+        $instance = new $className;
+
+        $this->assertEquals($instance->a, 200);
+    }
+
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfAddsProperyIsDuplicated()
+    {
+        $className = 'ExampleForPropertyDuplicated';
+        $class = new Stagehand_Class($className);
+
+        $property1 = new Stagehand_Class_Property('a', 100);
+        $property2 = new Stagehand_Class_Property('a', 200);
+        $class->addProperty($property1);
+        $class->addProperty($property2);
+    }
+
+    /**
+     * @test
+     */
+    public function setMethodAndUse()
     {
         $className = 'ExampleForMethod';
         $class = new Stagehand_Class($className);
@@ -272,7 +311,7 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function setConstantAndAccessConstants()
+    public function setConstantAndUse()
     {
         $className = 'ExampleForConstant';
         $class = new Stagehand_Class($className);
