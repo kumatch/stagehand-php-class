@@ -122,26 +122,78 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     // {{{ addArgument()
 
     /**
-     * Adds a method argument.
+     * Addes a argument.
      *
      * @param Stagehand_Class_Method_Argument $argument
      */
     public function addArgument(Stagehand_Class_Method_Argument $argument)
     {
-        array_push($this->_arguments, $argument);
+        if ($this->hasArgument($argument->getName())) {
+            throw new Stagehand_Class_Exception("The argument [{$argument->getName()}] is duplicated.");
+        }
+
+        $this->setArgument($argument);
     }
 
     // }}}
     // {{{ getArguments()
 
     /**
-     * Gets all method arguments.
+     * Gets all arguments.
      *
      * @return array
      */
     public function getArguments()
     {
         return $this->_arguments;
+    }
+
+    // }}}
+    // {{{ getArgument()
+
+    /**
+     * Gets a target argument.
+     *
+     * @param string $name  argument name
+     * @return mixed
+     */
+    public function getArgument($name)
+    {
+        if (!$this->hasArgument($name)) {
+            return;
+        }
+
+        return $this->_arguments[$name];
+    }
+
+    // }}}
+    // {{{ setArgument()
+
+    /**
+     * Sets a argument.
+     *
+     * @param Stagehand_Class_Argument $argument
+     */
+    public function setArgument(Stagehand_Class_Method_Argument $argument)
+    {
+        $this->_arguments[ $argument->getName() ] = $argument;
+    }
+
+    // }}}
+    // {{{ hasArgument()
+
+    /**
+     * Returns whether a method has target name's argument.
+     *
+     * @param string $name  argument name.
+     */
+    public function hasArgument($name)
+    {
+        if (!array_key_exists($name, $this->_arguments)) {
+            return false;
+        }
+
+        return true;
     }
 
     // }}}

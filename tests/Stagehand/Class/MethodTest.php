@@ -161,9 +161,9 @@ return 1;');
         $arguments = $method->getArguments();
 
         $this->assertEquals(count($arguments), 3);
-        $this->assertSame($arguments[0], $foo);
-        $this->assertSame($arguments[1], $bar);
-        $this->assertSame($arguments[2], $baz);
+        $this->assertSame($arguments['foo'], $foo);
+        $this->assertSame($arguments['bar'], $bar);
+        $this->assertSame($arguments['baz'], $baz);
     }
 
     /**
@@ -199,6 +199,40 @@ return 1;');
         $method->defineAbstract();
 
         $this->assertTrue($method->isAbstract());
+    }
+
+    /**
+     * @test
+     */
+    public function accessArgumentAndUpdate()
+    {
+        $method = new Stagehand_Class_Method('foo');
+
+        $argument1 = new Stagehand_Class_Method_Argument('a');
+        $method->addArgument($argument1);
+
+        $this->assertSame($method->getArgument('a'), $argument1);
+
+        $argument2 = new Stagehand_Class_Method_Argument('a');
+        $argument2->setRequirement(false);
+        $argument2->setValue(10);
+        $method->setArgument($argument2);
+
+        $this->assertSame($method->getArgument('a'), $argument2);
+    }
+
+    /**
+     * @test
+     * @expectedException Stagehand_Class_Exception
+     */
+    public function catchTheExceptionIfAddsArgumentIsDuplicated()
+    {
+        $method = new Stagehand_Class_Method('foo');
+
+        $argument1 = new Stagehand_Class_Method_Argument('a');
+        $argument2 = new Stagehand_Class_Method_Argument('a');
+        $method->addArgument($argument1);
+        $method->addArgument($argument2);
     }
 
     /**#@-*/
