@@ -96,7 +96,7 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
     // {{{ setName()
 
     /**
-     * sets the constant name.
+     * Sets a constant name.
      *
      * @param string $name  Propety name
      */
@@ -109,7 +109,7 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
     // {{{ getName()
 
     /**
-     * Gets the constant name.
+     * Gets a constant name.
      *
      * @return string
      */
@@ -122,7 +122,7 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
     // {{{ setValue()
 
     /**
-     * sets the constant value.
+     * Sets a constant value.
      *
      * @param string $value  Propety value
      * @throws Stagehand_Class_Exception
@@ -138,7 +138,7 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
     // {{{ getValue()
 
     /**
-     * Gets the constant value.
+     * Gets a constant value.
      *
      * @return string
      */

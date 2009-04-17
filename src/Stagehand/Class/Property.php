@@ -96,7 +96,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     // {{{ setName()
 
     /**
-     * sets the property name.
+     * Sets a property name.
      *
      * @param string $name  Propety name
      */
@@ -109,7 +109,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     // {{{ getName()
 
     /**
-     * Gets the property name.
+     * Gets a property name.
      *
      * @return string
      */
@@ -122,7 +122,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     // {{{ setValue()
 
     /**
-     * sets the property value.
+     * Sets a property value.
      *
      * @param string $value  Propety value
      * @throws Stagehand_Class_Exception
@@ -138,7 +138,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     // {{{ getValue()
 
     /**
-     * Gets the property value.
+     * Gets a property value.
      *
      * @return string
      */

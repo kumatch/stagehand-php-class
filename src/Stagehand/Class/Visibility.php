@@ -79,7 +79,7 @@ abstract class Stagehand_Class_Visibility
     // {{{ setVisivility()
 
     /**
-     * Sets the visivility.
+     * Sets a visivility.
      *
      * @param string $keyword  Visivility keyword
      */
@@ -100,7 +100,7 @@ abstract class Stagehand_Class_Visibility
     // {{{ getVisivility()
 
     /**
-     * Gets the visivility.
+     * Gets a visivility.
      *
      * @return string
      */

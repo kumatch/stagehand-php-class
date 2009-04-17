@@ -96,7 +96,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     // {{{ setName()
 
     /**
-     * Sets the method name.
+     * Sets a method name.
      *
      * @param string $name  method name
      */
@@ -109,7 +109,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     // {{{ getName()
 
     /**
-     * Gets the method name.
+     * Gets a method name.
      *
      * @return string
      */
@@ -174,7 +174,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     // {{{ defineAbstract()
 
     /**
-     * Defines the abstract method.
+     * Defines the method to abstract.
      *
      */
     public function defineAbstract($isAbstract = true)
