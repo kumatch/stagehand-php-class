@@ -70,7 +70,9 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     private $_name;
     private $_arguments = array();
     private $_code;
-    private $_isAbstract;
+
+    private $_isAbstract = false;
+    private $_isFinal    = false;
 
     /**#@-*/
 
@@ -226,25 +228,56 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     // {{{ defineAbstract()
 
     /**
-     * Defines the method to abstract.
+     * Defines a method to abstract.
      *
      */
     public function defineAbstract($isAbstract = true)
     {
         $this->_isAbstract = $isAbstract ? true : false;
+        if ($this->isAbstract()) {
+            $this->defineFinal(false);
+        }
     }
 
     // }}}
     // {{{ isAbstract()
 
     /**
-     * Returns whether the abstract method or not.
+     * Returns whether a method is abstract or not.
      *
      * @return boolean
      */
     public function isAbstract()
     {
         return $this->_isAbstract ? true : false;
+    }
+
+    // }}}
+    // {{{ defineFinal()
+
+    /**
+     * Defines a method to final.
+     *
+     */
+    public function defineFinal($isFinal = true)
+    {
+        $this->_isFinal = $isFinal ? true : false;
+        if ($this->isFinal()) {
+            $this->defineAbstract(false);
+        }
+    }
+
+    // }}}
+    // {{{ isFinal()
+
+    /**
+     * Returns whether a method is final or not.
+     *
+     * @return boolean
+     */
+    public function isFinal()
+    {
+        return $this->_isFinal ? true : false;
     }
 
     /**#@-*/

@@ -235,6 +235,19 @@ return 1;');
         $method->addArgument($argument2);
     }
 
+    /**
+     * @test
+     */
+    public function createAFinalMethod()
+    {
+        $method = new Stagehand_Class_Method('method');
+        $finalMethod = new Stagehand_Class_Method('finalMethod');
+        $finalMethod->defineFinal();
+
+        $this->assertFalse($method->isFinal());
+        $this->assertTrue($finalMethod->isFinal());
+    }
+
     /**#@-*/
 
     /**#@+

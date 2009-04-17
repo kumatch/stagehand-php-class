@@ -134,6 +134,24 @@ CLASS_FORMAT;
         return $format;
     }
 
+    // }}}
+    // {{{ _createMethodCode()
+
+    /**
+     * Creates a partial code for class method.
+     *
+     ` @param  Stagehand_Class_Method $method
+     * @return string
+     */
+    protected function _createMethodCode($method)
+    {
+        if ($method->isFinal()) {
+            return;
+        }
+
+        return parent::_createMethodCode($method);
+    }
+
     /**#@-*/
 
     /**#@+

@@ -125,6 +125,14 @@ class Stagehand_Class_CodeGenerator_ClassTest extends PHPUnit_Framework_TestCase
     ))
     {
     }
+
+    final public function grault()
+    {
+    }
+
+    final public static function garply()
+    {
+    }
 }
 ");
     }

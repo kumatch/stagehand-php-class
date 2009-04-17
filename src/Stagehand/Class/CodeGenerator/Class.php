@@ -272,13 +272,19 @@ METHOD_FORMAT;
      */
     protected function _createMethodCode($method)
     {
-        return sprintf($this->_getMethodFormat($method),
-                       $method->getVisibility(),
-                       $method->isStatic() ? ' static' : null,
-                       $method->getName(),
-                       $this->_formatArguments($method->getArguments()),
-                       $this->_indentCode($method->getCode())
-                       );
+        $code = sprintf($this->_getMethodFormat($method),
+                        $method->getVisibility(),
+                        $method->isStatic() ? ' static' : null,
+                        $method->getName(),
+                        $this->_formatArguments($method->getArguments()),
+                        $this->_indentCode($method->getCode())
+                        );
+
+        if ($method->isFinal()) {
+            return 'final ' . $code;
+        } else {
+            return $code;
+        }
     }
 
     // }}}

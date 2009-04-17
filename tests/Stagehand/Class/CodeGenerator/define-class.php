@@ -66,6 +66,8 @@ function define_class_for_code_genration_test()
     $staticMethod    = new Stagehand_Class_Method('qux');
     $abstractMethod  = new Stagehand_Class_Method('quux');
     $abstractStaticMethod = new Stagehand_Class_Method('corge');
+    $finalMethod       = new Stagehand_Class_Method('grault');
+    $finalStaticMethod = new Stagehand_Class_Method('garply');
     $protectedMethod->defineProtected();
     $protectedMethod->addArgument($argumentA);
     $protectedMethod->addArgument($argumentB);
@@ -80,6 +82,9 @@ return $d;');
     $abstractMethod->defineAbstract();
     $abstractStaticMethod->defineAbstract();
     $abstractStaticMethod->defineStatic();
+    $finalMethod->defineFinal();
+    $finalStaticMethod->defineFinal();
+    $finalStaticMethod->defineStatic();
 
     $constant1 = new Stagehand_Class_Constant('A');
     $constant2 = new Stagehand_Class_Constant('B', 10);
@@ -95,6 +100,8 @@ return $d;');
     $class->addMethod($staticMethod);
     $class->addMethod($abstractMethod);
     $class->addMethod($abstractStaticMethod);
+    $class->addMethod($finalMethod);
+    $class->addMethod($finalStaticMethod);
     $class->addConstant($constant1);
     $class->addConstant($constant2);
     $class->addConstant($constant3);
