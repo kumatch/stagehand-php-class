@@ -84,31 +84,50 @@ class Stagehand_Class_Method_Argument
      * Sets this argument name and default value if argument is not required.
      *
      * @param string  $name      argument name.
-     * @param boolean $required  is required this argument
-     * @param mixed   $value     default value if argument is not required.
-     * @throws Stagehand_Class_Exception
      */
-    public function __construct($name, $required = true, $value = null)
+    public function __construct($name)
+    {
+        $this->setName($name);
+        $this->setRequirement(true);
+    }
+
+    // }}}
+    // {{{ setName()
+
+    /**
+     * Sets an argument name.
+     *
+     * @param string $name
+     */
+    public function setName($name)
     {
         $this->_name = $name;
-        $this->_required = $required ? true : false;
-
-        if ($this->_isValidValue($value)) {
-            $this->_value = $value;
-        }
     }
 
     // }}}
     // {{{ getName()
 
     /**
-     * Gets the argument name.
+     * Gets an argument name.
      *
      * @return string
      */
     public function getName()
     {
         return $this->_name;
+    }
+
+    // }}}
+    // {{{ setRequirement()
+
+    /**
+     * Sets an argument requirement status.
+     *
+     * @param boolean $isRequired
+     */
+    public function setRequirement($required = true)
+    {
+        $this->_required = $required ? true : false;
     }
 
     // }}}
@@ -125,16 +144,32 @@ class Stagehand_Class_Method_Argument
     }
 
     // }}}
+    // {{{ setValue()
+
+    /**
+     * Sets an argument default value.
+     *
+     * @param mixed $value
+     * @throws Stagehand_Class_Exception
+     */
+    public function setValue($value)
+    {
+        if ($this->_isValidValue($value)) {
+            $this->_value = $value;
+        }
+    }
+
+    // }}}
     // {{{ getValue()
 
     /**
-     * Gets the argument default value.
+     * Gets an argument default value.
      *
      * @return mixed
      */
     public function getValue()
     {
-        return var_export($this->_value, true);
+        return $this->_value;
     }
 
     /**#@-*/

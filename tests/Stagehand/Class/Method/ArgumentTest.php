@@ -86,6 +86,10 @@ class Stagehand_Class_Method_ArgumentTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($argument->getName(), 'foo');
         $this->assertTrue($argument->isRequired());
+
+        $argument->setName('bar');
+
+        $this->assertEquals($argument->getName(), 'bar');
     }
 
     /**
@@ -93,13 +97,16 @@ class Stagehand_Class_Method_ArgumentTest extends PHPUnit_Framework_TestCase
      */
     public function createAnNonRequirementArgument()
     {
-        $argument = new Stagehand_Class_Method_Argument('foo', false);
+        $argument = new Stagehand_Class_Method_Argument('foo');
+        $argument->setRequirement(false);
 
         $this->assertEquals($argument->getName(), 'foo');
         $this->assertFalse($argument->isRequired());
         $this->assertNull($argument->getValue());
 
-        $argument = new Stagehand_Class_Method_Argument('bar', false, 10);
+        $argument = new Stagehand_Class_Method_Argument('bar');
+        $argument->setRequirement(false);
+        $argument->setValue(10);
 
         $this->assertEquals($argument->getName(), 'bar');
         $this->assertFalse($argument->isRequired());
@@ -113,7 +120,9 @@ class Stagehand_Class_Method_ArgumentTest extends PHPUnit_Framework_TestCase
     public function catchTheExceptionIfDeclaringObjectToArgumentsValue()
     {
         $foo = new stdClass();
-        $argument = new Stagehand_Class_Method_Argument('foo', false, $foo);
+        $argument = new Stagehand_Class_Method_Argument('foo');
+        $argument->setRequirement(false);
+        $argument->setValue($foo);
     }
 
     /**
@@ -124,7 +133,9 @@ class Stagehand_Class_Method_ArgumentTest extends PHPUnit_Framework_TestCase
     {
         $foo = new stdClass();
         $trap = array(1, array(2, array(3, $foo)));
-        $argument = new Stagehand_Class_Method_Argument('foo', false, $trap);
+        $argument = new Stagehand_Class_Method_Argument('foo');
+        $argument->setRequirement(false);
+        $argument->setValue($trap);
     }
 
     /**#@-*/
