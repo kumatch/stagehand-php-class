@@ -147,12 +147,16 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $methodFoo = new Stagehand_Class_Method('foo');
         $methodFoo->setCode('return 10;');
 
+        $argumentBar = new Stagehand_Class_Method_Argument('bar');
         $methodBar = new Stagehand_Class_Method('bar');
-        $methodBar->addArgument('bar');
+        $methodBar->addArgument($argumentBar);
         $methodBar->setCode('return $bar;');
 
+        $argumentBaz = new Stagehand_Class_Method_Argument('baz');
+        $argumentBaz->setRequirement(false);
+        $argumentBaz->setValue(array(10, 30, 50));
         $methodBaz = new Stagehand_Class_Method('baz');
-        $methodBaz->addArgument('baz', false, array(10, 30, 50));
+        $methodBaz->addArgument($argumentBaz);
         $methodBaz->setCode('return $baz[1];');
 
         $methodQux = new Stagehand_Class_Method('qux');

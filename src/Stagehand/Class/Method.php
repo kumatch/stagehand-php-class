@@ -124,13 +124,10 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     /**
      * Adds a method argument.
      *
-     * @param string  $name      argument name.
-     * @param boolean $required  argument is required.
-     * @param mixed   $value     argument's default value.
+     * @param Stagehand_Class_Method_Argument $argument
      */
-    public function addArgument($name, $required = true, $value = null)
+    public function addArgument(Stagehand_Class_Method_Argument $argument)
     {
-        $argument = new Stagehand_Class_Method_Argument($name, $required, $value);
         array_push($this->_arguments, $argument);
     }
 

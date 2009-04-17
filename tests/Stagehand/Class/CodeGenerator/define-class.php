@@ -49,6 +49,17 @@ function define_class_for_code_genration_test()
     $privateProperty->definePrivate();
     $staticProperty->defineStatic();
 
+    $argumentA = new Stagehand_Class_Method_Argument('a');
+    $argumentB = new Stagehand_Class_Method_Argument('b');
+    $argumentC = new Stagehand_Class_Method_Argument('c');
+    $argumentD = new Stagehand_Class_Method_Argument('d');
+    $argumentE = new Stagehand_Class_Method_Argument('e');
+    $argumentC->setRequirement(false);
+    $argumentD->setRequirement(false);
+    $argumentD->setValue('d');
+    $argumentE->setRequirement(false);
+    $argumentE->setValue(array(2, 4, 6));
+
     $publicMethod    = new Stagehand_Class_Method('foo');
     $protectedMethod = new Stagehand_Class_Method('bar');
     $privateMethod   = new Stagehand_Class_Method('baz');
@@ -56,16 +67,16 @@ function define_class_for_code_genration_test()
     $abstractMethod  = new Stagehand_Class_Method('quux');
     $abstractStaticMethod = new Stagehand_Class_Method('corge');
     $protectedMethod->defineProtected();
-    $protectedMethod->addArgument('a');
-    $protectedMethod->addArgument('b');
+    $protectedMethod->addArgument($argumentA);
+    $protectedMethod->addArgument($argumentB);
     $protectedMethod->setCode('return true;');
     $privateMethod->definePrivate();
-    $privateMethod->addArgument('c', false);
-    $privateMethod->addArgument('d', false, 'd');
+    $privateMethod->addArgument($argumentC);
+    $privateMethod->addArgument($argumentD);
     $privateMethod->setCode('$c += 1;
 return $d;');
     $staticMethod->defineStatic();
-    $staticMethod->addArgument('e', false, array(2, 4, 6));
+    $staticMethod->addArgument($argumentE);
     $abstractMethod->defineAbstract();
     $abstractStaticMethod->defineAbstract();
     $abstractStaticMethod->defineStatic();

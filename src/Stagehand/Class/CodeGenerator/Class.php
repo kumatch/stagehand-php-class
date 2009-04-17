@@ -333,7 +333,7 @@ class Stagehand_Class_CodeGenerator_Class
         foreach ($arguments as $argument) {
             $oneArg = '$' . $argument->getName();
             if (!$argument->isRequired()) {
-                $oneArg .= ' = ' . $argument->getValue();
+                $oneArg .= ' = ' . var_export($argument->getValue(), true);
             }
             array_push($formatedArguments, $oneArg);
         }

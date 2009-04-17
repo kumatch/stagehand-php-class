@@ -141,10 +141,14 @@ return 1;');
         $name = 'getFoo';
 
         $method = new Stagehand_Class_Method($name);
-        $method->addArgument('foo');
-        $method->addArgument('bar', false);
-        $method->addArgument('baz', false, 10);
-        $method->addArgument('qux', false, array(1, 3, 'abc'));
+
+        $foo = new Stagehand_Class_Method_Argument('foo');
+        $bar = new Stagehand_Class_Method_Argument('bar');
+        $baz = new Stagehand_Class_Method_Argument('baz');
+
+        $method->addArgument($foo);
+        $method->addArgument($bar);
+        $method->addArgument($baz);
         $method->setCode('$a = 0;
 return 1;');
 
@@ -153,37 +157,13 @@ return 1;');
         $this->assertTrue($method->isPublic());
         $this->assertFalse($method->isProtected());
         $this->assertFalse($method->isPrivate());
-    }
 
-    /**
-     * @test
-     * @expectedException Stagehand_Class_Exception
-     */
-    public function catchTheExceptionIfDeclaringObjectToMethodArgumentsValue()
-    {
-        $name = 'foo';
-        $foo = new stdClass();
+        $arguments = $method->getArguments();
 
-        $name = 'getFoo';
-
-        $method = new Stagehand_Class_Method($name);
-        $method->addArgument('foo', false, $foo);
-    }
-
-    /**
-     * @test
-     * @expectedException Stagehand_Class_Exception
-     */
-    public function catchTheExceptionIfDeclaringNestedTrapToMethodArgumentsValue()
-    {
-        $name = 'foo';
-        $foo = new stdClass();
-        $trap = array(1, array(2, array(3, $foo)));
-
-        $name = 'getFoo';
-
-        $method = new Stagehand_Class_Method($name);
-        $method->addArgument('foo', false, $trap);
+        $this->assertEquals(count($arguments), 3);
+        $this->assertSame($arguments[0], $foo);
+        $this->assertSame($arguments[1], $bar);
+        $this->assertSame($arguments[2], $baz);
     }
 
     /**
