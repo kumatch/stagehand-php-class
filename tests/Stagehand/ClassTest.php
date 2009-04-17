@@ -92,6 +92,23 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function outputClass()
+    {
+        $className = 'ExampleForOutput';
+        $class = new Stagehand_Class($className);
+
+        $this->assertEquals($class->output(),
+                            "class {$className}
+{
+
+
+}
+");
+    }
+
+    /**
+     * @test
+     */
     public function setPropertyAndUse()
     {
         $className = 'ExampleForProperty';

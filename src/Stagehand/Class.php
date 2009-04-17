@@ -90,11 +90,39 @@ class Stagehand_Class
     /**
      * Sets this class name.
      *
-     * @param string $name
+     * @param string $name class name
      */
     public function __construct($name)
     {
         $this->setName($name);
+    }
+
+    // }}}
+    // {{{ load()
+
+    /**
+     * Loads a class.
+     */
+    public function load()
+    {
+        $this->_initializeParentClass();
+        $this->_initializeInterface();
+
+        eval($this->output());
+    }
+
+    // }}}
+    // {{{ output()
+
+    /**
+     * Output a class contents.
+     *
+     * @return string
+     */
+    public function output()
+    {
+        $generator = Stagehand_Class_CodeGenerator::create($this);
+        return $generator->generate();
     }
 
     // }}}
@@ -103,7 +131,7 @@ class Stagehand_Class
     /**
      * Sets a class name.
      *
-     * @param string $name
+     * @param string $name class name
      */
     public function setName($name)
     {
@@ -121,22 +149,6 @@ class Stagehand_Class
     public function getName()
     {
         return $this->_name;
-    }
-
-    // }}}
-    // {{{ load()
-
-    /**
-     * Loads the class.
-     *
-     */
-    public function load()
-    {
-        $this->_initializeParentClass();
-        $this->_initializeInterface();
-
-        $generator = Stagehand_Class_CodeGenerator::create($this);
-        eval($generator->generate());
     }
 
     // }}}
@@ -206,7 +218,7 @@ class Stagehand_Class
     /**
      * Returns whether a class has target name's property.
      *
-     * @param string $name  property name.
+     * @param string $name  property name
      */
     public function hasProperty($name)
     {
@@ -284,7 +296,7 @@ class Stagehand_Class
     /**
      * Returns whether a class has target name's method.
      *
-     * @param string $name  method name.
+     * @param string $name  method name
      */
     public function hasMethod($name)
     {
@@ -362,7 +374,7 @@ class Stagehand_Class
     /**
      * Returns whether a class has target name's constant.
      *
-     * @param string $name  constant name.
+     * @param string $name  constant name
      */
     public function hasConstant($name)
     {
@@ -379,7 +391,7 @@ class Stagehand_Class
     /**
      * Sets parent class.
      *
-     * @param mixed $class  Stagehand_Class or class name.
+     * @param mixed $class  Stagehand_Class instance or class name.
      */
     public function setParentClass($class)
     {
@@ -418,7 +430,7 @@ class Stagehand_Class
     /**
      * Addes a interface.
      *
-     * @param mixed $interface
+     * @param mixed $interface  Stagehand_Class instance or interface name
      */
     public function addInterface($interface)
     {
@@ -467,7 +479,7 @@ class Stagehand_Class
     /**
      * Sets a interface.
      *
-     * @param mixed $interface
+     * @param mixed $interface  Stagehand_Class instance or interface name
      */
     public function setInterface($interface)
     {
@@ -481,7 +493,7 @@ class Stagehand_Class
     /**
      * Returns whether a class has target name's interface.
      *
-     * @param string $name  interface name.
+     * @param string $name  interface name
      */
     public function hasInterface($name)
     {
@@ -498,7 +510,7 @@ class Stagehand_Class
     /**
      * Counts a class has interfaces.
      *
-     * @param integer
+     * @return integer
      */
     public function countInterfaces()
     {
@@ -511,6 +523,7 @@ class Stagehand_Class
     /**
      * Defines the abstract class.
      *
+     * @param boolean $isAbstract  is abstract
      */
     public function defineAbstract($isAbstract = true)
     {
@@ -539,6 +552,7 @@ class Stagehand_Class
     /**
      * Defines the interface class.
      *
+     * @param boolean $isInterface  is interface
      */
     public function defineInterface($isInterface = true)
     {
@@ -611,7 +625,7 @@ class Stagehand_Class
     /**
      * Loads class if Stagehand_Class instance does not loaded.
      *
-     * @param mixed $class  Stagehand_Class instance or class name.
+     * @param mixed $class  Stagehand_Class instance or class name
      */
     private function _loadClass($class)
     {
@@ -628,7 +642,7 @@ class Stagehand_Class
     /**
      * Gets a interface name.
      *
-     * @param mixed $interface
+     * @param mixed $interface  Stagehand_Class instance or interface name
      * @return string
      */
     private function _getInterfaceName($interface)
