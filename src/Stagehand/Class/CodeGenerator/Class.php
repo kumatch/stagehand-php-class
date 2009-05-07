@@ -152,7 +152,7 @@ CLASS_FORMAT;
         }
 
         return <<<METHOD_FORMAT
-%s%s function %s(%s)
+%s%s function %s%s(%s)
 {
 %s}
 METHOD_FORMAT;
@@ -275,6 +275,7 @@ METHOD_FORMAT;
         $code = sprintf($this->_getMethodFormat($method),
                         $method->getVisibility(),
                         $method->isStatic() ? ' static' : null,
+                        $method->isReference() ? '&' : null,
                         $method->getName(),
                         $this->_formatArguments($method->getArguments()),
                         $this->_indentCode($method->getCode())
@@ -365,8 +366,9 @@ METHOD_FORMAT;
     {
         $formatedArguments = array();
         foreach ($arguments as $argument) {
-            $oneArg = sprintf('%s$%s%s',
+            $oneArg = sprintf('%s%s$%s%s',
                               $argument->getTypeHinting() ? "{$argument->getTypeHinting()} " : null,
+                              $argument->isReference() ? '&' : null,
                               $argument->getName(),
                               $argument->isRequired() ?
                                   null : ' = ' . var_export($argument->getValue(), true)

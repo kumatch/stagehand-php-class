@@ -129,6 +129,10 @@ class Stagehand_Class_CodeGenerator_AbstractClassTest extends PHPUnit_Framework_
     abstract public function quux();
 
     abstract public static function corge();
+
+    public function &waldo()
+    {
+    }
 }
 ");
     }

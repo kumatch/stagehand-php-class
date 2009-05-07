@@ -126,7 +126,7 @@ CLASS_FORMAT;
     protected function _getMethodFormat($method)
     {
         if ($method->isPublic()) {
-            $format = "%s%s function %s(%s);";
+            $format = "%s%s function %s%s(%s);";
         } else {
             $format = null;
         }

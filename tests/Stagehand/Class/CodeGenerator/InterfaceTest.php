@@ -105,6 +105,8 @@ class Stagehand_Class_CodeGenerator_InterfaceTest extends PHPUnit_Framework_Test
     public function quux();
 
     public static function corge();
+
+    public function &waldo();
 }
 ");
     }

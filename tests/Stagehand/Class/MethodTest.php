@@ -248,6 +248,19 @@ return 1;');
         $this->assertTrue($finalMethod->isFinal());
     }
 
+    /**
+     * @test
+     */
+    public function createAReferenceMethod()
+    {
+        $method = new Stagehand_Class_Method('method');
+        $referenceMethod = new Stagehand_Class_Method('referenceMethod');
+        $referenceMethod->setReference();
+
+        $this->assertFalse($method->isReference());
+        $this->assertTrue($referenceMethod->isReference());
+    }
+
     /**#@-*/
 
     /**#@+

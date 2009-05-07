@@ -54,12 +54,14 @@ function define_class_for_code_genration_test()
     $argumentC = new Stagehand_Class_Method_Argument('c');
     $argumentD = new Stagehand_Class_Method_Argument('d');
     $argumentE = new Stagehand_Class_Method_Argument('e');
+    $argumentF = new Stagehand_Class_Method_Argument('f');
     $argumentB->setTypeHinting('array');
     $argumentC->setRequirement(false);
     $argumentD->setRequirement(false);
     $argumentD->setValue('d');
     $argumentE->setRequirement(false);
     $argumentE->setValue(array(2, 4, 6));
+    $argumentF->setReference();
 
     $publicMethod    = new Stagehand_Class_Method('foo');
     $protectedMethod = new Stagehand_Class_Method('bar');
@@ -69,6 +71,7 @@ function define_class_for_code_genration_test()
     $abstractStaticMethod = new Stagehand_Class_Method('corge');
     $finalMethod       = new Stagehand_Class_Method('grault');
     $finalStaticMethod = new Stagehand_Class_Method('garply');
+    $referenceMethod   = new Stagehand_Class_Method('waldo');
     $protectedMethod->defineProtected();
     $protectedMethod->addArgument($argumentA);
     $protectedMethod->addArgument($argumentB);
@@ -84,8 +87,10 @@ return $d;');
     $abstractStaticMethod->defineAbstract();
     $abstractStaticMethod->defineStatic();
     $finalMethod->defineFinal();
+    $finalMethod->addArgument($argumentF);
     $finalStaticMethod->defineFinal();
     $finalStaticMethod->defineStatic();
+    $referenceMethod->setReference();
 
     $constant1 = new Stagehand_Class_Constant('A');
     $constant2 = new Stagehand_Class_Constant('B', 10);
@@ -103,6 +108,7 @@ return $d;');
     $class->addMethod($abstractStaticMethod);
     $class->addMethod($finalMethod);
     $class->addMethod($finalStaticMethod);
+    $class->addMethod($referenceMethod);
     $class->addConstant($constant1);
     $class->addConstant($constant2);
     $class->addConstant($constant3);

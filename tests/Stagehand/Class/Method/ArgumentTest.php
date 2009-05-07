@@ -157,6 +157,19 @@ class Stagehand_Class_Method_ArgumentTest extends PHPUnit_Framework_TestCase
         $this->assertNull($argument4->getTypeHinting());
     }
 
+    /**
+     * @test
+     */
+    public function createAnReferenceArgument()
+    {
+        $argument1 = new Stagehand_Class_Method_Argument('foo');
+        $argument2 = new Stagehand_Class_Method_Argument('bar');
+        $argument2->setReference();
+
+        $this->assertFalse($argument1->isReference());
+        $this->assertTrue($argument2->isReference());
+    }
+
     /**#@-*/
 
     /**#@+

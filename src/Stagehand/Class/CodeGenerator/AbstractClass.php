@@ -108,9 +108,9 @@ CLASS_FORMAT;
     protected function _getMethodFormat($method)
     {
         if ($method->isAbstract()) {
-            $format = "abstract %s%s function %s(%s);";
+            $format = "abstract %s%s function %s%s(%s);";
         } else {
-            $format = "%s%s function %s(%s)
+            $format = "%s%s function %s%s(%s)
 {
 %s}";
         }

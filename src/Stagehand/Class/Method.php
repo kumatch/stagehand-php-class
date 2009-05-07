@@ -71,8 +71,9 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     private $_arguments = array();
     private $_code;
 
-    private $_isAbstract = false;
-    private $_isFinal    = false;
+    private $_isAbstract  = false;
+    private $_isFinal     = false;
+    private $_isReference = false;
 
     /**#@-*/
 
@@ -278,6 +279,31 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     public function isFinal()
     {
         return $this->_isFinal ? true : false;
+    }
+
+    // }}}
+    // {{{ setReference()
+
+    /**
+     * Sets a method to reference.
+     *
+     */
+    public function setReference($isReference = true)
+    {
+        $this->_isReference = $isReference ? true : false;
+    }
+
+    // }}}
+    // {{{ isReference()
+
+    /**
+     * Returns whether a method is reference or not.
+     *
+     * @return boolean
+     */
+    public function isReference()
+    {
+        return $this->_isReference ? true : false;
     }
 
     /**#@-*/

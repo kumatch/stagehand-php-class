@@ -71,6 +71,7 @@ class Stagehand_Class_Method_Argument
     private $_value;
     private $_required;
     private $_typeHinting;
+    private $_isReference;
 
     /**#@-*/
 
@@ -197,6 +198,31 @@ class Stagehand_Class_Method_Argument
     public function getTypeHinting()
     {
         return $this->_typeHinting;
+    }
+
+    // }}}
+    // {{{ setReference()
+
+    /**
+     * Sets an argument to reference.
+     *
+     */
+    public function setReference($isReference = true)
+    {
+        $this->_isReference = $isReference ? true : false;
+    }
+
+    // }}}
+    // {{{ isReference()
+
+    /**
+     * Returns whether an argument is reference or not.
+     *
+     * @return boolean
+     */
+    public function isReference()
+    {
+        return $this->_isReference ? true : false;
     }
 
     /**#@-*/
