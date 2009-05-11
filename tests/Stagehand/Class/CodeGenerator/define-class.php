@@ -31,11 +31,17 @@
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @version    Release: @package_version@
  * @since      File available since Release 0.1.0
  */
 
-// {{{ Defines class for code generation test.
+// {{{ define_class_for_code_genration_test()
 
+/**
+ * A function for test of code generator.
+ *
+ * @param string $name class name
+ */
 function define_class_for_code_genration_test()
 {
     $className = 'ExampleForCodeGenerationTest';

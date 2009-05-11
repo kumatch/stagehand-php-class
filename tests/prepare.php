@@ -31,6 +31,7 @@
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @version    Release: @package_version@
  * @since      File available since Release 0.1.0
  */
 

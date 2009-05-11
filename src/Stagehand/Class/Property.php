@@ -31,13 +31,14 @@
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @version    Release: @package_version@
  * @since      File available since Release 0.1.0
  */
 
 // {{{ Stagehand_Class_Property
 
 /**
- * Stagehand_Class_Property.
+ * A class for property (attribute) of a PHP class.
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
@@ -45,7 +46,6 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 0.1.0
  */
-
 class Stagehand_Class_Property extends Stagehand_Class_Declaration
 {
 

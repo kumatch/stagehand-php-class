@@ -31,13 +31,14 @@
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @version    Release: @package_version@
  * @since      File available since Release 0.1.0
  */
 
 // {{{ Stagehand_ClassTest_ExistingClass
 
 /**
- * Example class for Stagehand_ClassTest
+ * An example class for Stagehand_ClassTest
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>

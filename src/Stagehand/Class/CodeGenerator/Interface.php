@@ -31,13 +31,14 @@
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @version    Release: @package_version@
  * @since      File available since Release 0.1.0
  */
 
 // {{{ Stagehand_Class_CodeGenerator_Interface
 
 /**
- * Stagehand_Class_CodeGenerator_Interface.
+ * A driver class for code generator of class interface.
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
@@ -45,7 +46,6 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 0.1.0
  */
-
 class Stagehand_Class_CodeGenerator_Interface extends Stagehand_Class_CodeGenerator_Class
 {
 

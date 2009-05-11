@@ -31,13 +31,14 @@
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @version    Release: @package_version@
  * @since      File available since Release 0.1.0
  */
 
 // {{{ Stagehand_Class_Method_Argument
 
 /**
- * Stagehand_Class_Method_Argument.
+ * A class for argument of a PHP class's method.
  *
  * @package    sh-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
@@ -45,7 +46,6 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 0.1.0
  */
-
 class Stagehand_Class_Method_Argument
 {
 
