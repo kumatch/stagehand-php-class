@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>,
+ * Copyright (c) 2009 KUMAKURA Yousuke <kumatch@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    sh-class
- * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
+ * @copyright  2009 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
  * @since      File available since Release 0.1.0
@@ -41,7 +41,7 @@
  * A class for code generator of a PHP class.
  *
  * @package    sh-class
- * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
+ * @copyright  2009 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
  * @since      Class available since Release 0.1.0

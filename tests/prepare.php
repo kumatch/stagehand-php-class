@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>,
+ * Copyright (c) 2009 KUMAKURA Yousuke <kumatch@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
