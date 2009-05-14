@@ -147,6 +147,21 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
         return $this->_value;
     }
 
+    // }}}
+    // {{{ render()
+
+    /**
+     * Renders a constant code.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        return sprintf('const %s = %s;',
+                       $this->getName(), var_export($this->getValue(), true)
+                       );
+    }
+
     /**#@-*/
 
     /**#@+

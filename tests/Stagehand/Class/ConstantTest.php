@@ -113,6 +113,20 @@ class Stagehand_Class_ConstantTest extends PHPUnit_Framework_TestCase
         $constant = new Stagehand_Class_Constant('foo', new stdClass());
     }
 
+    /**
+     * @test
+     */
+    public function renderConstantCode()
+    {
+        $foo = new Stagehand_Class_Constant('foo');
+        $bar = new Stagehand_Class_Constant('bar', 10);
+        $baz = new Stagehand_Class_Constant('baz', 'baz');
+
+        $this->assertEquals($foo->render(), 'const foo = NULL;');
+        $this->assertEquals($bar->render(), 'const bar = 10;');
+        $this->assertEquals($baz->render(), 'const baz = \'baz\';');
+    }
+
     /**#@-*/
 
     /**#@+
