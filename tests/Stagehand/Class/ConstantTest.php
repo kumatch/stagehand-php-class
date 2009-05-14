@@ -127,6 +127,30 @@ class Stagehand_Class_ConstantTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($baz->render(), 'const baz = \'baz\';');
     }
 
+    /**
+     * @test
+     */
+    public function useParsableValue()
+    {
+        $foo = new Stagehand_Class_Constant('foo', 'Foo::value', true);
+
+        $this->assertTrue($foo->isParsable());
+        $this->assertEquals($foo->getValue(), 'Foo::value');
+        $this->assertEquals($foo->render(), 'const foo = Foo::value;');
+
+        $foo->setValue('Foo::value');
+
+        $this->assertFalse($foo->isParsable());
+        $this->assertEquals($foo->getValue(), 'Foo::value');
+        $this->assertEquals($foo->render(), 'const foo = \'Foo::value\';');
+
+        $foo->setValue('Foo::value', true);
+
+        $this->assertTrue($foo->isParsable());
+        $this->assertEquals($foo->getValue(), 'Foo::value');
+        $this->assertEquals($foo->render(), 'const foo = Foo::value;');
+    }
+
     /**#@-*/
 
     /**#@+

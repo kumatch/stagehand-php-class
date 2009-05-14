@@ -69,6 +69,7 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
 
     private $_name;
     private $_value;
+    private $_isParsable;
 
     /**#@-*/
 
@@ -82,14 +83,15 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
     /**
      * Sets this constant name.
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param string  $name
+     * @param mixed   $value
+     * @param boolean $isParsable
      * @throws Stagehand_Class_Exception
      */
-    public function __construct($name, $value = null)
+    public function __construct($name, $value = null, $isParsable = false)
     {
         $this->_name = $name;
-        $this->setValue($value);
+        $this->setValue($value, $isParsable);
     }
 
     // }}}
@@ -124,14 +126,21 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
     /**
      * Sets a constant value.
      *
-     * @param string $value  Propety value
+     * @param string  $value       Propety value
+     * @param boolean $isParsable  A value is parsable or not
      * @throws Stagehand_Class_Exception
      */
-    public function setValue($value)
+    public function setValue($value, $isParsable = false)
     {
-        if ($this->_isValidValue($value)) {
+        if ($isParsable) {
             $this->_value = $value;
+        } else {
+            if ($this->_isValidValue($value)) {
+                $this->_value = $value;
+            }
         }
+
+        $this->_isParsable = $isParsable;
     }
 
     // }}}
@@ -148,6 +157,19 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
     }
 
     // }}}
+    // {{{ isParsable
+
+    /**
+     * Returns whether a value is parable or not.
+     *
+     * @return boolean
+     */
+    public function isParsable()
+    {
+        return $this->_isParsable ? true : false;
+    }
+
+    // }}}
     // {{{ render()
 
     /**
@@ -157,8 +179,11 @@ class Stagehand_Class_Constant extends Stagehand_Class_Declaration
      */
     public function render()
     {
+        $value = $this->isParsable() ?
+            $this->getValue() : var_export($this->getValue(), true);
+
         return sprintf('const %s = %s;',
-                       $this->getName(), var_export($this->getValue(), true)
+                       $this->getName(), $value
                        );
     }
 
