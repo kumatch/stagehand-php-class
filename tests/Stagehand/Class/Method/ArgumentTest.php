@@ -170,6 +170,30 @@ class Stagehand_Class_Method_ArgumentTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($argument2->isReference());
     }
 
+    /**
+     * @test
+     */
+    public function renderArgument()
+    {
+        $argument = new Stagehand_Class_Method_Argument('foo');
+
+        $this->assertEquals($argument->render(), '$foo');
+
+        $argument->setRequirement(false);
+        $argument->setValue(10);
+
+        $this->assertEquals($argument->render(), '$foo = 10');
+
+        $argument->setRequirement(true);
+        $argument->setTypeHinting('array');
+
+        $this->assertEquals($argument->render(), 'array $foo');
+
+        $argument->setReference();
+
+        $this->assertEquals($argument->render(), 'array &$foo');
+    }
+
     /**#@-*/
 
     /**#@+

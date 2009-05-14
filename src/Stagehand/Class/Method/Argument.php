@@ -225,6 +225,25 @@ class Stagehand_Class_Method_Argument
         return $this->_isReference ? true : false;
     }
 
+    // }}}
+    // {{{ render()
+
+    /**
+     * Renders a argument code.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        return sprintf('%s%s$%s%s',
+                       $this->getTypeHinting() ? "{$this->getTypeHinting()} " : null,
+                       $this->isReference() ? '&' : null,
+                       $this->getName(),
+                       $this->isRequired() ?
+                       null : ' = ' . var_export($this->getValue(), true)
+                       );
+    }
+
     /**#@-*/
 
     /**#@+
