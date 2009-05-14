@@ -104,12 +104,12 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function outputClass()
+    public function renderClass()
     {
-        $className = 'ExampleForOutput';
+        $className = 'ExampleForRender';
         $class = new Stagehand_Class($className);
 
-        $this->assertEquals($class->output(),
+        $this->assertEquals($class->render(),
                             "class {$className}
 {
 }

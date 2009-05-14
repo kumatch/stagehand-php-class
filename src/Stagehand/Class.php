@@ -113,18 +113,18 @@ class Stagehand_Class
         $this->_initializeParentClass();
         $this->_initializeInterface();
 
-        eval($this->output());
+        eval($this->render());
     }
 
     // }}}
-    // {{{ output()
+    // {{{ render()
 
     /**
-     * Output a class contents.
+     * Renders a class contents.
      *
      * @return string
      */
-    public function output()
+    public function render()
     {
         $generator = Stagehand_Class_CodeGenerator::create($this);
         return $generator->generate();
