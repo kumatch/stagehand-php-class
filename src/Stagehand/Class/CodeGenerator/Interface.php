@@ -116,25 +116,6 @@ CLASS_FORMAT;
     }
 
     // }}}
-    // {{{ _getMethodFormat
-
-    /**
-     * Gets a method code Format
-     *
-     * @return string
-     */
-    protected function _getMethodFormat($method)
-    {
-        if ($method->isPublic()) {
-            $format = "%s%s function %s%s(%s);";
-        } else {
-            $format = null;
-        }
-
-        return $format;
-    }
-
-    // }}}
     // {{{ _createMethodCode()
 
     /**
@@ -149,7 +130,7 @@ CLASS_FORMAT;
             return;
         }
 
-        return parent::_createMethodCode($method);
+        return $method->renderInterface();
     }
 
     /**#@-*/

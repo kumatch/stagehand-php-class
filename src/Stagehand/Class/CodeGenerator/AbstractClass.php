@@ -98,27 +98,6 @@ CLASS_FORMAT;
     }
 
     // }}}
-    // {{{ _getMethodFormat
-
-    /**
-     * Gets a method code Format
-     *
-     * @return string
-     */
-    protected function _getMethodFormat($method)
-    {
-        if ($method->isAbstract()) {
-            $format = "abstract %s%s function %s%s(%s);";
-        } else {
-            $format = "%s%s function %s%s(%s)
-{
-%s}";
-        }
-
-        return $format;
-    }
-
-    // }}}
     // {{{ _createMethodCode()
 
     /**
@@ -133,7 +112,7 @@ CLASS_FORMAT;
             return;
         }
 
-        return parent::_createMethodCode($method);
+        return $method->render();
     }
 
     /**#@-*/
