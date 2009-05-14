@@ -398,14 +398,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     {
         $formatedArguments = array();
         foreach ($arguments as $argument) {
-            $oneArg = sprintf('%s%s$%s%s',
-                              $argument->getTypeHinting() ? "{$argument->getTypeHinting()} " : null,
-                              $argument->isReference() ? '&' : null,
-                              $argument->getName(),
-                              $argument->isRequired() ?
-                                  null : ' = ' . var_export($argument->getValue(), true)
-                              );
-            array_push($formatedArguments, $oneArg);
+            array_push($formatedArguments, $argument->render());
         }
 
         return implode(', ', $formatedArguments);
