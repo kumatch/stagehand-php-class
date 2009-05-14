@@ -194,6 +194,26 @@ class Stagehand_Class_Method_ArgumentTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($argument->render(), 'array &$foo');
     }
 
+    /**
+     * @test
+     */
+    public function useParsableValue()
+    {
+        $argument = new Stagehand_Class_Method_Argument('foo');
+        $argument->setRequirement(false);
+        $argument->setValue('Foo::value', true);
+
+        $this->assertTrue($argument->isParsable());
+        $this->assertEquals($argument->getValue(), 'Foo::value');
+        $this->assertEquals($argument->render(), '$foo = Foo::value');
+
+        $argument->setValue('Foo::value');
+
+        $this->assertFalse($argument->isParsable());
+        $this->assertEquals($argument->getValue(), 'Foo::value');
+        $this->assertEquals($argument->render(), '$foo = \'Foo::value\'');
+    }
+
     /**#@-*/
 
     /**#@+

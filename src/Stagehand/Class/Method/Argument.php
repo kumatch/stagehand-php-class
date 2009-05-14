@@ -72,6 +72,7 @@ class Stagehand_Class_Method_Argument
     private $_required;
     private $_typeHinting;
     private $_isReference;
+    private $_isParsable;
 
     /**#@-*/
 
@@ -152,13 +153,20 @@ class Stagehand_Class_Method_Argument
      * Sets an argument default value.
      *
      * @param mixed $value
+     * @param boolean $isParsable
      * @throws Stagehand_Class_Exception
      */
-    public function setValue($value)
+    public function setValue($value, $isParsable = false)
     {
-        if ($this->_isValidValue($value)) {
+        if ($isParsable) {
             $this->_value = $value;
+        } else {
+            if ($this->_isValidValue($value)) {
+                $this->_value = $value;
+            }
         }
+
+        $this->_isParsable = $isParsable;
     }
 
     // }}}
@@ -226,6 +234,19 @@ class Stagehand_Class_Method_Argument
     }
 
     // }}}
+    // {{{ isParsable
+
+    /**
+     * Returns whether a value is parable or not.
+     *
+     * @return boolean
+     */
+    public function isParsable()
+    {
+        return $this->_isParsable ? true : false;
+    }
+
+    // }}}
     // {{{ render()
 
     /**
@@ -235,12 +256,14 @@ class Stagehand_Class_Method_Argument
      */
     public function render()
     {
+        $value = $this->isParsable() ?
+            $this->getValue() : var_export($this->getValue(), true);
+
         return sprintf('%s%s$%s%s',
                        $this->getTypeHinting() ? "{$this->getTypeHinting()} " : null,
                        $this->isReference() ? '&' : null,
                        $this->getName(),
-                       $this->isRequired() ?
-                       null : ' = ' . var_export($this->getValue(), true)
+                       $this->isRequired() ? null : ' = ' . $value
                        );
     }
 
