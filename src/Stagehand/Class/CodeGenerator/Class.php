@@ -223,21 +223,7 @@ CLASS_FORMAT;
      */
     protected function _createPropertyCode($property)
     {
-        $format = null;
-        $formatedValue = null;
-
-        if ($property->getValue()) {
-            $format = "%s%s $%s = %s;";
-            $formatedValue = var_export($property->getValue(), true);
-        } else {
-            $format = '%s%s $%s;';
-        }
-
-        return sprintf($format,
-                       $property->getVisibility(),
-                       $property->isStatic() ? ' static' : null,
-                       $property->getName(), $formatedValue
-                       );
+        return $property->render();
     }
 
     // }}}
