@@ -147,6 +147,33 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
         return $this->_value;
     }
 
+    // }}}
+    // {{{ render()
+
+    /**
+     * Renders a property code.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $format = null;
+        $formatedValue = null;
+
+        if ($this->getValue()) {
+            $format = "%s%s $%s = %s;";
+            $formatedValue = var_export($this->getValue(), true);
+        } else {
+            $format = '%s%s $%s;';
+        }
+
+        return sprintf($format,
+                       $this->getVisibility(),
+                       $this->isStatic() ? ' static' : null,
+                       $this->getName(), $formatedValue
+                       );
+    }
+
     /**#@-*/
 
     /**#@+
