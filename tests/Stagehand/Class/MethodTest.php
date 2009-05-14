@@ -261,6 +261,118 @@ return 1;');
         $this->assertTrue($referenceMethod->isReference());
     }
 
+    /**
+     * @test
+     */
+    public function renderMethod()
+    {
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+        $method->setCode('$a = 0;
+return 1;');
+
+        $this->assertEquals($method->render(), <<<EOF
+public function getFoo()
+{
+    \$a = 0;
+    return 1;
+}
+EOF
+);
+
+        $foo = new Stagehand_Class_Method_Argument('foo');
+        $bar = new Stagehand_Class_Method_Argument('bar');
+        $bar->setRequirement(false);
+        $bar->setValue(10);
+        $method->addArgument($foo);
+        $method->addArgument($bar);
+
+        $this->assertEquals($method->render(), <<<EOF
+public function getFoo(\$foo, \$bar = 10)
+{
+    \$a = 0;
+    return 1;
+}
+EOF
+);
+
+        $method->defineStatic();
+
+        $this->assertEquals($method->render(), <<<EOF
+public static function getFoo(\$foo, \$bar = 10)
+{
+    \$a = 0;
+    return 1;
+}
+EOF
+);
+
+        $method->defineAbstract();
+
+        $this->assertEquals($method->render(), <<<EOF
+abstract public static function getFoo(\$foo, \$bar = 10);
+EOF
+);
+
+        $method->defineFinal();
+
+        $this->assertEquals($method->render(), <<<EOF
+final public static function getFoo(\$foo, \$bar = 10)
+{
+    \$a = 0;
+    return 1;
+}
+EOF
+);
+
+        $method->setReference();
+
+        $this->assertEquals($method->render(), <<<EOF
+final public static function &getFoo(\$foo, \$bar = 10)
+{
+    \$a = 0;
+    return 1;
+}
+EOF
+);
+    }
+
+    /**
+     * @test
+     */
+    public function renderInterface()
+    {
+        $name = 'getFoo';
+
+        $method = new Stagehand_Class_Method($name);
+        $method->setCode('$a = 0;
+return 1;');
+
+        $this->assertEquals($method->renderInterface(), <<<EOF
+public function getFoo();
+EOF
+);
+
+        $foo = new Stagehand_Class_Method_Argument('foo');
+        $bar = new Stagehand_Class_Method_Argument('bar');
+        $bar->setRequirement(false);
+        $bar->setValue(10);
+        $method->addArgument($foo);
+        $method->addArgument($bar);
+
+        $this->assertEquals($method->renderInterface(), <<<EOF
+public function getFoo(\$foo, \$bar = 10);
+EOF
+);
+
+        $method->defineProtected();
+        $this->assertNull($method->renderInterface());
+
+        $method->definePrivate();
+        $this->assertNull($method->renderInterface());
+    }
+
     /**#@-*/
 
     /**#@+

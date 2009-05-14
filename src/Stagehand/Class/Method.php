@@ -306,11 +306,137 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
         return $this->_isReference ? true : false;
     }
 
+    // }}}
+    // {{{ render()
+
+    /**
+     * Renders a method code.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $code = sprintf($this->_getMethodFormat(),
+                        $this->getVisibility(),
+                        $this->isStatic() ? ' static' : null,
+                        $this->isReference() ? '&' : null,
+                        $this->getName(),
+                        $this->_formatArguments($this->getArguments()),
+                        $this->_indentCode($this->getCode())
+                        );
+
+        if ($this->isFinal()) {
+            return 'final ' . $code;
+        } else {
+            return $code;
+        }
+    }
+
+    // }}}
+    // {{{ renderInterface()
+
+    /**
+     * Renders a interface method code.
+     *
+     * @return string
+     */
+    public function renderInterface()
+    {
+        if (!$this->isPublic()) {
+            return;
+        }
+
+        $format = "%s%s function %s%s(%s);";
+        $code = sprintf($format,
+                        $this->getVisibility(),
+                        $this->isStatic() ? ' static' : null,
+                        $this->isReference() ? '&' : null,
+                        $this->getName(),
+                        $this->_formatArguments($this->getArguments())
+                        );
+
+        return $code;
+    }
+
     /**#@-*/
 
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ _getMethodFormat
+
+    /**
+     * Gets a method code Format
+     *
+     * @return string
+     */
+    protected function _getMethodFormat()
+    {
+        if ($this->isAbstract()) {
+            $format = "abstract %s%s function %s%s(%s);";
+        } else {
+            $format = "%s%s function %s%s(%s)
+{
+%s}";
+        }
+
+        return $format;
+    }
+
+    // }}}
+    // {{{ _formatArguments()
+
+    /**
+     * Formats arguments available to class method.
+     *
+     * @param string  $code
+     * @return string
+     */
+    protected function _formatArguments($arguments)
+    {
+        $formatedArguments = array();
+        foreach ($arguments as $argument) {
+            $oneArg = sprintf('%s%s$%s%s',
+                              $argument->getTypeHinting() ? "{$argument->getTypeHinting()} " : null,
+                              $argument->isReference() ? '&' : null,
+                              $argument->getName(),
+                              $argument->isRequired() ?
+                                  null : ' = ' . var_export($argument->getValue(), true)
+                              );
+            array_push($formatedArguments, $oneArg);
+        }
+
+        return implode(', ', $formatedArguments);
+    }
+
+    // }}}
+    // {{{ _indentCode()
+
+    /**
+     * Indents code lines.
+     *
+     * @param string  $code
+     * @return string
+     */
+    protected function _indentCode($code)
+    {
+        if (!$code) {
+            return;
+        }
+
+        $indentedCode = null;
+        foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
+            if ($line) {
+                $indentedCode .= "    {$line}\n";
+            } else {
+                $indentedCode .= "\n";
+            }
+        }
+
+        return $indentedCode;
+    }
 
     /**#@-*/
 
