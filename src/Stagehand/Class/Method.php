@@ -322,7 +322,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
                         $this->isReference() ? '&' : null,
                         $this->getName(),
                         $this->_formatArguments($this->getArguments()),
-                        $this->_indentCode($this->getCode())
+                        Stagehand_Class_CodeGenerator::indent($this->getCode())
                         );
 
         if ($this->isFinal()) {
@@ -409,33 +409,6 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
         }
 
         return implode(', ', $formatedArguments);
-    }
-
-    // }}}
-    // {{{ _indentCode()
-
-    /**
-     * Indents code lines.
-     *
-     * @param string  $code
-     * @return string
-     */
-    protected function _indentCode($code)
-    {
-        if (!$code) {
-            return;
-        }
-
-        $indentedCode = null;
-        foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
-            if ($line) {
-                $indentedCode .= "    {$line}\n";
-            } else {
-                $indentedCode .= "\n";
-            }
-        }
-
-        return $indentedCode;
     }
 
     /**#@-*/

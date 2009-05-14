@@ -93,6 +93,33 @@ class Stagehand_Class_CodeGenerator extends Stagehand_Class_Declaration
         }
     }
 
+    // }}}
+    // {{{ indent()
+
+    /**
+     * Indents code lines.
+     *
+     * @param string  $code
+     * @return string
+     */
+    public static function indent($code)
+    {
+        if (!$code) {
+            return;
+        }
+
+        $indentedCode = null;
+        foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
+            if ($line) {
+                $indentedCode .= "    {$line}\n";
+            } else {
+                $indentedCode .= "\n";
+            }
+        }
+
+        return $indentedCode;
+    }
+
     /**#@-*/
 
     /**#@+

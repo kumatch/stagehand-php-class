@@ -159,7 +159,7 @@ CLASS_FORMAT;
             }
         }
 
-        return $this->_indentCode(implode("\n", $allPropertyCodes)) . "\n";
+        return Stagehand_Class_CodeGenerator::indent(implode("\n", $allPropertyCodes)) . "\n";
     }
 
     // }}}
@@ -184,7 +184,7 @@ CLASS_FORMAT;
             }
         }
 
-        return $this->_indentCode(implode("\n\n", $allMethodCodes));
+        return Stagehand_Class_CodeGenerator::indent(implode("\n\n", $allMethodCodes));
     }
 
     // }}}
@@ -209,7 +209,7 @@ CLASS_FORMAT;
             }
         }
 
-        return $this->_indentCode(implode("\n", $allConstantCodes)) . "\n";
+        return Stagehand_Class_CodeGenerator::indent(implode("\n", $allConstantCodes)) . "\n";
     }
 
     // }}}
@@ -305,33 +305,6 @@ CLASS_FORMAT;
         }
 
         return ' implements ' . implode(', ', $interfaceNames);
-    }
-
-    // }}}
-    // {{{ _indentCode()
-
-    /**
-     * Indents code lines.
-     *
-     * @param string  $code
-     * @return string
-     */
-    protected function _indentCode($code)
-    {
-        if (!$code) {
-            return;
-        }
-
-        $indentedCode = null;
-        foreach (explode("\n", str_replace("\r\n", "\n", $code)) as $line) {
-            if ($line) {
-                $indentedCode .= "    {$line}\n";
-            } else {
-                $indentedCode .= "\n";
-            }
-        }
-
-        return $indentedCode;
     }
 
     /**#@-*/
