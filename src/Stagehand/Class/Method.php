@@ -70,6 +70,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     private $_name;
     private $_arguments = array();
     private $_code;
+    private $_docComment;
 
     private $_isAbstract  = false;
     private $_isFinal     = false;
@@ -287,6 +288,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     /**
      * Sets a method to reference.
      *
+     * @param boolean $isReference
      */
     public function setReference($isReference = true)
     {
@@ -307,6 +309,36 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     }
 
     // }}}
+    // {{{ setDocComment()
+
+    /**
+     * Sets a doc comment.
+     *
+     * @param string  $docComment
+     * @param boolean $isFormated
+     */
+    public function setDocComment($docComment, $isFormated = false)
+    {
+        if (!$isFormated) {
+            $docComment = $this->_formatDocComment($docComment);
+        }
+
+        $this->_docComment = $docComment;
+    }
+
+    // }}}
+    // {{{ getDocComment()
+
+    /**
+     * Gets a doc comment.
+     *
+     */
+    public function getDocComment()
+    {
+        return $this->_docComment;
+    }
+
+    // }}}
     // {{{ render()
 
     /**
@@ -316,7 +348,12 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
      */
     public function render()
     {
+        if ($docComment = $this->getDocComment()) {
+            $docComment .= "\n";
+        }
+
         $code = sprintf($this->_getMethodFormat(),
+                        $docComment,
                         $this->getVisibility(),
                         $this->isStatic() ? ' static' : null,
                         $this->isReference() ? '&' : null,
@@ -326,10 +363,10 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
                         );
 
         if ($this->isFinal()) {
-            return 'final ' . $code;
-        } else {
-            return $code;
+            $code = 'final ' . $code;
         }
+
+        return $code;
     }
 
     // }}}
@@ -346,8 +383,13 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
             return;
         }
 
-        $format = "%s%s function %s%s(%s);";
+        if ($docComment = $this->getDocComment()) {
+            $docComment .= "\n";
+        }
+
+        $format = "%s%s%s function %s%s(%s);";
         $code = sprintf($format,
+                        $docComment,
                         $this->getVisibility(),
                         $this->isStatic() ? ' static' : null,
                         $this->isReference() ? '&' : null,
@@ -375,9 +417,9 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     protected function _getMethodFormat()
     {
         if ($this->isAbstract()) {
-            $format = "abstract %s%s function %s%s(%s);";
+            $format = "%sabstract %s%s function %s%s(%s);";
         } else {
-            $format = "%s%s function %s%s(%s)
+            $format = "%s%s%s function %s%s(%s)
 {
 %s}";
         }
@@ -402,6 +444,37 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
         }
 
         return implode(', ', $formatedArguments);
+    }
+
+    // }}}
+    // {{{ _formatDocComment()
+
+    /**
+     * Formats a doc comment.
+     *
+     * @param  string $docComment
+     * @return string
+     */
+    protected function _formatDocComment($docComment)
+    {
+        if (!$docComment) {
+            return;
+        }
+
+        $formatedDocComment = null;
+        foreach (explode("\n", str_replace("\r\n", "\n", $docComment)) as $line) {
+            if ($line) {
+                $formatedDocComment .= " * {$line}\n";
+            } else {
+                $formatedDocComment .= " *\n";
+            }
+        }
+
+        return <<<DOC_COMMENT
+/**
+{$formatedDocComment} */
+DOC_COMMENT;
+
     }
 
     /**#@-*/

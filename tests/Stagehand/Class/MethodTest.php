@@ -373,6 +373,51 @@ EOF
         $this->assertNull($method->renderInterface());
     }
 
+    /**
+     * @test
+     */
+    public function useDocComment()
+    {
+        $name = 'getFoo';
+        $docComment = "A tests for DocComment.
+
+@return boolean";
+        $formatedDocComment = "/**
+ * A tests for DocComment.
+ *
+ * @return boolean
+ */";
+
+        $result = <<<EOF
+/**
+ * A tests for DocComment.
+ *
+ * @return boolean
+ */
+public function getFoo()
+{
+    return true;
+}
+EOF;
+
+        $method = new Stagehand_Class_Method($name);
+        $method->setCode('return true;');
+        $method->setDocComment($docComment);
+
+        $this->assertEquals($method->getDocComment(), $formatedDocComment);
+        $this->assertEquals($method->render(), $result);
+
+        $docComment = "/**
+ * A tests for DocComment.
+ *
+ * @return boolean
+ */";
+        $method->setDocComment($docComment, true);
+
+        $this->assertEquals($method->getDocComment(), $formatedDocComment);
+        $this->assertEquals($method->render(), $result);
+    }
+
     /**#@-*/
 
     /**#@+
