@@ -276,6 +276,31 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($property->render(), 'private static $example = 10;');
     }
 
+    /**
+     * @test
+     */
+    public function useParsableValue()
+    {
+        $name = 'example';
+        $property = new Stagehand_Class_Property($name, 'Foo::value', true);
+
+        $this->assertTrue($property->isParsable());
+        $this->assertEquals($property->getValue(), 'Foo::value');
+        $this->assertEquals($property->render(), 'public $example = Foo::value;');
+
+        $property->setValue('Foo::value');
+
+        $this->assertFalse($property->isParsable());
+        $this->assertEquals($property->getValue(), 'Foo::value');
+        $this->assertEquals($property->render(), 'public $example = \'Foo::value\';');
+
+        $property->setValue('Foo::value', true);
+
+        $this->assertTrue($property->isParsable());
+        $this->assertEquals($property->getValue(), 'Foo::value');
+        $this->assertEquals($property->render(), 'public $example = Foo::value;');
+    }
+
     /**#@-*/
 
     /**#@+

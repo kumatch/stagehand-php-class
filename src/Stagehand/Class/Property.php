@@ -69,6 +69,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
 
     private $_name;
     private $_value;
+    private $_isParsable;
 
     /**#@-*/
 
@@ -82,13 +83,15 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     /**
      * Sets this property name.
      *
-     * @param string $name
+     * @param string  $name
+     * @param mixed   $value
+     * @param boolean $isParable
      * @throws Stagehand_Class_Exception
      */
-    public function __construct($name, $value = null)
+    public function __construct($name, $value = null, $isParsable = false)
     {
         $this->_name = $name;
-        $this->setValue($value);
+        $this->setValue($value, $isParsable);
         $this->definePublic();
     }
 
@@ -124,14 +127,21 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     /**
      * Sets a property value.
      *
-     * @param string $value  Propety value
+     * @param mixed   $value      Propety value
+     * @param boolean $isPasable  A value is parsable or not
      * @throws Stagehand_Class_Exception
      */
-    public function setValue($value)
+    public function setValue($value, $isParsable = false)
     {
-        if ($this->_isValidValue($value)) {
+        if ($isParsable) {
             $this->_value = $value;
+        } else {
+            if ($this->_isValidValue($value)) {
+                $this->_value = $value;
+            }
         }
+
+        $this->_isParsable = $isParsable;
     }
 
     // }}}
@@ -148,6 +158,19 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     }
 
     // }}}
+    // {{{ isParsable
+
+    /**
+     * Returns whether a value is parable or not.
+     *
+     * @return boolean
+     */
+    public function isParsable()
+    {
+        return $this->_isParsable ? true : false;
+    }
+
+    // }}}
     // {{{ render()
 
     /**
@@ -158,11 +181,15 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     public function render()
     {
         $format = null;
-        $formatedValue = null;
+        $value = null;
 
         if ($this->getValue()) {
             $format = "%s%s $%s = %s;";
-            $formatedValue = var_export($this->getValue(), true);
+            if ($this->isParsable()) {
+                $value = $this->getValue();
+            } else {
+                $value = var_export($this->getValue(), true);
+            }
         } else {
             $format = '%s%s $%s;';
         }
@@ -170,7 +197,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
         return sprintf($format,
                        $this->getVisibility(),
                        $this->isStatic() ? ' static' : null,
-                       $this->getName(), $formatedValue
+                       $this->getName(), $value
                        );
     }
 
