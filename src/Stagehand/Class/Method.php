@@ -314,8 +314,8 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     /**
      * Sets a doc comment.
      *
-     * @param string  $docComment
-     * @param boolean $isFormated
+     * @param string  $docComment  A DocComment value.
+     * @param boolean $isFormated  A DocComment is formated (default false).
      */
     public function setDocComment($docComment, $isFormated = false)
     {
@@ -332,6 +332,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     /**
      * Gets a doc comment.
      *
+     * @return string
      */
     public function getDocComment()
     {
