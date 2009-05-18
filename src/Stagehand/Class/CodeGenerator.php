@@ -120,6 +120,36 @@ class Stagehand_Class_CodeGenerator extends Stagehand_Class_Declaration
         return $indentedCode;
     }
 
+    // }}}
+    // {{{ formatDocComment()
+
+    /**
+     * Formats a doc comment.
+     *
+     * @param  string $docComment
+     * @return string
+     */
+    public static function formatDocComment($docComment)
+    {
+        if (!$docComment) {
+            return;
+        }
+
+        $formatedDocComment = null;
+        foreach (explode("\n", str_replace("\r\n", "\n", $docComment)) as $line) {
+            if ($line) {
+                $formatedDocComment .= " * {$line}\n";
+            } else {
+                $formatedDocComment .= " *\n";
+            }
+        }
+
+        return <<<DOC_COMMENT
+/**
+{$formatedDocComment} */
+DOC_COMMENT;
+    }
+
     /**#@-*/
 
     /**#@+

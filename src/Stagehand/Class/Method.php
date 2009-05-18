@@ -320,7 +320,7 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
     public function setDocComment($docComment, $isFormated = false)
     {
         if (!$isFormated) {
-            $docComment = $this->_formatDocComment($docComment);
+            $docComment = Stagehand_Class_CodeGenerator::formatDocComment($docComment);
         }
 
         $this->_docComment = $docComment;
@@ -445,37 +445,6 @@ class Stagehand_Class_Method extends Stagehand_Class_Declaration
         }
 
         return implode(', ', $formatedArguments);
-    }
-
-    // }}}
-    // {{{ _formatDocComment()
-
-    /**
-     * Formats a doc comment.
-     *
-     * @param  string $docComment
-     * @return string
-     */
-    protected function _formatDocComment($docComment)
-    {
-        if (!$docComment) {
-            return;
-        }
-
-        $formatedDocComment = null;
-        foreach (explode("\n", str_replace("\r\n", "\n", $docComment)) as $line) {
-            if ($line) {
-                $formatedDocComment .= " * {$line}\n";
-            } else {
-                $formatedDocComment .= " *\n";
-            }
-        }
-
-        return <<<DOC_COMMENT
-/**
-{$formatedDocComment} */
-DOC_COMMENT;
-
     }
 
     /**#@-*/
