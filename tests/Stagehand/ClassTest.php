@@ -666,6 +666,24 @@ EOF;
 
         $this->assertEquals($class->getDocComment(), $formatedDocComment);
         $this->assertEquals($class->render(), $result);
+
+        $class->defineFinal();
+        $class->setParentClass('Foo');
+        $result = <<<EOF
+/**
+ * A tests class for DocComment.
+ *
+ * @package    example
+ * @copyright  2009 Foo Bar <foo@example.com>
+ */
+final class ExampleForDocComment extends Foo
+{
+}
+
+EOF;
+
+        $this->assertEquals($class->render(), $result);
+
     }
 
     /**#@-*/

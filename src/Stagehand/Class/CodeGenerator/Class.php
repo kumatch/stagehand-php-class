@@ -98,12 +98,7 @@ class Stagehand_Class_CodeGenerator_Class
      */
     public function generate()
     {
-        if ($docComment = $this->_class->getDocComment()) {
-            $docComment .= "\n";
-        }
-
         $code = sprintf($this->_getClassFormat(),
-                        $docComment,
                         $this->_class->getName(),
                         $this->_getParentClassCode(),
                         $this->_getInterfacesCode(),
@@ -111,11 +106,16 @@ class Stagehand_Class_CodeGenerator_Class
                         $this->_getAllPropertiesCode(),
                         $this->_getAllMethodsCode()
                         );
+
         if ($this->_class->isFinal()) {
-            return "final {$code}";
-        } else {
-            return $code;
+            $code = "final {$code}";
         }
+
+        if ($docComment = $this->_class->getDocComment()) {
+            $code = "{$docComment}\n{$code}";
+        }
+
+        return $code;
     }
 
     /**#@-*/
@@ -135,7 +135,7 @@ class Stagehand_Class_CodeGenerator_Class
     protected function _getClassFormat()
     {
         return <<<CLASS_FORMAT
-%sclass %s%s%s
+class %s%s%s
 {
 %s%s%s}
 
