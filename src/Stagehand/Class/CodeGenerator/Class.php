@@ -98,13 +98,15 @@ class Stagehand_Class_CodeGenerator_Class
      */
     public function generate()
     {
-        $code = sprintf($this->_getClassFormat(),
-                        $this->_class->getName(),
-                        $this->_getParentClassCode(),
-                        $this->_getInterfacesCode(),
-                        $this->_getAllConstantsCode(),
-                        $this->_getAllPropertiesCode(),
-                        $this->_getAllMethodsCode()
+        $code = strtr($this->_getClassFormat(),
+                      array(
+                            '<%className%>'  => $this->_class->getName(),
+                            '<%extends%>'    => $this->_getParentClassCode(),
+                            '<%interfaces%>' => $this->_getInterfacesCode(),
+                            '<%constants%>'  => $this->_getAllConstantsCode(),
+                            '<%properties%>' => $this->_getAllPropertiesCode(),
+                            '<%methods%>'    => $this->_getAllMethodsCode()
+                            )
                         );
 
         if ($this->_class->isFinal()) {
@@ -135,9 +137,9 @@ class Stagehand_Class_CodeGenerator_Class
     protected function _getClassFormat()
     {
         return <<<CLASS_FORMAT
-class %s%s%s
+class <%className%><%extends%><%interfaces%>
 {
-%s%s%s}
+<%constants%><%properties%><%methods%>}
 
 CLASS_FORMAT;
     }
