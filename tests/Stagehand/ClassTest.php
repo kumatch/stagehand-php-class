@@ -625,6 +625,49 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($refFinalClass->isFinal());
     }
 
+    /**
+     * @test
+     */
+    public function useDocComment()
+    {
+        $className = 'ExampleForDocComment';
+        $docComment = "A tests class for DocComment.
+
+@package    example
+@copyright  2009 Foo Bar <foo@example.com>";
+
+        $formatedDocComment = "/**
+ * A tests class for DocComment.
+ *
+ * @package    example
+ * @copyright  2009 Foo Bar <foo@example.com>
+ */";
+
+        $result = <<<EOF
+/**
+ * A tests class for DocComment.
+ *
+ * @package    example
+ * @copyright  2009 Foo Bar <foo@example.com>
+ */
+class ExampleForDocComment
+{
+}
+
+EOF;
+
+        $class = new Stagehand_Class($className);
+        $class->setDocComment($docComment);
+
+        $this->assertEquals($class->getDocComment(), $formatedDocComment);
+        $this->assertEquals($class->render(), $result);
+
+        $class->setDocComment($formatedDocComment, true);
+
+        $this->assertEquals($class->getDocComment(), $formatedDocComment);
+        $this->assertEquals($class->render(), $result);
+    }
+
     /**#@-*/
 
     /**#@+

@@ -70,6 +70,7 @@ class Stagehand_Class
     private $_name;
 
     private $_parentClass;
+    private $_docComment;
     private $_interfaces = array();
     private $_constants  = array();
     private $_properties = array();
@@ -612,11 +613,73 @@ class Stagehand_Class
         return $this->_isFinal ? true : false;
     }
 
+    // }}}
+    // {{{ setDocComment()
+
+    /**
+     * Sets a doc comment.
+     *
+     * @param string  $docComment  A DocComment value.
+     * @param boolean $isFormated  A DocComment is formated (default false).
+     */
+    public function setDocComment($docComment, $isFormated = false)
+    {
+        if (!$isFormated) {
+            $docComment = $this->_formatDocComment($docComment);
+        }
+
+        $this->_docComment = $docComment;
+    }
+
+    // }}}
+    // {{{ getDocComment()
+
+    /**
+     * Gets a doc comment.
+     *
+     * @return string
+     */
+    public function getDocComment()
+    {
+        return $this->_docComment;
+    }
+
     /**#@-*/
 
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ _formatDocComment()
+
+    /**
+     * Formats a doc comment.
+     *
+     * @param  string $docComment
+     * @return string
+     */
+    protected function _formatDocComment($docComment)
+    {
+        if (!$docComment) {
+            return;
+        }
+
+        $formatedDocComment = null;
+        foreach (explode("\n", str_replace("\r\n", "\n", $docComment)) as $line) {
+            if ($line) {
+                $formatedDocComment .= " * {$line}\n";
+            } else {
+                $formatedDocComment .= " *\n";
+            }
+        }
+
+        return <<<DOC_COMMENT
+/**
+{$formatedDocComment} */
+DOC_COMMENT;
+
+    }
 
     /**#@-*/
 

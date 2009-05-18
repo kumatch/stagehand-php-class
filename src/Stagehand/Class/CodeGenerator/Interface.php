@@ -83,7 +83,12 @@ class Stagehand_Class_CodeGenerator_Interface extends Stagehand_Class_CodeGenera
      */
     public function generate()
     {
+        if ($docComment = $this->_class->getDocComment()) {
+            $docComment .= "\n";
+        }
+
         return sprintf($this->_getClassFormat(),
+                       $docComment,
                        $this->_class->getName(),
                        $this->_getParentClassCode(),
                        $this->_getAllConstantsCode(),
@@ -108,7 +113,7 @@ class Stagehand_Class_CodeGenerator_Interface extends Stagehand_Class_CodeGenera
     protected function _getClassFormat()
     {
         return <<<CLASS_FORMAT
-interface %s%s
+%sinterface %s%s
 {
 %s%s}
 

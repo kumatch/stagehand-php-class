@@ -98,7 +98,12 @@ class Stagehand_Class_CodeGenerator_Class
      */
     public function generate()
     {
+        if ($docComment = $this->_class->getDocComment()) {
+            $docComment .= "\n";
+        }
+
         $code = sprintf($this->_getClassFormat(),
+                        $docComment,
                         $this->_class->getName(),
                         $this->_getParentClassCode(),
                         $this->_getInterfacesCode(),
@@ -130,7 +135,7 @@ class Stagehand_Class_CodeGenerator_Class
     protected function _getClassFormat()
     {
         return <<<CLASS_FORMAT
-class %s%s%s
+%sclass %s%s%s
 {
 %s%s%s}
 
