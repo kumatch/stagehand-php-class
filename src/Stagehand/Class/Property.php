@@ -70,6 +70,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     private $_name;
     private $_value;
     private $_isParsable;
+    private $_docComment;
 
     /**#@-*/
 
@@ -171,6 +172,37 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
     }
 
     // }}}
+    // {{{ setDocComment()
+
+    /**
+     * Sets a doc comment.
+     *
+     * @param string  $docComment  A DocComment value.
+     * @param boolean $isFormated  A DocComment is formated (default false).
+     */
+    public function setDocComment($docComment, $isFormated = false)
+    {
+        if (!$isFormated) {
+            $docComment = Stagehand_Class_CodeGenerator::formatDocComment($docComment);
+        }
+
+        $this->_docComment = $docComment;
+    }
+
+    // }}}
+    // {{{ getDocComment()
+
+    /**
+     * Gets a doc comment.
+     *
+     * @return string
+     */
+    public function getDocComment()
+    {
+        return $this->_docComment;
+    }
+
+    // }}}
     // {{{ render()
 
     /**
@@ -184,17 +216,22 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
         $value = null;
 
         if ($this->getValue()) {
-            $format = "%s%s $%s = %s;";
+            $format = "%s%s%s $%s = %s;";
             if ($this->isParsable()) {
                 $value = $this->getValue();
             } else {
                 $value = var_export($this->getValue(), true);
             }
         } else {
-            $format = '%s%s $%s;';
+            $format = '%s%s%s $%s;';
+        }
+
+        if ($docComment = $this->getDocComment()) {
+            $docComment .= "\n";
         }
 
         return sprintf($format,
+                       $docComment,
                        $this->getVisibility(),
                        $this->isStatic() ? ' static' : null,
                        $this->getName(), $value

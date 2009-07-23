@@ -301,6 +301,48 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($property->render(), 'public $example = Foo::value;');
     }
 
+    /**
+     * @test
+     */
+    public function useDocComment()
+    {
+        $name = 'example';
+        $docComment = "A tests for DocComment.
+
+@var example";
+        $formatedDocComment = "/**
+ * A tests for DocComment.
+ *
+ * @var example
+ */";
+
+        $result = <<<EOF
+/**
+ * A tests for DocComment.
+ *
+ * @var example
+ */
+public \$example;
+EOF;
+
+        $property = new Stagehand_Class_Property($name);
+        $property->setDocComment($docComment);
+
+        $this->assertEquals($property->getDocComment(), $formatedDocComment);
+        $this->assertEquals($property->render(), $result);
+
+        $docComment = "/**
+ * A tests for DocComment.
+ *
+ * @var example
+ */";
+        $property->setDocComment($docComment, true);
+
+        $this->assertEquals($property->getDocComment(), $formatedDocComment);
+        $this->assertEquals($property->render(), $result);
+    }
+
+
     /**#@-*/
 
     /**#@+
