@@ -700,6 +700,7 @@ class Stagehand_Class
     {
         if ($class instanceof Stagehand_Class
             && !class_exists($class->getName())
+            && !interface_exists($class->getName())
             ) {
             $class->load();
         }

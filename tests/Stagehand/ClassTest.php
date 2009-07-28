@@ -567,6 +567,103 @@ class Stagehand_ClassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function implementSomeInterfaces()
+    {
+        $fooName = 'ExampleForImplementInterfaceFoo';
+        $barName = 'ExampleForImplementInterfaceBar';
+        $bazName = 'ExampleForImplementInterfaceBaz';
+
+        $childName = 'ExampleForSomeInterfacesImplementedClass';
+
+        $fooClass = new Stagehand_Class($fooName);
+        $barClass = new Stagehand_Class($barName);
+        $bazClass = new Stagehand_Class($bazName);
+
+        $fooClass->defineInterface();
+        $barClass->defineInterface();
+        $bazClass->defineInterface();
+
+        $childClass = new Stagehand_Class($childName);
+
+        $childClass->addInterface($fooClass);
+        $childClass->addInterface($barClass);
+        $childClass->addInterface($bazClass);
+
+        $childClass->load();
+
+        $childRefClass = new ReflectionClass($childName);
+        $interfaces = $childRefClass->getInterfaces();
+
+        $this->assertEquals(count($interfaces), 3);
+
+        $fooRefClass = $interfaces['ExampleForImplementInterfaceFoo'];
+        $barRefClass = $interfaces['ExampleForImplementInterfaceBar'];
+        $bazRefClass = $interfaces['ExampleForImplementInterfaceBaz'];
+
+        $this->assertTrue($fooRefClass->isInterface());
+        $this->assertTrue($barRefClass->isInterface());
+        $this->assertTrue($bazRefClass->isInterface());
+    }
+
+    /**
+     * @test
+     */
+    public function setSomeInterfacesToInterface()
+    {
+        $fooName = 'ExampleForParentInterfaceFoo';
+        $barName = 'ExampleForParentInterfaceBar';
+        $bazName = 'ExampleForParentInterfaceBaz';
+
+        $fooClass = new Stagehand_Class($fooName);
+        $barClass = new Stagehand_Class($barName);
+        $bazClass = new Stagehand_Class($bazName);
+
+        $fooClass->defineInterface();
+        $barClass->defineInterface();
+        $bazClass->defineInterface();
+
+        $childName = 'ExampleForSetParentInterfaceA';
+        $childClass = new Stagehand_Class($childName);
+        $childClass->defineInterface();
+        $childClass->addInterface($fooClass);
+        $childClass->load();
+
+        $childRefClass = new ReflectionClass($childName);
+        $interfaces = $childRefClass->getInterfaces();
+
+        $this->assertTrue($childRefClass->isInterface());
+        $this->assertEquals(count($interfaces), 1);
+
+        $fooRefClass = $interfaces['ExampleForParentInterfaceFoo'];
+
+        $this->assertTrue($fooRefClass->isInterface());
+
+        $childName = 'ExampleForSetParentInterfaceB';
+        $childClass = new Stagehand_Class($childName);
+        $childClass->defineInterface();
+        $childClass->addInterface($fooClass);
+        $childClass->addInterface($barClass);
+        $childClass->addInterface($bazClass);
+        $childClass->load();
+
+        $childRefClass = new ReflectionClass($childName);
+        $interfaces = $childRefClass->getInterfaces();
+
+        $this->assertTrue($childRefClass->isInterface());
+        $this->assertEquals(count($interfaces), 3);
+
+        $fooRefClass = $interfaces['ExampleForParentInterfaceFoo'];
+        $barRefClass = $interfaces['ExampleForParentInterfaceBar'];
+        $bazRefClass = $interfaces['ExampleForParentInterfaceBaz'];
+
+        $this->assertTrue($fooRefClass->isInterface());
+        $this->assertTrue($barRefClass->isInterface());
+        $this->assertTrue($bazRefClass->isInterface());
+    }
+
+    /**
+     * @test
+     */
     public function accessInterfaceAndUpdate()
     {
         $className = 'ExampleForInterfaceUpdate';

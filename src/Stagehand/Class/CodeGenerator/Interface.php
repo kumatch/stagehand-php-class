@@ -90,7 +90,7 @@ class Stagehand_Class_CodeGenerator_Interface extends Stagehand_Class_CodeGenera
     protected function _getClassFormat()
     {
         return <<<CLASS_FORMAT
-interface <%className%><%extends%>
+interface <%className%><%interfaces%>
 {
 <%constants%><%methods%>}
 
@@ -113,6 +113,32 @@ CLASS_FORMAT;
         }
 
         return $method->renderInterface();
+    }
+
+    // }}}
+    // {{{ _getInterfacesCode()
+
+    /**
+     * Gets interfaces code.
+     *
+     * @return string
+     */
+    protected function _getInterfacesCode()
+    {
+        if (!$this->_class->countInterfaces()) {
+            return;
+        }
+
+        $interfaceNames = array();
+        foreach ($this->_class->getInterfaces() as $interface) {
+            if ($interface instanceof Stagehand_Class) {
+                array_push($interfaceNames, $interface->getName());
+            } else {
+                array_push($interfaceNames, $interface);
+            }
+        }
+
+        return ' extends ' . implode(', ', $interfaceNames);
     }
 
     /**#@-*/
