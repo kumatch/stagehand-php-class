@@ -783,6 +783,22 @@ EOF;
 
     }
 
+    /**
+     * @test
+     */
+    public function handlePreAndPostCodeOfClassDeclaration()
+    {
+        $preCode = '$preCode = 10;';
+        $postCode = '$postCode = 20;';
+
+        $class = new Stagehand_Class('ExampleForPreAndPostCode');
+        $class->setPreCode($preCode);
+        $class->setPostCode($postCode);
+
+        $this->assertEquals($class->getPreCode(), $preCode);
+        $this->assertEquals($class->getPostCode(), $postCode);
+    }
+
     /**#@-*/
 
     /**#@+

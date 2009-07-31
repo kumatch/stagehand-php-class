@@ -71,6 +71,8 @@ class Stagehand_Class
 
     private $_parentClass;
     private $_docComment;
+    private $_preCode;
+    private $_postCode;
     private $_interfaces = array();
     private $_constants  = array();
     private $_properties = array();
@@ -642,6 +644,58 @@ class Stagehand_Class
     public function getDocComment()
     {
         return $this->_docComment;
+    }
+
+    // }}}
+    // {{{ setPreCode()
+
+    /**
+     * Sets a pre code of class declaration.
+     *
+     * @param string  $preCode  A PreCode value.
+     */
+    public function setPreCode($preCode)
+    {
+        $this->_preCode = $preCode;
+    }
+
+    // }}}
+    // {{{ getPreCode()
+
+    /**
+     * Gets a pre code of class declaration.
+     *
+     * @return string
+     */
+    public function getPreCode()
+    {
+        return $this->_preCode;
+    }
+
+    // }}}
+    // {{{ setPostCode()
+
+    /**
+     * Sets a post code of class declaration.
+     *
+     * @param string  $postCode  A PostCode value.
+     */
+    public function setPostCode($postCode)
+    {
+        $this->_postCode = $postCode;
+    }
+
+    // }}}
+    // {{{ getPostCode()
+
+    /**
+     * Gets a post code of class declaration.
+     *
+     * @return string
+     */
+    public function getPostCode()
+    {
+        return $this->_postCode;
     }
 
     /**#@-*/
