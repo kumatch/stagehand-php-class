@@ -698,6 +698,24 @@ class Stagehand_Class
         return $this->_postCode;
     }
 
+    // }}}
+    // {{{ trace
+
+    /**
+     * Traces instance.
+     *
+     * @return string
+     */
+    public function trace()
+    {
+        ob_start();
+        var_dump($this);
+        $trace = ob_get_contents();
+        ob_end_clean();
+
+        return $trace;
+    }
+
     /**#@-*/
 
     /**#@+
