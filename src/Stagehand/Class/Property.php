@@ -268,6 +268,7 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
             }
         } else {
             if (!is_null($value)
+                && !is_bool($value)
                 && !is_string($value)
                 && !is_numeric($value)
                 ) {
