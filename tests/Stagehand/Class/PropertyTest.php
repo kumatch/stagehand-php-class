@@ -274,6 +274,24 @@ class Stagehand_Class_PropertyTest extends PHPUnit_Framework_TestCase
         $property->defineStatic();
 
         $this->assertEquals($property->render(), 'private static $example = 10;');
+
+        $name = 'example';
+        $property = new Stagehand_Class_Property($name);
+        $property->setValue(true);
+
+        $this->assertEquals($property->render(), 'public $example = true;');
+
+        $property->setValue('true');
+
+        $this->assertEquals($property->render(), "public \$example = 'true';");
+
+        $property->setValue(false);
+
+        $this->assertEquals($property->render(), 'public $example = false;');
+
+        $property->setValue('false');
+
+        $this->assertEquals($property->render(), "public \$example = 'false';");
     }
 
     /**
@@ -341,7 +359,6 @@ EOF;
         $this->assertEquals($property->getDocComment(), $formatedDocComment);
         $this->assertEquals($property->render(), $result);
     }
-
 
     /**#@-*/
 

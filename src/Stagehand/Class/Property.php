@@ -215,15 +215,15 @@ class Stagehand_Class_Property extends Stagehand_Class_Declaration
         $format = null;
         $value = null;
 
-        if ($this->getValue()) {
+        if (is_null($this->getValue())) {
+            $format = '%s%s%s $%s;';
+        } else {
             $format = "%s%s%s $%s = %s;";
             if ($this->isParsable()) {
                 $value = $this->getValue();
             } else {
                 $value = var_export($this->getValue(), true);
             }
-        } else {
-            $format = '%s%s%s $%s;';
         }
 
         if ($docComment = $this->getDocComment()) {
