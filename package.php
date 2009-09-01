@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    sh-class
+ * @package    stagehand-php-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
@@ -44,7 +44,7 @@ $releaseVersion = '0.1.0';
 $releaseStability = 'beta';
 $apiVersion = '0.1.0';
 $apiStability = 'beta';
-$notes = 'The initial release of Stagehand_Class.';
+$notes = 'The initial release of Stagehand_PHP_Class.';
  
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
@@ -60,10 +60,10 @@ $package->setOptions(array('filelistgenerator' => 'file',
                            'ignore' => array('package.php'))
                      );
  
-$package->setPackage('Stagehand_Class');
+$package->setPackage('Stagehand_PHP_Class');
 $package->setPackageType('php');
 $package->setSummary('A class for a PHP class.');
-$package->setDescription('Stagehand_Class provides features of the building, loading, and code generating for a PHP class.');
+$package->setDescription('Stagehand_PHP_Class provides features of the building, loading, and code generating for a PHP class.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
