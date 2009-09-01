@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    sh-class
+ * @package    stagehand-php-class
  * @copyright  2009 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
@@ -43,7 +43,10 @@ set_include_path(realpath(dirname(__FILE__)) . PATH_SEPARATOR .
                  );
 
 require_once 'PHPUnit/Framework.php';
-require_once 'Stagehand/Autoload/PEAR.php';
+require_once 'Stagehand/Autoload.php';
+$loader = Stagehand_Autoload::getLegacyLoader();
+$loader->addNamespace('Stagehand');
+Stagehand_Autoload::register($loader);
 
 /*
  * Local Variables:
