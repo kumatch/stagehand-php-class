@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.9.0RC4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
- <name>Stagehand_Class</name>
+ <name>Stagehand_PHP_Class</name>
  <channel>pear.piece-framework.com</channel>
  <summary>A class for a PHP class.</summary>
- <description>Stagehand_Class provides features of the building, loading, and code generating for a PHP class.</description>
+ <description>Stagehand_PHP_Class provides features of the building, loading, and code generating for a PHP class.</description>
  <lead>
   <name>KUMAKURA Yousuke</name>
   <user>kumatch</user>
   <email>kumatch@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2009-05-13</date>
- <time>13:16:02</time>
+ <date>2009-09-02</date>
+ <time>17:52:09</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -25,119 +25,123 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>
-The initial release of Stagehand_Class.
+The initial release of Stagehand_PHP_Class.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="src">
     <dir name="Stagehand">
-     <dir name="Class">
-      <dir name="CodeGenerator">
-       <file name="AbstractClass.php" role="php">
+     <dir name="PHP">
+      <dir name="Class">
+       <dir name="CodeGenerator">
+        <file name="AbstractClass.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file name="Class.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file name="Interface.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /src/Stagehand/PHP/Class/CodeGenerator -->
+       <dir name="Method">
+        <file name="Argument.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /src/Stagehand/PHP/Class/Method -->
+       <dir name="Visibility">
+        <file name="Declaration.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file name="Private.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file name="Protected.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file name="Public.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /src/Stagehand/PHP/Class/Visibility -->
+       <file name="CodeGenerator.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file name="Class.php" role="php">
+       <file name="Constant.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file name="Interface.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /src/Stagehand/Class/CodeGenerator -->
-      <dir name="Method">
-       <file name="Argument.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /src/Stagehand/Class/Method -->
-      <dir name="Visibility">
        <file name="Declaration.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file name="Private.php" role="php">
+       <file name="Exception.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file name="Protected.php" role="php">
+       <file name="Method.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file name="Public.php" role="php">
+       <file name="Property.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /src/Stagehand/Class/Visibility -->
-      <file name="CodeGenerator.php" role="php">
+       <file name="Visibility.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /src/Stagehand/PHP/Class -->
+      <file name="Class.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file name="Constant.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="Declaration.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="Exception.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="Method.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="Property.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="Visibility.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-     </dir> <!-- /src/Stagehand/Class -->
-     <file name="Class.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
+     </dir> <!-- /src/Stagehand/PHP -->
     </dir> <!-- /src/Stagehand -->
    </dir> <!-- /src -->
    <dir name="tests">
     <dir name="Stagehand">
-     <dir name="Class">
-      <dir name="CodeGenerator">
-       <file name="AbstractClassTest.php" role="test">
+     <dir name="PHP">
+      <dir name="Class">
+       <dir name="CodeGenerator">
+        <file name="AbstractClassTest.php" role="test">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file name="ClassTest.php" role="test">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file name="define-class.php" role="test">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file name="InterfaceTest.php" role="test">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /tests/Stagehand/PHP/Class/CodeGenerator -->
+       <dir name="Method">
+        <file name="ArgumentTest.php" role="test">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /tests/Stagehand/PHP/Class/Method -->
+       <file name="CodeGeneratorTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file name="ClassTest.php" role="test">
+       <file name="ConstantTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file name="define-class.php" role="test">
+       <file name="MethodTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file name="InterfaceTest.php" role="test">
+       <file name="PropertyTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/Class/CodeGenerator -->
-      <dir name="Method">
-       <file name="ArgumentTest.php" role="test">
+      </dir> <!-- /tests/Stagehand/PHP/Class -->
+      <dir name="ClassTest">
+       <file name="ConcreteClass.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/Class/Method -->
-      <file name="CodeGeneratorTest.php" role="test">
+       <file name="ExistingClass.php" role="test">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file name="ImplementedClass.php" role="test">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /tests/Stagehand/PHP/ClassTest -->
+      <file name="ClassTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file name="ConstantTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="MethodTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="PropertyTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-     </dir> <!-- /tests/Stagehand/Class -->
-     <dir name="ClassTest">
-      <file name="ConcreteClass.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="ExistingClass.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file name="ImplementedClass.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-     </dir> <!-- /tests/Stagehand/ClassTest -->
-     <file name="ClassTest.php" role="test">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
+     </dir> <!-- /tests/Stagehand/PHP -->
     </dir> <!-- /tests/Stagehand -->
     <file name="prepare.php" role="test">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
@@ -166,10 +170,10 @@ The initial release of Stagehand_Class.
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2009-05-13</date>
+   <date>2009-09-02</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
    <notes>
-The initial release of Stagehand_Class.
+The initial release of Stagehand_PHP_Class.
    </notes>
   </release>
  </changelog>
